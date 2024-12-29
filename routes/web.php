@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
+
+// Route for the about page
+Route::get('/tentangkami', function () {
+    return view('about');
+});
+
+
 Route::prefix('admin')->group(function () {
     Route::get('index', function () {
         return view('admin.index');
