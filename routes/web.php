@@ -25,6 +25,10 @@ Route::get('/katelog', function () { //route (url)
     return view('katelog'); //blade view file
 });
 
+Route::get('/hubungi-kami', function () {
+    return view('hubungi-kami');
+});
+
 
 Route::prefix('admin')->group(function () {
     Route::get('index', function () {
