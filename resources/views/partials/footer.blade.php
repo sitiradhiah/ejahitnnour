@@ -1,5 +1,5 @@
   <!-- info section -->
-  <section class="info_section layout_padding2" style="background-color: rgb(174 16 115);">
+  <section class="info_section" style="background-color: rgb(174 16 115);position: absolute;padding: 40px 10px 0px;width: 100%;">
     <div class="container">
       {{-- <div class="info_logo">
         <h2>
@@ -11,14 +11,14 @@
         <div class="col-md-4">
           <div class="info_contact">
             <h5>
-              About Shop
+              Tentang Kami
             </h5>
             <div>
               <div class="img-box">
                 <img src="images/location-white.png" width="18px" alt="">
               </div>
               <p>
-                Address
+                N NOUR BRIDAL (BRIDAL DAN JAHITAN, 50, Jalan Abdul Aziz, Taman Perdana, 86100 Ayer Hitam, Johor
               </p>
             </div>
             <div>
@@ -26,7 +26,8 @@
                 <img src="images/telephone-white.png" width="12px" alt="">
               </div>
               <p>
-                +01 1234567890
+                010-363 3194
+
               </p>
             </div>
             <div>
@@ -34,7 +35,7 @@
                 <img src="images/envelope-white.png" width="18px" alt="">
               </div>
               <p>
-                demo@gmail.com
+                nnourbridals@gmail.com
               </p>
             </div>
           </div>
@@ -42,11 +43,14 @@
         <div class="col-md-4">
           <div class="info_info">
             <h5>
-              Informations
+              Waktu Operasi
             </h5>
             <p>
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              <strong> Hari Bekerja : </strong> Ahad - Jumaat <br>
+              <strong> Waktu : </strong> 10 am - 6 pm <br>
+              <strong> Hari Cuti : </strong> Sabtu <br>
             </p>
+            
           </div>
         </div>
 
@@ -55,27 +59,20 @@
         <div class="col-md-4">
           <div class="info_form ">
             <h5>
-              Newsletter
+              Laman Sosial
             </h5>
-            <form action="">
-              <input type="email" placeholder="Enter your email">
-              <button>
-                Subscribe
-              </button>
-            </form>
+            
             <div class="social_box">
                 {{-- masukkan link logo di sini href="link logo" --}}
-              <a href="">
-                <img src="images/fb.png" alt="">
+              <a href="https://www.facebook.com/nnourdiamond/about" target="_blank">
+                <img src="{{ asset('images/fb.png') }}" alt="" width="auto" height="70px">
               </a>
-              <a href="">
-                <img src="images/twitter.png" alt="">
+              <a href="https://www.tiktok.com/@nnourdiamondjahitan" target="_blank">
+                <img src="{{ asset('images/tiktok.png') }}" alt="" width="auto" height="70px">
               </a>
-              <a href="">
-                <img src="images/linkedin.png" alt="">
-              </a>
-              <a href="">
-                <img src="images/youtube.png" alt="">
+              
+              <a href="https://www.instagram.com/nnourdiamond/" target="_blank">
+                <img src="{{ asset('images/ig.png') }}" alt="" width="auto" height="70px">
               </a>
             </div>
           </div>
@@ -83,10 +80,9 @@
       </div>
     </div>
 
-    <div class="container">
-        <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Free Html Templates</a>
+    <div class="container text-center">
+        <p style="font-weight:bold;">
+          &copy; <span id="displayYear"></span> Nour Diamond
         </p>
       </div>
   </section>

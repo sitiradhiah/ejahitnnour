@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
-@section('title', 'About Us')
-
+{{-- @section('title', 'Halaman')
+@endsection --}}
 @section('css')
 <style>
   .hero_area {
@@ -80,7 +80,7 @@
   .carousel-indicators .active {
     background: #fff;
   }
-</style>s
+</style>
 @endsection
 
 @section('content')

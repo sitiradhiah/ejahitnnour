@@ -13,7 +13,6 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>HandTime</title>
 
 
   <!-- bootstrap core css -->
@@ -30,21 +29,40 @@
   
   <!-- responsive style -->
   <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
+  @yield('css')
+  <style>
+   /* Make the entire page fill the viewport height */
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
 
+    /* Allow the content to grow and push the footer down */
+    .content {
+        flex: 1;
+    }
+
+    /* Ensure the footer spans the full width */
+    footer {
+        background-color: rgb(174, 16, 115);
+        padding: 20px 10px;
+        color: white;
+        text-align: center;
+    }
+  </style>
 </head>
 <body>
     <!-- Header -->
     @include('partials.header')
 
-    <!-- Content -->
     <main>
-        @yield('content')
+      @yield('content')
     </main>
-
-    <!-- Footer -->
+  
     @include('partials.footer')
+  
 
-   
     <!-- jQery -->
     <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
     <!-- popper js -->

@@ -21,6 +21,9 @@ Route::get('/', function () {
 Route::get('/tentangkami', function () {
     return view('about');
 });
+Route::get('/katelog', function () { //route (url)
+    return view('katelog'); //blade view file
+});
 
 
 Route::prefix('admin')->group(function () {

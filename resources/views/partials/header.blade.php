@@ -28,9 +28,9 @@
                 <li class="nav-item {{ Request::is('katelog') ? 'active' : '' }}">
                     <a class="nav-link" href="/katelog">Katelog</a>
                 </li>
-                <li class="nav-item {{ Request::is('testimonial') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ Request::is('testimonial') ? 'active' : '' }}">
                     <a class="nav-link" href="/testimonial">Testimonial</a>
-                </li>
+                </li> --}}
                 <li class="nav-item {{ Request::is('hubungi-kami') ? 'active' : '' }}">
                     <a class="nav-link" href="/hubungi-kami">Hubungi Kami</a>
                 </li>
