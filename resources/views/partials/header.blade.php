@@ -35,11 +35,10 @@
                     <a class="nav-link" href="/hubungi-kami">Hubungi Kami</a>
                 </li>
             </ul>
-            <div>
-                <a href="" class="btn btn-primary">
-                    Log Masuk
-                </a>
+            <div> class="nav-item {{ Request::is('logmasuk') ? 'active' : '' }}"
+              <a class="nav-link" href="/logmasuk">Log Masuk</a>
             </div>
+          
         </div>
       </nav>
     </div>
