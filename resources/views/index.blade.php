@@ -3,10 +3,10 @@
 @section('css')
 <style>
   .hero_area {
-    background: url('images/slider-bg.jpg') no-repeat;
+    background: url('images/about1.jpg') no-repeat;
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
+    min-height: 40vh !important;
     position: relative;
   }
 
@@ -16,15 +16,15 @@
 
   .slider_bg_box {
     background: rgba(0, 0, 0, 0.5);
-    min-height: 100vh;
+    min-height: 80vh;
   }
 
   .carousel-inner {
-    min-height: 100vh;
+    min-height: 80vh;
   }
 
   .carousel-inner img {
-    min-height: 100vh;
+    min-height: 80vh;
   }
 
   .detail-box {
@@ -87,18 +87,16 @@
     <!-- slider section -->
     <section class="slider_section">
       <div class="slider_bg_box">
-        <img src="images/slider-bg.jpg" alt="">
+        {{-- <img src="images/slider-bg.jpg" alt=""> --}}
       </div>
       <div id="customCarousel1" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <div class="container">
+            <div class="container d-flex align-items-end" style="min-height: 50vh;">
               <div class="row">
                 <div class="col-md-7">
-                  <div class="detail-box">
-                    <h1>
-                      KEDAI JAHIT N'NOUR
-                    </h1>
+                  <div class="detail-box" style="background: rgba(0, 0, 0, 0.473); padding: 10px; border-radius: 10px;">
+                    <h1> KEDAI JAHIT N'NOUR </h1>
                     <p>
                       Selamat Datang ke Kedai Jahit N'NOUR, sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.
                     </p>
