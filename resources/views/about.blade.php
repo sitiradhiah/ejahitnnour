@@ -9,11 +9,20 @@
       <div class="row">
         <div class="col-md-6">
           <div class="img_container">
-            <div class="img-box b1">
-              <img src="images/a-1.jpg" alt="">
+            <div class="media-box">
+              <img class="media-item" src="images/about1.jpg" alt="Gambar Kedai">
             </div>
-            <div class="img-box b2">
-              <img src="images/a-2.jpg" alt="">
+            <div class="media-box">
+              <video class="media-item" controls>
+                <source src="images/alter1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="media-box">
+              <video class="media-item" controls>
+                <source src="images/alter2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         </div>
@@ -65,6 +74,20 @@
     .read-more-btn:active {
       transform: translateY(0); /* Reset lift */
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Ensure all media items (images and videos) have the same dimensions */
+    .media-box {
+      margin-bottom: 20px; /* Add spacing between items */
+    }
+
+    .media-item {
+      width: 100%;
+      height: auto; /* Maintain aspect ratio */
+      max-height: 300px; /* Set a consistent maximum height */
+      object-fit: cover; /* Ensures content fits within dimensions */
+      border: 1px solid #ddd; /* Optional border for styling */
+      border-radius: 8px; /* Optional rounded corners */
     }
   </style>
 

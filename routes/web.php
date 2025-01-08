@@ -30,9 +30,10 @@ Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi.kami'); // Add name to the route
 
+// Login page
 Route::get('/logmasuk', function () {
     return view('logmasuk');
-}); // Add name to the route
+})->name('login'); // Added route name for proper navigation
 
 Route::prefix('admin')->group(function () {
     Route::get('index', function () {
