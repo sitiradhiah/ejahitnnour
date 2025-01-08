@@ -56,7 +56,7 @@
     <!-- Header -->
     @include('partials.header')
 
-    <main>
+    <main style="background: linear-gradient(to right, rgba(169, 203, 255, 0.562), rgba(255, 255, 255, 0.541));">
       @yield('content')
     </main>
   

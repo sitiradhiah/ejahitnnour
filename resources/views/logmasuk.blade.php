@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+{{-- style="background: linear-gradient(to right, purple, pink);" --}}
 <div class="container" style="min-height: 60vh;">
     <div class="row justify-content-center align-items-center" style="min-height: 60vh;">
         <div class="col-md-8">
