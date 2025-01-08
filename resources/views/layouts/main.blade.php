@@ -45,7 +45,7 @@
 
     /* Ensure the footer spans the full width */
     footer {
-        background-color: rgb(174, 16, 115);
+        background-color: rgb(255, 87, 193);
         padding: 20px 10px;
         color: white;
         text-align: center;
