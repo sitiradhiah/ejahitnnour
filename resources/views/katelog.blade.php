@@ -3,12 +3,12 @@
 @section('css')
 <style>
     /* General Styles */
-    body {
+    /* body {
         font-family: 'Poppins', sans-serif;
         background-color: #f9f9f9;
-    }
+    } */
 
-    h2 {
+    .h2-custom {
         text-align: center;
         color: #b42e8b;
         font-size: 2rem;
@@ -16,7 +16,7 @@
         margin-bottom: 20px;
     }
 
-    p {
+    .p-custom {
         text-align: center;
         color: #555;
         font-size: 1rem;
@@ -134,8 +134,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2>KATALOG PRODUK DAN PERKHIDMATAN</h2>
-                <p>Bahagian ini memaparkan katalog produk dan perkhidmatan yang ditawarkan oleh Kedai Jahit N'NOUR.</p>
+                <h2 class="h2-custom">KATALOG PRODUK DAN PERKHIDMATAN</h2>
+                <p class="p-custom">Bahagian ini memaparkan katalog produk dan perkhidmatan yang ditawarkan oleh Kedai Jahit N'NOUR.</p>
                 <div class="tabs-container">
                     <!-- Tab Navigation -->
                     <ul class="tabs">
