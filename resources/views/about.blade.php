@@ -5,7 +5,7 @@
 @section('content')
   <!-- about section -->
   <section class="about_section layout_padding">
-    <div class="container-fluid">
+    <div class="container-fluid" style="min-height: 45vh;">
       <div class="row">
         <div class="col-md-6">
           <div class="img_container">

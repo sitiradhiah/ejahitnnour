@@ -1,11 +1,14 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
+<div class="container" style="min-height: 60vh;">
+    <div class="row justify-content-center align-items-center" style="min-height: 60vh;">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Log Masuk') }}</div>
+                <div class="card-header text-center"><h2>
+                    Log Masuk Pekerja
+                  </h2>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
