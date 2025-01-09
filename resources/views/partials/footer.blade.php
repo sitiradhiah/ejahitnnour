@@ -1,5 +1,5 @@
   <!-- info section -->
-  <section class="info_section" style="background-color: rgb(174 16 115);position: absolute;padding: 40px 10px 0px;width: 100%;">
+  <section class="info_section" style="background-color: #d8438e; position: absolute; padding: 40px 10px 0px; width: 100%;">
     <div class="container">
       {{-- <div class="info_logo">
         <h2>
@@ -17,7 +17,7 @@
               <div class="img-box">
                 <img src="images/location-white.png" width="18px" alt="">
               </div>
-              <p class="text-white">
+              <p>
                 N NOUR BRIDAL (BRIDAL DAN JAHITAN, 50, Jalan Abdul Aziz, Taman Perdana, 86100 Ayer Hitam, Johor
               </p>
             </div>
@@ -25,7 +25,7 @@
               <div class="img-box">
                 <img src="images/telephone-white.png" width="12px" alt="">
               </div>
-              <p class="text-white">
+              <p>
                 010-363 3194
 
               </p>
@@ -34,7 +34,7 @@
               <div class="img-box">
                 <img src="images/envelope-white.png" width="18px" alt="">
               </div>
-              <p class="text-white">
+              <p>
                 nnourbridals@gmail.com
               </p>
             </div>
@@ -42,10 +42,10 @@
         </div>
         <div class="col-md-4">
           <div class="info_info">
-            <h5 class="text-white">
+            <h5>
               Waktu Operasi
             </h5>
-            <p class="text-white">
+            <p>
               <strong> Hari Bekerja : </strong> Ahad - Jumaat <br>
               <strong> Waktu : </strong> 10 am - 6 pm <br>
               <strong> Hari Cuti : </strong> Sabtu <br>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="container text-center">
-        <p style="font-weight:bold;" class="text-white">
+        <p style="font-weight:bold;">
           &copy; <span id="displayYear"></span> Nour Diamond
         </p>
       </div>

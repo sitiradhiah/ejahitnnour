@@ -3,43 +3,37 @@
 @section('css')
 <style>
   .hero_area {
-    background: url('images/about1.jpg') no-repeat;
+    background: url('images/gambarkedai1.png') no-repeat;
     background-size: cover;
     background-position: center;
-    min-height: 40vh !important;
+    min-height: 80vh; /* Increased height */
     position: relative;
-  }
-
-  .slider_section {
-    padding: 0;
-  }
-
-  .slider_bg_box {
-    background: rgba(0, 0, 0, 0.5);
-    min-height: 80vh;
-  }
-
-  .carousel-inner {
-    min-height: 80vh;
-  }
-
-  .carousel-inner img {
-    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .detail-box {
+    background: rgba(15, 15, 15, 0.7); /* Darker background for better visibility */
+    padding: 50px 40px; /* More padding for spacious content */
+    border-radius: 20px;
     color: #fff;
-    padding: 100px 0;
+    text-align: center;
+    max-width: 900px; /* Increased width */
+    width: 90%; /* Makes it responsive */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Deeper shadow */
   }
 
   .detail-box h1 {
-    font-size: 50px;
-    font-weight: 700;
+    font-size: 65px; /* Larger font size for the title */
+    font-weight: 800;
+    margin-bottom: 20px;
   }
 
   .detail-box p {
-    font-size: 18px;
-    margin-top: 20px;
+    font-size: 20px;
+    margin-bottom: 30px;
+    line-height: 1.8; /* Better readability */
   }
 
   .btn-box {
@@ -48,12 +42,14 @@
 
   .btn1,
   .btn2 {
-    background: #ff304f;
+    background: #72ca4f;
     color: #fff;
-    padding: 10px 20px;
+    padding: 15px 30px;
     border-radius: 30px;
-    margin-right: 10px;
+    margin: 10px;
     text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
   }
 
   .btn2 {
@@ -64,62 +60,72 @@
   .btn1:hover,
   .btn2:hover {
     text-decoration: none;
+    transform: scale(1.05);
+    transition: 0.3s ease-in-out;
   }
 
-  .carousel-indicators {
-    bottom: 20px;
+  /* Search Bar Styles */
+  .search-bar-container {
+    margin-top: 30px;
   }
 
-  .carousel-indicators li {
-    background: #ff304f;
-    border-radius: 50%;
+  .search-bar-container form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
   }
 
-  .carousel-indicators .active {
-    background: #fff;
+  .search-bar-container input[type="text"] {
+    width: 70%; /* Wider search bar */
+    padding: 15px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 30px 0 0 30px;
+    outline: none;
+  }
+
+  .search-bar-container button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    background-color: #2faee0;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0 30px 30px 0;
+  }
+
+  .search-bar-container button:hover {
+    background-color: #d0002b;
   }
 </style>
 @endsection
 
 @section('content')
-   
-  <div class="hero_area">
-    <!-- slider section -->
-    <section class="slider_section">
-      <div class="slider_bg_box">
-        {{-- <img src="images/slider-bg.jpg" alt=""> --}}
-      </div>
-      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="container d-flex align-items-end" style="min-height: 50vh;">
-              <div class="row">
-                <div class="col-md-7">
-                  <div class="detail-box" style="background: rgba(0, 0, 0, 0.473); padding: 10px; border-radius: 10px;">
-                    <h1> KEDAI JAHIT N'NOUR </h1>
-                    <p>
-                      Selamat Datang ke Kedai Jahit N'NOUR, sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.
-                    </p>
-                    <div class="btn-box">
-                      <!-- Link to Hubungi Kami page -->
-                      <a href="{{ route('hubungi.kami') }}" class="btn1">
-                        Hubungi Kami
-                      </a>
-                      <!-- Link to Tentang Kami page -->
-                      <a href="{{ route('about') }}" class="btn2">
-                        Tentang Kami
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- end slider section -->
+
+<div class="hero_area">
+  <div class="detail-box">
+    <h1> KEDAI JAHIT N'NOUR </h1>
+    <p>
+      Selamat Datang ke Kedai Jahit N'NOUR, sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.
+    </p>
+    <div class="btn-box">
+      <!-- Link to Hubungi Kami page -->
+      <a href="{{ route('hubungi.kami') }}" class="btn1">
+        Hubungi Kami
+      </a>
+      <!-- Link to Tentang Kami page -->
+      <a href="{{ route('about') }}" class="btn2">
+        Tentang Kami
+      </a>
+    </div>
+    <!-- Search Bar -->
+    <div class="search-bar-container">
+        <input type="text" name="q" placeholder="Cari reka bentuk atau perkhidmatan..." required>
+        <button type="submit">Cari</button>
+      </form>
+    </div>
   </div>
-  
-  <!-- end info_section -->
+</div>
+
 @endsection

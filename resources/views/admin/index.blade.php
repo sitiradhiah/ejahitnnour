@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>PapanPemuka - Pendtadbir N'NOUR</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -25,8 +25,12 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="{{ url('index') }}"><img src="{{ asset('admin/images/logo/logo.png')}}" alt="Logo" srcset=""></a>
+                            <a href="{{ url('index') }}">
+                                {{-- <img class="shadow" src="{{ asset('images/logo nnour.jpg') }}" style="height: 60px; margin-right: 10px;"> --}}
+                                <img src="{{ asset('images/logo nnour.jpg') }}" alt="Logo" style="height: 100px; width: auto; margin-right: 10px;">
+                            </a>
                         </div>
+                        
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                         </div>
@@ -39,57 +43,36 @@
                         <li class="sidebar-item active ">
                             <a href="{{ url('index') }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
+                                <span>Papan Pemuka</span>
                             </a>
                         </li>
         
                         <li class="sidebar-item has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-stack"></i>
-                                <span>Components</span>
+                                <span>Pengurusan Pendaftaran</span>
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
-                                    <a href="{{ url('component-alert') }}">Alert</a>
+                                    <a href="{{ url('component-alert') }}">Pelanggan</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="{{ url('component-badge') }}">Badge</a>
+                                    <a href="{{ url('component-badge') }}">Pekerja</a>
+                                </li>
+                            </ul>
+                        </li>
+        
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-grid-1x2-fill"></i>
+                                <span>Pengurusan Katalog</span>
+                            </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="{{ url('extra-component-avatar') }}">Produk</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="{{ url('component-breadcrumb') }}">Breadcrumb</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-button') }}">Button</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-card') }}">Card</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-carousel') }}">Carousel</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-dropdown') }}">Dropdown</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-list-group') }}">List Group</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-modal') }}">Modal</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-navs') }}">Navs</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-pagination') }}">Pagination</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-progress') }}">Progress</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-spinner') }}">Spinner</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-tooltip') }}">Tooltip</a>
+                                    <a href="{{ url('extra-component-sweetalert') }}">Perkhidmatan</a>
                                 </li>
                             </ul>
                         </li>
@@ -97,234 +80,27 @@
                         <li class="sidebar-item has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-collection-fill"></i>
-                                <span>Extra Components</span>
+                                <span>Pengurusan Stok</span>
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
-                                    <a href="{{ url('extra-component-avatar') }}">Avatar</a>
+                                    <a href="{{ url('layout-vertical-navbar') }}">Bahan Mentah</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="{{ url('extra-component-sweetalert') }}">Sweet Alert</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('extra-component-toastify') }}">Toastify</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('extra-component-rating') }}">Rating</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('extra-component-divider') }}">Divider</a>
+                                    <a href="{{ url('layout-horizontal') }}">Peralatan</a>
                                 </li>
                             </ul>
                         </li>
         
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Layouts</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('layout-default') }}">Default Layout</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('layout-vertical-1-column') }}">1 Column</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('layout-vertical-navbar') }}">Vertical with Navbar</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('layout-horizontal') }}">Horizontal Menu</a>
-                                </li>
-                            </ul>
-                        </li>
-        
-                        <li class="sidebar-title">Forms & Tables</li>
-        
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-hexagon-fill"></i>
-                                <span>Form Elements</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-element-input') }}">Input</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-element-input-group') }}">Input Group</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-element-select') }}">Select</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-element-radio') }}">Radio</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-element-checkbox') }}">Checkbox</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-element-textarea') }}">Textarea</a>
-                                </li>
-                            </ul>
-                        </li>
+                       
         
                         <li class="sidebar-item">
                             <a href="{{ url('form-layout') }}" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Form Layout</span>
+                                <span>Penjanaan Laporan</span>
                             </a>
                         </li>
-        
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-pen-fill"></i>
-                                <span>Form Editor</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-editor-quill') }}">Quill</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-editor-ckeditor') }}">CKEditor</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-editor-summernote') }}">Summernote</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('form-editor-tinymce') }}">TinyMCE</a>
-                                </li>
-                            </ul>
-                        </li>
-        
-                        <li class="sidebar-item">
-                            <a href="{{ url('table') }}" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Table</span>
-                            </a>
-                        </li>
-        
-                        <li class="sidebar-item">
-                            <a href="{{ url('table-datatable') }}" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                                <span>Datatable</span>
-                            </a>
-                        </li>
-        
-                        <li class="sidebar-title">Extra UI</li>
-        
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-pentagon-fill"></i>
-                                <span>Widgets</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-widgets-chatbox') }}">Chatbox</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-widgets-pricing') }}">Pricing</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-widgets-todolist') }}">To-do List</a>
-                                </li>
-                            </ul>
-                        </li>
-        
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-egg-fill"></i>
-                                <span>Icons</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-icons-bootstrap-icons') }}">Bootstrap Icons</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-icons-fontawesome') }}">Fontawesome</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-icons-dripicons') }}">Dripicons</a>
-                                </li>
-                            </ul>
-                        </li>
-        
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-bar-chart-fill"></i>
-                                <span>Charts</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('chart-apex') }}">Apex</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('chart-chartjs') }}">Chartjs</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('chart-echarts') }}">Echarts</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('chart-knob') }}">Knob</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('chart-sparkline') }}">Sparkline</a>
-                                </li>
-                            </ul>
-                        </li>
-        
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-tools"></i>
-                                <span>Utilities</span>
-                            </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-util-background') }}">Background</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-util-border') }}">Border</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-util-shadow') }}">Shadow</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('ui-util-typography') }}">Typography</a>
-                                </li>
-                            </ul>
-                        </li>
-        
-                        <li class="sidebar-title">Pages</li>
-        
-                        <li class="sidebar-item">
-                            <a href="{{ url('auth-login') }}" class='sidebar-link'>
-                                <i class="bi bi-person-fill"></i>
-                                <span>Login</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{{ url('auth-register') }}" class='sidebar-link'>
-                                <i class="bi bi-person-plus-fill"></i>
-                                <span>Register</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{{ url('auth-forgot-password') }}" class='sidebar-link'>
-                                <i class="bi bi-lock-fill"></i>
-                                <span>Forgot Password</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{{ url('auth-error-404') }}" class='sidebar-link'>
-                                <i class="bi bi-exclamation-octagon-fill"></i>
-                                <span>Error 404</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{{ url('auth-error-500') }}" class='sidebar-link'>
-                                <i class="bi bi-exclamation-circle-fill"></i>
-                                <span>Error 500</span>
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle navigation">
@@ -343,7 +119,7 @@
             </header>
 
             <div class="page-heading">
-                <h3>Profile Statistics</h3>
+                <h3>STATISTIK DATA KEDAI N'NOUR</h3>
             </div>
             <div class="page-content">
                 <section class="row">
@@ -359,8 +135,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Profile Views</h6>
-                                                <h6 class="font-extrabold mb-0">112.000</h6>
+                                                <h6 class="text-muted font-semibold">Pentadbir</h6>
+                                                <h6 class="font-extrabold mb-0">1</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -376,8 +152,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Followers</h6>
-                                                <h6 class="font-extrabold mb-0">183.000</h6>
+                                                <h6 class="text-muted font-semibold">Pekerja</h6>
+                                                <h6 class="font-extrabold mb-0">3</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -393,25 +169,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Following</h6>
-                                                <h6 class="font-extrabold mb-0">80.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon red">
-                                                    <i class="iconly-boldBookmark"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Saved Post</h6>
-                                                <h6 class="font-extrabold mb-0">112</h6>
+                                                <h6 class="text-muted font-semibold">Pelanggan Berdaftar</h6>
+                                                <h6 class="font-extrabold mb-0">10</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -422,7 +181,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Profile Visit</h4>
+                                        <h4>Carta Pembelian Bulanan</h4>
                                     </div>
                                     <div class="card-body">
                                         <div id="chart-profile-visit"></div>
@@ -431,81 +190,18 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 col-xl-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Profile Visit</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                    <svg class="bi text-primary" width="32" height="32" fill="blue"
-                                                        style="width:10px">
-                                                        <use
-                                                            xlink:href="{{ asset('admin/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill')}}" />
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-3">Europe</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">862</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-europe"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                    <svg class="bi text-success" width="32" height="32" fill="blue"
-                                                        style="width:10px">
-                                                        <use
-                                                            xlink:href="{{ asset('admin/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill')}}" />
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-3">America</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">375</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-america"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                    <svg class="bi text-danger" width="32" height="32" fill="blue"
-                                                        style="width:10px">
-                                                        <use
-                                                            xlink:href="{{ asset('admin/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill')}}" />
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-3">Indonesia</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">1025</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-indonesia"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-12 col-xl-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Latest Comments</h4>
+                                        <h4>Pertanyaan Terkini</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-hover table-lg">
                                                 <thead>
                                                     <tr>
-                                                        <th>Name</th>
-                                                        <th>Comment</th>
+                                                        <th>Nama</th>
+                                                        <th>Pertanyaan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -515,11 +211,11 @@
                                                                 <div class="avatar avatar-md">
                                                                     <img src="{{ asset('admin/images/faces/5.jpg')}}">
                                                                 </div>
-                                                                <p class="font-bold ms-3 mb-0">Si Cantik</p>
+                                                                <p class="font-bold ms-3 mb-0">Orang 1</p>
                                                             </div>
                                                         </td>
                                                         <td class="col-auto">
-                                                            <p class=" mb-0">Congratulations on your graduation!</p>
+                                                            <p class=" mb-0">Ada sediakan perkhidmatan untuk cutting baju tak?</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -528,13 +224,11 @@
                                                                 <div class="avatar avatar-md">
                                                                     <img src="{{ asset('admin/images/faces/2.jpg')}}">
                                                                 </div>
-                                                                <p class="font-bold ms-3 mb-0">Si Ganteng</p>
+                                                                <p class="font-bold ms-3 mb-0">Orang 2</p>
                                                             </div>
                                                         </td>
                                                         <td class="col-auto">
-                                                            <p class=" mb-0">Wow amazing design! Can you make another
-                                                                tutorial for
-                                                                this design?</p>
+                                                            <p class=" mb-0">Boleh buat tempah untuk Baju Kurta Modern?</p>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -553,15 +247,15 @@
                                         <img src="{{ asset('admin/images/faces/1.jpg')}}" alt="Face 1">
                                     </div>
                                     <div class="ms-3 name">
-                                        <h5 class="font-bold">John Duck</h5>
-                                        <h6 class="text-muted mb-0">@johnducky</h6>
+                                        <h5 class="font-bold">WakkTailor</h5>
+                                        <h6 class="text-muted mb-0">@waktailor</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4>Recent Messages</h4>
+                                <h4>Pekerja</h4>
                             </div>
                             <div class="card-content pb-4">
                                 <div class="recent-message d-flex px-4 py-3">
@@ -569,8 +263,8 @@
                                         <img src="{{ asset('admin/images/faces/4.jpg')}}">
                                     </div>
                                     <div class="name ms-4">
-                                        <h5 class="mb-1">Hank Schrader</h5>
-                                        <h6 class="text-muted mb-0">@johnducky</h6>
+                                        <h5 class="mb-1">Pekerja1</h5>
+                                        {{-- <h6 class="text-muted mb-0">@johnducky</h6> --}}
                                     </div>
                                 </div>
                                 <div class="recent-message d-flex px-4 py-3">
@@ -578,8 +272,8 @@
                                         <img src="{{ asset('admin/images/faces/5.jpg')}}">
                                     </div>
                                     <div class="name ms-4">
-                                        <h5 class="mb-1">Dean Winchester</h5>
-                                        <h6 class="text-muted mb-0">@imdean</h6>
+                                        <h5 class="mb-1">Pekerja2</h5>
+                                        {{-- <h6 class="text-muted mb-0">@imdean</h6> --}}
                                     </div>
                                 </div>
                                 <div class="recent-message d-flex px-4 py-3">
@@ -587,19 +281,18 @@
                                         <img src="{{ asset('admin/images/faces/1.jpg')}}">
                                     </div>
                                     <div class="name ms-4">
-                                        <h5 class="mb-1">John Dodol</h5>
-                                        <h6 class="text-muted mb-0">@dodoljohn</h6>
+                                        <h5 class="mb-1">Pekerja3</h5>
+                                        {{-- <h6 class="text-muted mb-0">@dodoljohn</h6> --}}
                                     </div>
                                 </div>
                                 <div class="px-4">
-                                    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
-                                        Conversation</button>
+                                    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Pemberitahuan</button>
                                 </div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4>Visitors Profile</h4>
+                                <h4>Carta Pai Peratus Jantina</h4>
                             </div>
                             <div class="card-body">
                                 <div id="chart-visitors-profile"></div>
@@ -612,11 +305,11 @@
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
+                        <p>2025 &copy; N'NOUR</p>
                     </div>
                     <div class="float-end">
                         <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
+                                href="http://ahmadsaugi.com">N'NOUR</a></p>
                     </div>
                 </div>
             </footer>
