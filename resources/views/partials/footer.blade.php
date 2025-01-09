@@ -17,7 +17,7 @@
               <div class="img-box">
                 <img src="images/location-white.png" width="18px" alt="">
               </div>
-              <p>
+              <p class="text-white">
                 N NOUR BRIDAL (BRIDAL DAN JAHITAN, 50, Jalan Abdul Aziz, Taman Perdana, 86100 Ayer Hitam, Johor
               </p>
             </div>
@@ -25,7 +25,7 @@
               <div class="img-box">
                 <img src="images/telephone-white.png" width="12px" alt="">
               </div>
-              <p>
+              <p class="text-white">
                 010-363 3194
 
               </p>
@@ -34,7 +34,7 @@
               <div class="img-box">
                 <img src="images/envelope-white.png" width="18px" alt="">
               </div>
-              <p>
+              <p class="text-white">
                 nnourbridals@gmail.com
               </p>
             </div>
@@ -45,7 +45,7 @@
             <h5>
               Waktu Operasi
             </h5>
-            <p>
+            <p class="text-white">
               <strong> Hari Bekerja : </strong> Ahad - Jumaat <br>
               <strong> Waktu : </strong> 10 am - 6 pm <br>
               <strong> Hari Cuti : </strong> Sabtu <br>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="container text-center">
-        <p style="font-weight:bold;">
+        <p style="font-weight:bold;" class="text-white">
           &copy; <span id="displayYear"></span> Nour Diamond
         </p>
       </div>

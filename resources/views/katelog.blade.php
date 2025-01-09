@@ -2,12 +2,6 @@
 
 @section('css')
 <style>
-    /* General Styles */
-    /* body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f9f9f9;
-    } */
-
     .h2-custom {
         text-align: center;
         color: #b42e8b;
@@ -23,7 +17,6 @@
         margin-bottom: 40px;
     }
 
-    /* Tabs Navigation */
     .tabs {
         list-style: none;
         padding: 0;
@@ -54,7 +47,6 @@
         background-color: #ddd;
     }
 
-    /* Tab Content */
     .tab-content {
         border: none;
         padding: 0;
@@ -68,26 +60,11 @@
         display: block;
     }
 
-    /* Portrait Grid Styling */
     .containerKt {
         display: grid;
         gap: 20px;
-        grid-template-columns: 1fr; /* Default to single column for portrait */
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         padding: 0 20px;
-        max-height: 600px; /* Set maximum height */
-        overflow-y: auto; /* Enable vertical scrolling */
-    }
-
-    @media (min-width: 768px) {
-        .containerKt {
-            grid-template-columns: repeat(2, 1fr); /* Tablet */
-        }
-    }
-
-    @media (min-width: 1024px) {
-        .containerKt {
-            grid-template-columns: repeat(3, 1fr); /* Desktop */
-        }
     }
 
     .containerKt div {
@@ -99,7 +76,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 300px; /* Adjust height for portrait layout */
+        height: 300px;
     }
 
     .containerKt div:hover {
@@ -110,23 +87,10 @@
     .image-grid {
         max-width: 100%;
         max-height: 100%;
-        object-fit: cover; /* Ensures images fit within the div */
-    }
-
-    /* Scrollbar Customization (Optional) */
-    .containerKt::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .containerKt::-webkit-scrollbar-thumb {
-        background: #b42e8b;
-        border-radius: 5px;
-    }
-
-    .containerKt::-webkit-scrollbar-thumb:hover {
-        background: #9e2676;
+        object-fit: cover;
     }
 </style>
+
 @endsection
 
 @section('content')
@@ -146,27 +110,39 @@
 
                     <!-- Tab Content -->
                     <div class="tab-content">
+                        <!-- Pakaian Harian -->
                         <div id="tab1" class="tab-pane active">
                             <div class="containerKt">
-                                <div class="item"><img src="{{ asset('images/kemejabiru.png') }}" alt="Pakaian Harian" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/kemejamerah.png') }}" alt="Pakaian Harian" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/bajukurungmoden.png') }}" alt="Pakaian Harian" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/bajukurungkedah1.png') }}" alt="Pakaian Harian" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/kemejahitam.png') }}" alt="Pakaian Harian" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/ig.png') }}" alt="Pakaian Harian" class="image-grid"></div>
+                                @foreach($katalogs->where('kategori', 'Pakaian Harian') as $item)
+                                <div class="item">
+                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
+                                    <p>{{ $item->nama }}</p>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
+
+                        <!-- Pakaian Rasmi -->
                         <div id="tab2" class="tab-pane">
                             <div class="containerKt">
-                                <div class="item"><img src="{{ asset('images/bajulayang.png') }}" alt="Pakaian Rasmi" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/fb.png') }}" alt="Pakaian Rasmi" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/fb.png') }}" alt="Pakaian Rasmi" class="image-grid"></div>
+                                @foreach($katalogs->where('kategori', 'Pakaian Rasmi') as $item)
+                                <div class="item">
+                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
+                                    <p>{{ $item->nama }}</p>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
+
+                        <!-- Aksesori -->
                         <div id="tab3" class="tab-pane">
                             <div class="containerKt">
-                                <div class="item"><img src="{{ asset('images/tanjak1.png') }}" alt="Aksesori" class="image-grid"></div>
-                                <div class="item"><img src="{{ asset('images/tiktok.png') }}" alt="Aksesori" class="image-grid"></div>
+                                @foreach($katalogs->where('kategori', 'Aksesori') as $item)
+                                <div class="item">
+                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
+                                    <p>{{ $item->nama }}</p>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

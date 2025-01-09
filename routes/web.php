@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KatalogController;
 
 
 Route::get('/', function () {
@@ -52,10 +53,14 @@ Route::prefix('admin')->group(function () {
         return view('admin.index');
     })->name('admin.index');
 
-    Route::get('daftarpelanggan', function () {
-        return view('daftarpelanggan');
-    })->name('daftarpelanggan');
+    Route::get('/pengurusan-katalog', function () {
+        return view('admin.pengurusan-katalog'); // atau 'admin.pengurusan-katalog' jika dalam folder admin
+    })->name('pengurusan-katalog');
     
+        Route::get('/pengurusan-katalog', [KatalogController::class, 'index'])->name('pengurusan-katalog');
+        Route::post('/pengurusan-katalog/store', [KatalogController::class, 'store'])->name('katalog.store');
+        Route::post('/pengurusan-katalog/update/{id}', [KatalogController::class, 'update'])->name('katalog.update');
+        Route::delete('/pengurusan-katalog/destroy/{id}', [KatalogController::class, 'destroy'])->name('katalog.destroy');
 
     //     Route::get('badge', function () {
     //         return view('admin.component-badge');

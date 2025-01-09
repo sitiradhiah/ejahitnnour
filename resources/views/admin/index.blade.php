@@ -47,49 +47,25 @@
                             </a>
                         </li>
         
-                        <li class="sidebar-item has-sub">
+                        <li class="sidebar-item">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-stack"></i>
                                 <span>Pengurusan Pendaftaran</span>
                             </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('daftarpelanggan') }}">Pelanggan</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('component-badge') }}">Pekerja</a>
-                                </li>
-                            </ul>
                         </li>
         
-                        <li class="sidebar-item has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Pengurusan Katalog</span>
+                        <li>
+                            <a href="{{ route('pengurusan-katalog') }}" class="nav-link">
+                                <i class="fas fa-folder"></i> Pengurusan Katalog
                             </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('extra-component-avatar') }}">Produk</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('extra-component-sweetalert') }}">Perkhidmatan</a>
-                                </li>
-                            </ul>
                         </li>
+                        
         
-                        <li class="sidebar-item has-sub">
+                        <li class="sidebar-item ">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-collection-fill"></i>
                                 <span>Pengurusan Stok</span>
                             </a>
-                            <ul class="submenu">
-                                <li class="submenu-item">
-                                    <a href="{{ url('layout-vertical-navbar') }}">Bahan Mentah</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="{{ url('layout-horizontal') }}">Peralatan</a>
-                                </li>
-                            </ul>
                         </li>
         
                        
