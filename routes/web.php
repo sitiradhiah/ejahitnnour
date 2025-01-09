@@ -21,12 +21,21 @@ Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi.kami'); // Add name to the route
 
-// Login page
-Route::get('/logmasuk', function () {
-    return view('logmasuk');
-})->name('login')->middleware('guest'); // Added route name for proper navigation
+// // Login page
+// Route::get('/logmasuk', function () {
+//     return view('logmasuk');
+// })->name('login')->middleware('guest'); // Added route name for proper navigation
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+// Login page (GET route)
+Route::get('/logmasuk', function () {
+    return view('logmasuk'); // This will display the login page
+})->name('login');
+
+// Fake login logic for testing (POST route)
+Route::post('/login', function () {
+    // For testing, just redirect to the admin dashboard
+    return redirect()->route('admin.index');
+})->name('login.submit');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
