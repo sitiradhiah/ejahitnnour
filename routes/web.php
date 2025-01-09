@@ -14,9 +14,8 @@ Route::get('/tentangkami', function () {
     return view('about');
 })->name('about'); // Add name to the route
 
-Route::get('/katelog', function () { //route (url)
-    return view('katelog'); //blade view file
-});
+Route::get('/katalog', [KatalogController::class, 'index'])
+->name('katelog.index');
 
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
