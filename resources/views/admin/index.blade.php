@@ -54,7 +54,7 @@
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
-                                    <a href="{{ url('component-alert') }}">Pelanggan</a>
+                                    <a href="{{ url('daftarpelanggan') }}">Pelanggan</a>
                                 </li>
                                 <li class="submenu-item">
                                     <a href="{{ url('component-badge') }}">Pekerja</a>

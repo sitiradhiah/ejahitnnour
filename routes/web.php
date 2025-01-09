@@ -52,10 +52,10 @@ Route::prefix('admin')->group(function () {
         return view('admin.index');
     })->name('admin.index');
 
-    // Route::prefix('component')->group(function () {
-    //     Route::get('alert', function () {
-    //         return view('admin.component-alert');
-    //     })->name('admin.component.alert');
+    Route::get('daftarpelanggan', function () {
+        return view('daftarpelanggan');
+    })->name('daftarpelanggan');
+    
 
     //     Route::get('badge', function () {
     //         return view('admin.component-badge');
