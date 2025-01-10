@@ -14,8 +14,11 @@ Route::get('/tentangkami', function () {
     return view('about');
 })->name('about'); // Add name to the route
 
-Route::get('/katalog', [KatalogController::class, 'index'])
-->name('katelog.index');
+// Route::get('/katalog', [KatalogController::class, 'index'])
+// ->name('katelog.index');
+
+Route::get('/katelog', [KatalogController::class, 'showKatalog']); // User-facing page
+Route::resource('katalog', KatalogController::class); // Admin management routes
 
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
