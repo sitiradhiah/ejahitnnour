@@ -90,7 +90,6 @@
         object-fit: cover;
     }
 </style>
-
 @endsection
 
 @section('content')
@@ -115,7 +114,7 @@
                             <div class="containerKt">
                                 @foreach($katalogs->where('kategori', 'Pakaian Harian') as $item)
                                 <div class="item">
-                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
+                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
                                     <p>{{ $item->nama }}</p>
                                 </div>
                                 @endforeach
@@ -127,7 +126,7 @@
                             <div class="containerKt">
                                 @foreach($katalogs->where('kategori', 'Pakaian Rasmi') as $item)
                                 <div class="item">
-                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
+                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
                                     <p>{{ $item->nama }}</p>
                                 </div>
                                 @endforeach
@@ -139,7 +138,7 @@
                             <div class="containerKt">
                                 @foreach($katalogs->where('kategori', 'Aksesori') as $item)
                                 <div class="item">
-                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
+                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
                                     <p>{{ $item->nama }}</p>
                                 </div>
                                 @endforeach

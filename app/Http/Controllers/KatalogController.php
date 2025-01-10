@@ -7,14 +7,14 @@ use App\Models\Katalog;
 
 class KatalogController extends Controller
 {
-    // Method for the admin view
+    // Admin view method
     public function index()
     {
         $katalogs = Katalog::all();
         return view('admin.pengurusan-katalog', compact('katalogs'));
     }
 
-    // Method to handle the '/katelog' route for the user-facing page
+    // Method for user-facing katalog page
     public function showKatalog()
     {
         $katalogs = Katalog::all(); // Fetch all catalog items
@@ -30,12 +30,14 @@ class KatalogController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $path = $request->file('gambar')->store('katalogs', 'public');
+        // Save the image to public/images directory
+        $path = $request->file('gambar')->move(public_path('images'), $request->file('gambar')->getClientOriginalName());
 
+        // Store the relative path in the database
         Katalog::create([
             'nama' => $request->nama,
             'kategori' => $request->kategori,
-            'gambar' => $path,
+            'gambar' => 'images/' . $request->file('gambar')->getClientOriginalName(),
         ]);
 
         return redirect()->back()->with('success', 'Gambar berjaya dimuat naik.');
@@ -46,12 +48,19 @@ class KatalogController extends Controller
     {
         $katalog = Katalog::findOrFail($id);
 
+        $gambarPath = $katalog->gambar; // Retain the existing image path by default
+
+        if ($request->hasFile('gambar')) {
+            // Save the new image to public/images directory
+            $path = $request->file('gambar')->move(public_path('images'), $request->file('gambar')->getClientOriginalName());
+            $gambarPath = 'images/' . $request->file('gambar')->getClientOriginalName();
+        }
+
+        // Update katalog details
         $katalog->update([
             'nama' => $request->nama,
             'kategori' => $request->kategori,
-            'gambar' => $request->hasFile('gambar') 
-                ? $request->file('gambar')->store('katalogs', 'public') 
-                : $katalog->gambar,
+            'gambar' => $gambarPath,
         ]);
 
         return redirect()->back()->with('success', 'Gambar berjaya dikemas kini.');
@@ -61,9 +70,13 @@ class KatalogController extends Controller
     public function destroy($id)
     {
         $katalog = Katalog::findOrFail($id);
-        if (\Storage::exists('public/' . $katalog->gambar)) {
-            \Storage::delete('public/' . $katalog->gambar);
+
+        // Delete the image file from the public/images directory
+        $imagePath = public_path($katalog->gambar);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
+
         $katalog->delete();
 
         return redirect()->back()->with('success', 'Gambar berjaya dipadam.');
