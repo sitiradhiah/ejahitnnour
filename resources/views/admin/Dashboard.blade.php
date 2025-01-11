@@ -1,3 +1,9 @@
+@if (!Auth::check())
+    <script>
+        window.location.href = "{{ url('/') }}"; // Redirects to the homepage
+    </script>
+@endif
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -225,6 +231,12 @@
                                     <div class="ms-3 name">
                                         <h5 class="font-bold">WakkTailor</h5>
                                         <h6 class="text-muted mb-0">@waktailor</h6>
+                                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">
+                                                Log Out
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

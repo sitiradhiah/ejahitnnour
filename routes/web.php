@@ -30,7 +30,7 @@ Route::prefix('logmasuk')->controller(AuthController::class)->group(function () 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
-        return view('admin.index');
+        return view('admin.Dashboard');
     })->name('dashboard');
 
     Route::prefix('katelog')->controller(KatelogController::class)->group(function () {

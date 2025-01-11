@@ -26,7 +26,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('admin/dashboard'); // Change 'dashboard' to your intended route
+            return redirect()->intended('admin/dashboard');
         }
 
         return back()->withErrors([
@@ -41,6 +41,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+         // Redirect to login page
+         return redirect()->route('logmasuk'); // Make sure this route matches your login route
     }
 }
