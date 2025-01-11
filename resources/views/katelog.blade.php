@@ -2,6 +2,27 @@
 
 @section('css')
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .product-card {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 10px;
+        display: inline-block;
+        width: 200px;
+        text-align: center;
+    }
+
+    .product-card img {
+        width: 100%;
+        height: auto;
+    }
+
     .h2-custom {
         text-align: center;
         color: #b42e8b;
@@ -92,6 +113,7 @@
 </style>
 @endsection
 
+
 @section('content')
 <section class="about_section py-5 px-3">
     <div class="container-fluid">
@@ -167,5 +189,24 @@
             document.getElementById(tabId).classList.add('active');
         });
     });
+
+    // Filter Produk Menggunakan Search Query dari URL
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search')?.toLowerCase();
+        
+        if (searchQuery) {
+            const products = document.querySelectorAll('.product-card');
+            
+            products.forEach(product => {
+                const productName = product.querySelector('.product-name').textContent.toLowerCase();
+                if (!productName.includes(searchQuery)) {
+                    product.style.display = 'none'; // Sembunyikan produk yang tidak sepadan
+                } else {
+                    product.style.display = 'block'; // Paparkan produk yang sepadan
+                }
+            });
+        }
+    };
 </script>
 @endsection

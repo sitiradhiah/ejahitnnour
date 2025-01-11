@@ -120,11 +120,13 @@
       </a>
     </div>
     <!-- Search Bar -->
-    <div class="search-bar-container">
-        <input type="text" name="q" placeholder="Cari reka bentuk atau perkhidmatan..." required>
-        <button type="submit">Cari</button>
-      </form>
-    </div>
+    <!-- Search Bar -->
+      <div class="search-bar-container">
+          <form id="searchForm" action="{{ route('KatalogUmum') }}" method="GET">
+              <input type="text" id="searchInput" name="search" placeholder="Cari reka bentuk atau perkhidmatan..." required>
+              <button type="submit">Cari</button>
+          </form>
+      </div>
   </div>
 </div>
 
