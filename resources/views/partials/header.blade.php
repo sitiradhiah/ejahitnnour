@@ -26,7 +26,7 @@
           </li>
         </ul>
         <div class="ml-lg-3">
-          <a href="{{ route('login') }}" class="btn btn-primary">Log Masuk</a>
+          <a href="{{ route('logmasuk') }}" class="btn btn-primary">Log Masuk</a>
         </div>
       </div>
     </nav>
