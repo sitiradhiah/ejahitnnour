@@ -2,132 +2,57 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\KatelogController;
 
 
+//route sebelum login
 Route::get('/', function () {
     return view('index');
 });
-
-// Route for the about page
 Route::get('/tentangkami', function () {
     return view('about');
-})->name('about'); // Add name to the route
-
-// Route::get('/katalog', [KatalogController::class, 'index'])
-// ->name('katelog.index');
-
-Route::get('/katelog', [KatalogController::class, 'showKatalog']); // User-facing page
-Route::resource('katalog', KatalogController::class); // Admin management routes
-
+})->name('about'); 
+Route::get('/katelog', [KatelogController::class, 'showKatalog']); 
+Route::resource('katalog', KatelogController::class); 
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
-})->name('hubungi.kami'); // Add name to the route
+})->name('hubungi.kami'); 
 
-// // Login page
-// Route::get('/logmasuk', function () {
-//     return view('logmasuk');
-// })->name('login')->middleware('guest'); // Added route name for proper navigation
-
-// Login page (GET route)
-Route::get('/logmasuk', function () {
-    return view('logmasuk'); // This will display the login page
-})->name('login');
-
-// Fake login logic for testing (POST route)
-Route::post('/login', function () {
-    // For testing, just redirect to the admin dashboard
-    return redirect()->route('admin.index');
-})->name('login.submit');
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('auth');
-
-Route::get('index', function () {
-    return view('admin.index');
-})->name('admin.index');
-
-Route::prefix('admin')->group(function () {
-    Route::get('index', function () {
-        return view('admin.index');
-    })->name('admin.index');
-
-    Route::get('/pengurusan-katalog', function () {
-        return view('admin.pengurusan-katalog'); // atau 'admin.pengurusan-katalog' jika dalam folder admin
-    })->name('pengurusan-katalog');
-    
-        Route::get('/pengurusan-katalog', [KatalogController::class, 'index'])->name('pengurusan-katalog');
-        Route::post('/pengurusan-katalog/store', [KatalogController::class, 'store'])->name('katalog.store');
-        Route::post('/pengurusan-katalog/update/{id}', [KatalogController::class, 'update'])->name('katalog.update');
-        Route::delete('/pengurusan-katalog/destroy/{id}', [KatalogController::class, 'destroy'])->name('katalog.destroy');
-
-    //     Route::get('badge', function () {
-    //         return view('admin.component-badge');
-    //     })->name('admin.component.badge');
-
-    //     Route::get('breadcrumb', function () {
-    //         return view('admin.component-breadcrumb');
-    //     })->name('admin.component.breadcrumb');
-
-    //     Route::get('button', function () {
-    //         return view('admin.component-button');
-    //     })->name('admin.component.button');
-
-    //     Route::get('card', function () {
-    //         return view('admin.component-card');
-    //     })->name('admin.component.card');
-
-    //     Route::get('carousel', function () {
-    //         return view('admin.component-carousel');
-    //     })->name('admin.component.carousel');
-
-    //     Route::get('dropdown', function () {
-    //         return view('admin.component-dropdown');
-    //     })->name('admin.component.dropdown');
-
-    //     Route::get('list-group', function () {
-    //         return view('admin.component-list-group');
-    //     })->name('admin.component.listGroup');
-
-    //     Route::get('modal', function () {
-    //         return view('admin.component-modal');
-    //     })->name('admin.component.modal');
-
-    //     Route::get('navs', function () {
-    //         return view('admin.component-navs');
-    //     })->name('admin.component.navs');
-
-    //     Route::get('pagination', function () {
-    //         return view('admin.component-pagination');
-    //     })->name('admin.component.pagination');
-
-    //     Route::get('progress', function () {
-    //         return view('admin.component-progress');
-    //     })->name('admin.component.progress');
-
-    //     Route::get('spinner', function () {
-    //         return view('admin.component-spinner');
-    //     })->name('admin.component.spinner');
-
-    //     Route::get('tooltip', function () {
-    //         return view('admin.component-tooltip');
-    //     })->name('admin.component.tooltip');
-    // });
-
-    // Route::prefix('extra-component')->group(function () {
-    //     Route::get('avatar', function () {
-    //         return view('admin.extra-component-avatar');
-    //     })->name('admin.extra-component.avatar');
-
-    //     Route::get('sweetalert', function () {
-    //         return view('admin.extra-component-sweetalert');
-    //     })->name('admin.extra-component.sweetalert');
-
-    //     Route::get('toastify', function () {
-    //         return view('admin.extra-component-toastify');
-    //     })->name('admin.extra-component.toastify');
-    // });
+//LOGIN & LOGOUT Pengguna Berdaftar
+Route::prefix('logmasuk')->controller(AuthController::class)->group(function () {
+    Route::get('/', 'logmasuk')->name('logmasuk');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::post('/logout', 'logout')->name('logout');
 });
+
+// Add all routes that require authentication here
+//route selepas login
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('admin.index');
+    })->name('dashboard');
+
+    Route::prefix('pengurusan-katalog')->controller(KatelogController::class)->group(function () {
+        Route::get('/', 'index')->name('pengurusan-katalog');
+        Route::post('/store', 'store')->name('katalog.store');
+        Route::post('/update/{id}', 'update')->name('katalog.update');
+        Route::delete('/destroy/{id}', 'destroy')->name('katalog.destroy');
+    });
+
+    // Route::get('/profile', function () {
+    //     return view('profile');
+    // })->name('profile');
+
+    // Route::get('/settings', function () {
+    //     return view('settings');
+    // })->name('settings');
+
+    // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Route::get('/pengurusan-katalog', function () {
+    //     return view('admin.pengurusan-katalog'); // atau 'admin.pengurusan-katalog' jika dalam folder admin
+    // })->name('pengurusan-katalog');
+    
+});
+
