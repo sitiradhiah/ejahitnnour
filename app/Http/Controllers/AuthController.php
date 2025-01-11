@@ -9,7 +9,11 @@ class AuthController extends Controller
 {
     public function logmasuk()
     {
-        return view('logmasuk'); // Assuming your view is in resources/views/auth/login.blade.php
+        #kalau dah login akan redirect ke dashboard
+        if (Auth::check()) {
+            return redirect()->intended('admin/dashboard');
+        }
+        return view('logmasuk'); // login view kalau belum log  masuk
     }
 
     public function authenticate(Request $request)

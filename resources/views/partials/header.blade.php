@@ -26,7 +26,11 @@
           </li>
         </ul>
         <div class="ml-lg-3">
-          <a href="{{ route('logmasuk') }}" class="btn btn-primary">Log Masuk</a>
+          @if(Auth::check())
+            <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard</a>
+          @else
+            <a href="{{ route('logmasuk') }}" class="btn btn-primary">Log Masuk</a>
+          @endif
         </div>
       </div>
     </nav>
