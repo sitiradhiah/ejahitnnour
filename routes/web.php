@@ -12,8 +12,8 @@ Route::get('/', function () {
 Route::get('/tentangkami', function () {
     return view('about');
 })->name('about'); 
-Route::get('/katelog', [KatelogController::class, 'showKatalog']); 
-Route::resource('katalog', KatelogController::class); 
+Route::get('/katelog', [KatelogController::class, 'showKatelog']); 
+Route::resource('katelog', KatelogController::class); 
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi.kami'); 
@@ -33,11 +33,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         return view('admin.index');
     })->name('dashboard');
 
-    Route::prefix('pengurusan-katalog')->controller(KatelogController::class)->group(function () {
-        Route::get('/', 'index')->name('pengurusan-katalog');
-        Route::post('/store', 'store')->name('katalog.store');
-        Route::post('/update/{id}', 'update')->name('katalog.update');
-        Route::delete('/destroy/{id}', 'destroy')->name('katalog.destroy');
+    Route::prefix('katelog')->controller(KatelogController::class)->group(function () {
+        Route::get('/', 'index')->name('katelog.senarai');
+        Route::post('/store', 'store')->name('katelog.store');
+        Route::post('/update/{id}', 'update')->name('katelog.update');
+        Route::delete('/destroy/{id}', 'destroy')->name('katelog.destroy');
     });
 
     // Route::get('/profile', function () {
@@ -50,9 +50,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Route::get('/pengurusan-katalog', function () {
-    //     return view('admin.pengurusan-katalog'); // atau 'admin.pengurusan-katalog' jika dalam folder admin
-    // })->name('pengurusan-katalog');
+    // Route::get('/pengurusan-katelog', function () {
+    //     return view('admin.pengurusan-katelog'); // atau 'admin.pengurusan-katelog' jika dalam folder admin
+    // })->name('pengurusan-katelog');
     
 });
 

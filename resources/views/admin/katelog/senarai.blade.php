@@ -52,7 +52,7 @@
         padding: 20px 0;
     }
 
-    .katalog-item {
+    .katelog-item {
         background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
@@ -61,7 +61,7 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .katalog-item img {
+    .katelog-item img {
         max-width: 100%;
         height: 150px;
         object-fit: cover;
@@ -101,9 +101,9 @@
 @endsection
 
 @section('content')
-<section class="katalog-section py-5">
+<section class="katelog-section py-5">
     <div class="container">
-        <h2 class="h2-custom">Pengurusan Katalog</h2>
+        <h2 class="h2-custom">Pengurusan Katelog</h2>
 
         <!-- Loop through categories -->
         @foreach(['Pakaian Harian', 'Pakaian Rasmi', 'Aksesori'] as $kategori)
@@ -114,7 +114,7 @@
             </div>
 
             <!-- Borang Tambah Gambar -->
-            <form action="{{ route('katalog.store') }}" method="POST" enctype="multipart/form-data" style="margin: 20px 0;">
+            <form action="{{ route('katelog.store') }}" method="POST" enctype="multipart/form-data" style="margin: 20px 0;">
                 @csrf
                 <input type="text" name="nama" placeholder="Nama Item" required style="margin-right: 10px; padding: 5px; width: 20%;">
                 <select name="kategori" required style="margin-right: 10px; padding: 5px; width: 20%;">
@@ -125,19 +125,19 @@
                 <input type="file" name="gambar" required style="margin-right: 10px; padding: 5px; width: 20%;">
                 <button type="submit" class="btn-add-item" style="padding: 5px 10px;">Tambah Gambar</button>
             </form>
-            <!-- Katalog Content -->
+            <!-- Katelog Content -->
             <div class="kategori-content">
-                @foreach($katalogs->where('kategori', $kategori) as $item)
-                <div class="katalog-item">
+                @foreach($katelogs->where('kategori', $kategori) as $item)
+                <div class="katelog-item">
                     <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}">
                     <p>{{ $item->nama }}</p>
-                    <form action="{{ route('katalog.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('katelog.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="text" name="nama" value="{{ $item->nama }}" placeholder="Nama Item" required>
                         <input type="file" name="gambar">
                         <button type="submit" class="btn-edit">Kemaskini</button>
                     </form>
-                    <form action="{{ route('katalog.destroy', $item->id) }}" method="POST">
+                    <form action="{{ route('katelog.destroy', $item->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn-delete">Padam</button>

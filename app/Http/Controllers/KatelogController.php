@@ -10,8 +10,8 @@ class KatelogController extends Controller
     // Admin view method
     public function index()
     {
-        $Katelogs = Katelog::all();
-        return view('admin.pengurusan-Katelog', compact('Katelogs'));
+        $katelogs = Katelog::all();
+        return view('admin.katelog.senarai', compact('katelogs'));
     }
 
     // Method for user-facing Katelog page

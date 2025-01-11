@@ -55,7 +55,7 @@
                         </li>
         
                         <li>
-                            <a href="{{ route('pengurusan-katalog') }}" class="nav-link">
+                            <a href="{{ route('katelog.senarai') }}" class="nav-link">
                                 <i class="fas fa-folder"></i> Pengurusan Katalog
                             </a>
                         </li>
