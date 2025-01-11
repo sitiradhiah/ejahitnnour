@@ -15,10 +15,10 @@ class KatelogController extends Controller
     }
 
     // Method for user-facing Katelog page
-    public function showKatelog()
+    public function KatalogUmum()
     {
-        $Katelogs = Katelog::all(); // Fetch all catalog items
-        return view('katelog', compact('Katelogs')); // Ensure 'katelog.blade.php' is the correct file
+        $katalogs = Katelog::all();
+        return view('katelog', compact('katalogs')); 
     }
 
     // Store a new Katelog item

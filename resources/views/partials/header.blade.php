@@ -18,8 +18,8 @@
           <li class="nav-item {{ Request::is('tentangkami') ? 'active' : '' }}">
             <a class="nav-link" href="/tentangkami">Tentang Kami</a>
           </li>
-          <li class="nav-item {{ Request::is('katelog') ? 'active' : '' }}">
-            <a class="nav-link" href="/katelog">Katelog</a>
+          <li class="nav-item {{ Request::is('KatalogUmum') ? 'active' : '' }}">
+            <a class="nav-link" href="/KatalogUmum">Katalog</a>
           </li>
           <li class="nav-item {{ Request::is('hubungi-kami') ? 'active' : '' }}">
             <a class="nav-link" href="/hubungi-kami">Hubungi Kami</a>

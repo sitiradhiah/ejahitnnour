@@ -130,11 +130,7 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <h6 class="text-muted font-semibold">Pekerja</h6>
-                                                <h6 class="font-extrabold mb-0">auto count 
-                                                </h6>
-                                                <div>
-                                                    <i class="icon-list"></i> Total Items: <span id="totalItems">0</span>
-                                                </div>
+                                                <h6 class="font-extrabold mb-0">3</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -309,36 +305,30 @@
     <script src="{{ asset('admin/js/main.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
 
-            // Update the counter for the specific table
-            setInterval(() => {
-                updateTotalCount('/api/count/users', 'totalItems');
-            }, 5000); // Refresh every 5 seconds
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            const submenu = this.nextElementSibling;
 
-            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            // Toggle the submenu if it exists
+            if (submenu && submenu.classList.contains('submenu')) {
+                e.preventDefault(); // Prevent default action for links with submenus
 
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    const submenu = this.nextElementSibling;
-
-                    // Toggle the submenu if it exists
-                    if (submenu && submenu.classList.contains('submenu')) {
-                        e.preventDefault(); // Prevent default action for links with submenus
-
-                        // Close all other submenus
-                        const allSubmenus = document.querySelectorAll('.submenu');
-                        allSubmenus.forEach(item => {
-                            if (item !== submenu) {
-                                item.classList.remove('active'); // Hide other submenus
-                            }
-                        });
-
-                        // Toggle current submenu
-                        submenu.classList.toggle('active');
+                // Close all other submenus
+                const allSubmenus = document.querySelectorAll('.submenu');
+                allSubmenus.forEach(item => {
+                    if (item !== submenu) {
+                        item.classList.remove('active'); // Hide other submenus
                     }
                 });
-            });
+
+                // Toggle current submenu
+                submenu.classList.toggle('active');
+            }
         });
+    });
+});
 
     </script>
 </body>

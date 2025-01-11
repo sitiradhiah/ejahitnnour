@@ -12,8 +12,11 @@ Route::get('/', function () {
 Route::get('/tentangkami', function () {
     return view('about');
 })->name('about'); 
-Route::get('/katelog', [KatelogController::class, 'showKatelog']); 
-Route::resource('katelog', KatelogController::class); 
+// Route::get('/katelog', function () { //route (url)
+//     return view('katelog'); //blade view file
+// })->name('katelog');
+Route::get('/KatalogUmum', [KatelogController::class, 'KatalogUmum'])->name('KatalogUmum'); 
+// Route::resource('katelog', KatelogController::class); 
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi.kami'); 
