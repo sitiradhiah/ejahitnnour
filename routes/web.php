@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KatelogController;
+use App\Http\Controllers\TempahanController;
 
 
 //route sebelum login
@@ -42,6 +43,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::post('/update/{id}', 'update')->name('katelog.update');
         Route::delete('/destroy/{id}', 'destroy')->name('katelog.destroy');
     });
+
+    Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
+    Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
 
     // Route::get('/profile', function () {
     //     return view('profile');

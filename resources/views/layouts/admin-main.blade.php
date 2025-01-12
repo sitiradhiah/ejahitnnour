@@ -45,6 +45,11 @@
         .sidebar-wrapper .menu .submenu .submenu-item a:hover {
             background-color: #2b43a1;
         }
+        .sidebar-wrapper .menu .submenu .submenu-item.active>a {
+            color: #34d8f8;
+            font-weight: 800;
+            text-decoration: underline;
+        }
     </style>
     @yield('css')
 </head>
