@@ -32,7 +32,7 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                    <a href="{{ route('tempahan.create') }}" class="btn btn-success ms-2">
+                                    <a href="{{ route('tempahan.baru') }}" class="btn btn-success ms-2">
                                         <i class="bi bi-plus"></i> Tempahan Baru
                                     </a>
                                 </div>
