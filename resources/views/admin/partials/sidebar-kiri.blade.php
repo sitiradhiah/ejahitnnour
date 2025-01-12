@@ -75,7 +75,7 @@
                             <a href="{{ route('katelog.senarai') }}">Senarai Pakaian</a>
                         </li>
                         <li class="submenu-item {{ Request::is('katalog/kategori') ? 'active' : '' }}">
-                            <a href="component-badge.html">Kategori Pakaian</a>
+                            <a href="#">Kategori Pakaian</a>
                         </li>
                     </ul>
                 </li>
@@ -87,10 +87,10 @@
                     </a>
                     <ul class="submenu ">
                         <li class="submenu-item {{ Request::is('stok-bahan-mentah/senarai') ? 'active' : '' }}">
-                            <a href="">Senarai Bahan Jahitan</a>
+                            <a href="#">Senarai Bahan Jahitan</a>
                         </li>
                         <li class="submenu-item {{ Request::is('stok-bahan-mentah/kategori') ? 'active' : '' }}">
-                            <a href="component-badge.html">Kategori Bahan</a>
+                            <a href="#">Kategori Bahan</a>
                         </li>
                     </ul>
                 </li>
@@ -105,24 +105,16 @@
                             <a href="">Tempahan</a>
                         </li>
                         <li class="submenu-item {{ Request::is('janaan-laporan/stok') ? 'active' : '' }}">
-                            <a href="component-badge.html">Stok</a>
+                            <a href="#">Stok</a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="sidebar-item has-sub {{ Request::is('aduan-cadangan*') ? 'active' : '' }}">
+                <li class="sidebar-item">
                     <a href="#" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
-                        <span>Aduan dan Cadangan Orang Awam</span>
+                        <i class="bi bi-chat-dots-fill"></i>
+                        <span>Aduan & Cadangan Pengguna Awam</span>
                     </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item {{ Request::is('aduan-cadangan/tempahan') ? 'active' : '' }}">
-                            <a href="">Tempahan</a>
-                        </li>
-                        <li class="submenu-item {{ Request::is('aduan-cadangan/stok') ? 'active' : '' }}">
-                            <a href="component-badge.html">Stok</a>
-                        </li>
-                    </ul>
                 </li>
 
             </ul>
