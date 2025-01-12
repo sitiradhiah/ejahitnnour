@@ -16,7 +16,7 @@
         <div class="col-12 col-lg-9">
             <div class="row">
                 <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
+                    <div class="card shadow">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
                                 <div class="col-md-4">
@@ -25,15 +25,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Pentadbir</h6>
-                                    <h6 class="font-extrabold mb-0">1</h6>
+                                    <h6 class="text-muted font-semibold">Jumlah Tempahan 2025</h6>
+                                    <h6 class="font-extrabold mb-0">242 </h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
+                    <div class="card shadow">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
                                 <div class="col-md-4">
@@ -42,19 +42,18 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Pekerja</h6>
-                                    <h6 class="font-extrabold mb-0">auto count 
-                                    </h6>
-                                    <div>
+                                    <h6 class="text-muted font-semibold">Jumlah Jualan 2025 (Siap) </h6>
+                                    <h6 class="font-extrabold mb-0">RM6,500</h6>
+                                    <!-- <div>
                                         <i class="icon-list"></i> Total Items: <span id="totalItems">0</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
+                    <div class="card shadow">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
                                 <div class="col-md-4">
@@ -63,7 +62,24 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Pelanggan Berdaftar</h6>
+                                    <h6 class="text-muted font-semibold">Tempahan Dalam Proses</h6>
+                                    <h6 class="font-extrabold mb-0">100</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card shadow">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon green">
+                                        <i class="iconly-boldAdd-User"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">Tempahan Bulan ini (Januari)</h6>
                                     <h6 class="font-extrabold mb-0">10</h6>
                                 </div>
                             </div>
@@ -73,19 +89,19 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card shadow">
                         <div class="card-header">
-                            <h4>Carta Pembelian Bulanan</h4>
+                            <h4>Statistik Tempahan</h4>
                         </div>
                         <div class="card-body">
-                            <div id="chart-profile-visit"></div>
+                            <div id="chart-statistik-tempahan"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-xl-8">
-                    <div class="card">
+                <div class="col-12 col-xl-12">
+                    <div class="card shadow">
                         <div class="card-header">
                             <h4>Pertanyaan Terkini</h4>
                         </div>
@@ -134,7 +150,7 @@
             </div>
         </div>
         <div class="col-12 col-lg-3">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-body py-4 px-5">
                     <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl">
@@ -153,7 +169,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
                     <h4>Pekerja</h4>
                 </div>
@@ -190,7 +206,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
                     <h4>Carta Pai Peratus Jantina</h4>
                 </div>
@@ -205,6 +221,27 @@
 
 @section('scripts')
 <script>
-    
+    var options = {
+        series: [{
+            name: 'Siap',
+            data: [20, 35, 30, 0, 0, 0, 0, 0, 0]
+        }, {
+            name: 'Dalam Proses',
+            data: [10, 20, 0, 7, 27, 34, 23, 5, 10]
+        }],
+        chart: {
+            type: 'bar',
+            height: 300
+        },
+        title: {
+            text: 'Jumlah Tempahan Siap dan Dalam Proses',
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart-statistik-tempahan"), options);
+    chart.render();
 </script>
 @endsection

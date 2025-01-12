@@ -19,6 +19,33 @@
     <link rel="stylesheet" href="{{ asset('admin/css/app.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin/css/images/favicon.svg') }}" type="image/x-icon">
+    <style>
+         .sidebar-wrapper {
+            border-right: 2px solid #ddd;
+            background: linear-gradient(to right,  rgb(180, 10, 118), rgba(125, 10, 87, 0.995));
+         }
+        .sidebar-wrapper .menu .sidebar-link{
+            color: #fff;
+            i {
+                color: #fff;
+            }
+        }
+        .sidebar-wrapper .menu .sidebar-item.has-sub .sidebar-link:after {
+            content: "▼" !important; /* Unicode arrow character */
+            font-size: 0.8em !important; /* Adjust size if necessary */
+            margin-left: 8px !important; /* Add spacing between the text and arrow */
+            color: inherit !important; /* Match the text color */
+        }
+        .sidebar-wrapper .menu .sidebar-link:hover {
+            background-color: #2b43a1;
+        }
+        .sidebar-wrapper .menu .submenu .submenu-item a {
+            color: #fff;
+        }
+        .sidebar-wrapper .menu .submenu .submenu-item a:hover {
+            background-color: #2b43a1;
+        }
+    </style>
     @yield('css')
 </head>
 
