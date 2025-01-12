@@ -18,7 +18,7 @@
 
                 <li class="sidebar-item active ">
                     <a href="{{ url('index') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
+                        <i class="bi bi-bar-chart-fill"></i>
                         <span>Papan Pemuka <em>(Dashboard)</em></span>
                     </a>
                 </li>
@@ -32,11 +32,25 @@
                 <li class="sidebar-item  has-sub">
                     <a href="" class='sidebar-link'>
                         <i class="bi bi-grid-1x2-fill"></i>
-                        <span>Katalog</span>
+                        <span>Katalog Pakaian</span>
                     </a>
                     <ul class="submenu ">
                         <li class="submenu-item ">
                             <a href="{{ route('katelog.senarai') }}">Senarai</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-badge.html">Kategori</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item  has-sub">
+                    <a href="" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
+                        <span>Stok Bahan Mentah</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="">Senarai</a>
                         </li>
                         <li class="submenu-item ">
                             <a href="component-badge.html">Kategori Pakaian</a>
