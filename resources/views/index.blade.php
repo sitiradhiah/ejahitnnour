@@ -129,5 +129,12 @@
       </div>
   </div>
 </div>
+<div class="container p-5 text-center">
+    <h1> KEDAI JAHIT N'NOUR </h1>
+    <p>
+      Selamat Datang ke Kedai Jahit N'NOUR, sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.
+    </p>
+    
+</div>
 
 @endsection
