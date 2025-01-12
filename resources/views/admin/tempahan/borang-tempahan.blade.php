@@ -27,12 +27,39 @@
                         </div>
                         <form action="{{ route('tempahan.store') }}" method="POST" class="px-3">
                             @csrf
+                            <!-- Select Existing User -->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="existing_user" class="form-label">Pilih Pengguna Sedia Ada</label>
+                                    <select class="form-control" id="existing_user">
+                                        <option value="" disabled selected>Pilih Pengguna</option>
+                                        <option value="user1">Ali Bin Ahmad</option>
+                                        <option value="user2">Siti Binti Hassan</option>
+                                        <option value="user3">Abu Bin Kassim</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Customer and Order Details -->
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
                                     <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" required>
                                 </div>
+                                <div class="col-md-6">
+                                    <label for="nombor_telefon" class="form-label">Nombor Telefon</label>
+                                    <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="alamat" class="form-label">Alamat</label>
+                                    <textarea class="form-control" id="alamat" name="alamat" rows="2"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Remaining Form Fields -->
+                            <div class="row mb-5">
                                 <div class="col-md-6">
                                     <label for="jenis_tempahan" class="form-label">Jenis Tempahan</label>
                                     <select class="form-control" id="jenis_tempahan" name="jenis_tempahan" required>
@@ -47,8 +74,7 @@
                                         <option value="Custom">Custom</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
+                                
                                 <div class="col-md-6">
                                     <label for="tarikh_tempahan" class="form-label">Tarikh Tempahan</label>
                                     <input type="date" class="form-control" id="tarikh_tempahan" name="tarikh_tempahan" required>
@@ -116,7 +142,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Simpan</button>
                         </form>
                     </div>
                 </div>
@@ -127,6 +153,50 @@
 @endsection
 
 @section('scripts')
+<script>
+    // Dummy data for existing users
+    const userData = {
+        user1: {
+            nama: "Ali Bin Ahmad",
+            telefon: "0123456789",
+            alamat: "123, Jalan Merah, Kuala Lumpur",
+            chest_size: 100,
+            waist_size: 90,
+            shoulder_width: 50,
+            sleeve_length: 60
+        },
+        user2: {
+            nama: "Siti Binti Hassan",
+            telefon: "0134567890",
+            alamat: "456, Taman Hijau, Selangor",
+            chest_size: 95,
+            waist_size: 85,
+            shoulder_width: 48,
+            sleeve_length: 58
+        },
+        user3: {
+            nama: "Abu Bin Kassim",
+            telefon: "0145678901",
+            alamat: "789, Kampung Biru, Johor",
+            chest_size: 110,
+            waist_size: 100,
+            shoulder_width: 55,
+            sleeve_length: 65
+        }
+    };
 
+    document.getElementById('existing_user').addEventListener('change', function () {
+        const selectedUser = this.value;
+        if (userData[selectedUser]) {
+            document.getElementById('nama_pelanggan').value = userData[selectedUser].nama;
+            document.getElementById('nombor_telefon').value = userData[selectedUser].telefon;
+            document.getElementById('alamat').value = userData[selectedUser].alamat;
+            document.getElementById('chest_size').value = userData[selectedUser].chest_size;
+            document.getElementById('waist_size').value = userData[selectedUser].waist_size;
+            document.getElementById('shoulder_width').value = userData[selectedUser].shoulder_width;
+            document.getElementById('sleeve_length').value = userData[selectedUser].sleeve_length;
+        }
+    });
+</script>
 @endsection
            
