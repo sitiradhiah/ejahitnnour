@@ -23,8 +23,8 @@
                     </form>
                 </li>
 
-                <li class="sidebar-item {{ Request::is('index') ? 'active' : '' }}">
-                    <a href="{{ url('index') }}" class='sidebar-link'>
+                <li class="sidebar-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                    <a href="{{ url('admin/dashboard') }}" class='sidebar-link'>
                         <i class="bi bi-bar-chart-fill"></i>
                         <span>Papan Pemuka <em>(Dashboard)</em></span>
                     </a>
@@ -36,19 +36,10 @@
                         <span>Maklumat Sistem</span>
                     </a>
                     <ul class="submenu ">
-                        <li class="sidebar-item has-sub {{ Request::is('maklumat-sistem/akaun-pekerja*') ? 'active' : '' }}">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>Akaun Pekerja N'NOUR</span>
+                        <li class="submenu-item {{ Request::is('maklumat-sistem/akaun-pekerja*') ? 'active' : '' }}">
+                            <a href="{{ route('tempahan.baru') }}">
+                                <span>Senarai Pekerja N'NOUR</span>
                             </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item {{ Request::is('maklumat-sistem/akaun-pekerja/senarai') ? 'active' : '' }}">
-                                    <a href="{{ route('tempahan.baru') }}"> Senarai Pekerja</a>
-                                </li>
-                                <li class="submenu-item {{ Request::is('maklumat-sistem/akaun-pekerja/borang') ? 'active' : '' }}">
-                                    <a href="{{ route('tempahan.baru') }}">Borang Pekerja Baru</a>
-                                </li>
-                            </ul>
                         </li>
                         <li class="submenu-item {{ Request::is('maklumat-sistem/maklumat-umum') ? 'active' : '' }}">
                             <a href="{{ route('tempahan.baru') }}">Maklumat Umum</a>

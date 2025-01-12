@@ -9,209 +9,78 @@
 
 @section('content')
 <div class="page-heading">
-    <h3>STATISTIK DATA KEDAI N'NOUR</h3>
+    <h3>TEMPAHAN JAHITAN</h3>
 </div>
 <div class="page-content">
     <section class="row">
-        <div class="col-12 col-lg-9">
-            <div class="row">
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card shadow">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon purple">
-                                        <i class="iconly-boldShow"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Jumlah Tempahan 2025</h6>
-                                    <h6 class="font-extrabold mb-0">242 </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card shadow">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="iconly-boldProfile"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Jumlah Jualan 2025 (Siap) </h6>
-                                    <h6 class="font-extrabold mb-0">RM6,500</h6>
-                                    <!-- <div>
-                                        <i class="icon-list"></i> Total Items: <span id="totalItems">0</span>
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card shadow">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon green">
-                                        <i class="iconly-boldAdd-User"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tempahan Dalam Proses</h6>
-                                    <h6 class="font-extrabold mb-0">100</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card shadow">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon green">
-                                        <i class="iconly-boldAdd-User"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tempahan Bulan ini (Januari)</h6>
-                                    <h6 class="font-extrabold mb-0">10</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-12 col-lg-12">
             <div class="row">
                 <div class="col-12">
-                    <div class="card shadow">
+                    <div class="card shadow p-3">
                         <div class="card-header">
-                            <h4>Statistik Tempahan</h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="chart-statistik-tempahan"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-xl-12">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <h4>Pertanyaan Terkini</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-lg">
-                                    <thead>
-                                        <tr>
-                                            <th>Nama</th>
-                                            <th>Pertanyaan</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="{{ asset('admin/images/faces/5.jpg')}}">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Orang 1</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Ada sediakan perkhidmatan untuk cutting baju tak?</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="{{ asset('admin/images/faces/2.jpg')}}">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Orang 2</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Boleh buat tempah untuk Baju Kurta Modern?</p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0">Senarai Tempahan</h4>
+                                <div class="d-flex">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Filter Jenis Tempahan
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item filter-btn" href="#" data-filter="All">All</a></li>
+                                            @foreach(collect($tempahan)->unique('jenis_tempahan') as $item)
+                                                <li><a class="dropdown-item filter-btn" href="#" data-filter="{{ $item->jenis_tempahan }}">{{ $item->jenis_tempahan }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    <a href="{{ route('tempahan.create') }}" class="btn btn-success ms-2">
+                                        <i class="bi bi-plus"></i> Tempahan Baru
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-3">
-            <div class="card shadow">
-                <div class="card-body py-4 px-5">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-xl">
-                            <img src="{{ asset('admin/images/faces/1.jpg')}}" alt="Face 1">
-                        </div>
-                        <div class="ms-3 name">
-                            <h5 class="font-bold">WakkTailor</h5>
-                            <h6 class="text-muted mb-0">@waktailor</h6>
-                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">
-                                    Log Out
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card shadow">
-                <div class="card-header">
-                    <h4>Pekerja</h4>
-                </div>
-                <div class="card-content pb-4">
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('admin/images/faces/4.jpg')}}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Pekerja1</h5>
-                            {{-- <h6 class="text-muted mb-0">@johnducky</h6> --}}
-                        </div>
-                    </div>
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('admin/images/faces/5.jpg')}}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Pekerja2</h5>
-                            {{-- <h6 class="text-muted mb-0">@imdean</h6> --}}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <!-- <th><input type="checkbox" id="select-all"></th> -->
+                                    <th style="text-align: center;">No</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th style="text-align: center;">Jenis Tempahan</th>
+                                    <th style="text-align: center;">Tarikh Tempahan</th>
+                                    <th style="width: 15%; text-align: center;">Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($tempahan as $index => $item)
+                                <tr>
+                                    <!-- <td><input type="checkbox" class="select-item"></td> -->
+                                    <td style="text-align: center;">{{ $index + 1 }}</td>
+                                    <td >{{ $item->nama_pelanggan }}</td>
+                                    <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
+                                    <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
+                                    <td style="text-align: center;">
+                                        <a href="{{ route('tempahan.show', $item->id) }}" class="btn btn-info btn-sm">Info</a>
+                                        <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                        <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                            <script>
+                                document.getElementById('select-all').onclick = function() {
+                                    var checkboxes = document.querySelectorAll('.select-item');
+                                    for (var checkbox of checkboxes) {
+                                        checkbox.checked = this.checked;
+                                    }
+                                }
+                            </script>
                         </div>
                     </div>
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('admin/images/faces/1.jpg')}}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Pekerja3</h5>
-                            {{-- <h6 class="text-muted mb-0">@dodoljohn</h6> --}}
-                        </div>
-                    </div>
-                    <div class="px-4">
-                        <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Pemberitahuan</button>
-                    </div>
-                </div>
-            </div>
-            <div class="card shadow">
-                <div class="card-header">
-                    <h4>Carta Pai Peratus Jantina</h4>
-                </div>
-                <div class="card-body">
-                    <div id="chart-visitors-profile"></div>
                 </div>
             </div>
         </div>
@@ -221,27 +90,20 @@
 
 @section('scripts')
 <script>
-    var options = {
-        series: [{
-            name: 'Siap',
-            data: [20, 35, 30, 0, 0, 0, 0, 0, 0]
-        }, {
-            name: 'Dalam Proses',
-            data: [10, 20, 0, 7, 27, 34, 23, 5, 10]
-        }],
-        chart: {
-            type: 'bar',
-            height: 300
-        },
-        title: {
-            text: 'Jumlah Tempahan Siap dan Dalam Proses',
-        },
-        xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-        }
-    };
-
-    var chart = new ApexCharts(document.querySelector("#chart-statistik-tempahan"), options);
-    chart.render();
+    document.querySelectorAll('.filter-btn').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var filterValue = this.getAttribute('data-filter');
+            var rows = document.querySelectorAll('tbody tr');
+            rows.forEach(function(row) {
+                var jenisTempahan = row.querySelector('td:nth-child(3)').textContent;
+                if (jenisTempahan === filterValue || filterValue === 'All') {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
 </script>
 @endsection
