@@ -29,6 +29,14 @@
         padding: 20px;
     }
 
+    .h1-custom {
+        text-align: center;
+        color: #b42e8b;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
     h2, h3 {
         color: #444;
     }
@@ -56,8 +64,8 @@
 <!-- about section -->
 <section class="about_section layout_padding">
     <header class="text-center">
-        <h1 style="font-weight: bold; margin-bottom: 10px;">
-            Tentang Kedai Kami
+        <h1 class="h1-custom">
+            TENTANG KEDAI KAMI
         </h1>
     </header>
     <div class="container-fluid" style="min-height: 60vh;">

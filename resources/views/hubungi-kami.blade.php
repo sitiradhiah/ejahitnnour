@@ -1,16 +1,35 @@
 @extends('layouts.main')
 
+@section('css')
+<style>
+  .h1-custom {
+        text-align: center;
+        color: #b42e8b;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .p-custom {
+        text-align: center;
+        color: #555;
+        font-size: 1rem;
+        margin-bottom: 40px;
+    }
+
+</style>
+
 @section('content')
   <!-- about section -->
   <section class="about_section layout_padding">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="detail-box text-center">
-            <h2>
-              Hubungi Kami
-            </h2>
-            <p>
+          <div class="col-md-12">
+            <h1 class="h1-custom">
+              HUBUNGI KAMI
+          </h1>
+            <p class="p-custom">
                 Jika anda mempunyai sebarang masalah, cadangan, atau pertanyaan, 
                 sila hubungi kami. Kami sedia membantu dan ingin mendengar daripada anda.
             </p>
