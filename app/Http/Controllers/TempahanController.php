@@ -34,6 +34,7 @@ class TempahanController extends Controller
     public function baru()
     {
         // Your logic for the 'baru' route
+        return view('admin.tempahan.borang-tempahan');
     }
 
     public function edit($id)
