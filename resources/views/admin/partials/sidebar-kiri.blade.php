@@ -65,16 +65,16 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item has-sub {{ Request::is('katalog-pakaian*') ? 'active' : '' }}">
+                <li class="sidebar-item has-sub {{ Request::is('katalog*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-grid-1x2-fill"></i>
                         <span>Katalog Pakaian</span>
                     </a>
                     <ul class="submenu ">
-                        <li class="submenu-item {{ Request::is('katalog-pakaian/senarai') ? 'active' : '' }}">
+                        <li class="submenu-item {{ Request::is('katalog/senarai') ? 'active' : '' }}">
                             <a href="{{ route('katelog.senarai') }}">Senarai Pakaian</a>
                         </li>
-                        <li class="submenu-item {{ Request::is('katalog-pakaian/kategori') ? 'active' : '' }}">
+                        <li class="submenu-item {{ Request::is('katalog/kategori') ? 'active' : '' }}">
                             <a href="component-badge.html">Kategori Pakaian</a>
                         </li>
                     </ul>
