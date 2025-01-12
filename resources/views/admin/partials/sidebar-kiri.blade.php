@@ -1,65 +1,52 @@
 <div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-                <div class="sidebar-header">
-                    <div class="d-flex justify-content-between">
-                        <div class="logo">
-                            <a href="{{ url('index') }}">
-                                {{-- <img class="shadow" src="{{ asset('images/logo nnour.jpg') }}" style="height: 60px; margin-right: 10px;"> --}}
-                                <img src="{{ asset('images/logo nnour.jpg') }}" alt="Logo" style="height: 100px; width: auto; margin-right: 10px;">
-                            </a>
-                        </div>
-                        
-                        <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                        </div>
-                    </div>
+    <div class="sidebar-wrapper active">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                 <div class="logo">
+                    <a href="{{ url('/') }}">
+                        <img src="{{ asset('images/logo nnour.jpg') }}" alt="Logo" style="height: 100px; width: auto; margin-right: 10px;">
+                    </a>
                 </div>
-                <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
-        
-                        <li class="sidebar-item active ">
-                            <a href="{{ url('index') }}" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Papan Pemuka</span>
-                            </a>
-                        </li>
-        
-                        <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>Pengurusan Pendaftaran</span>
-                            </a>
-                        </li>
-        
-                        <li>
-                            <a href="{{ route('katelog.senarai') }}" class="nav-link">
-                                <i class="fas fa-folder"></i> Pengurusan Katalog
-                            </a>
-                        </li>
-                        
-        
-                        <li class="sidebar-item ">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>Pengurusan Stok</span>
-                            </a>
-                        </li>
-        
-                       
-        
-                        <li class="sidebar-item">
-                            <a href="{{ url('form-layout') }}" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Penjanaan Laporan</span>
-                            </a>
-                        </li>
-
-                    </ul>
+                <div class="toggler">
+                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                 </div>
-                <button class="sidebar-toggler btn x" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle navigation">
-                    <span class="bi bi-arrow-left"></span>
-                </button>
             </div>
         </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-title">Menu</li>
+
+                <li class="sidebar-item active ">
+                    <a href="{{ url('index') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Papan Pemuka <em>(Dashboard)</em></span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Pendaftaran Pekerja</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  has-sub">
+                    <a href="" class='sidebar-link'>
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span>Katalog</span>
+                    </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="{{ route('katelog.senarai') }}">Senarai</a>
+                        </li>
+                        <li class="submenu-item ">
+                            <a href="component-badge.html">Kategori Pakaian</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+    </div>
+</div>
         
