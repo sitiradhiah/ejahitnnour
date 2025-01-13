@@ -47,7 +47,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     
     // dummy kategori pakaian
     Route::get('/katelog/kategori', function () {
-        return view('admin.katalog.kategori');
+        return view('admin.katelog.kategori');
     })->name('katelog.kategori');
 
     Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
