@@ -39,12 +39,16 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::prefix('katelog')->controller(KatelogController::class)->group(function () {
         Route::get('/', 'index')->name('katelog.senarai');
-        Route::get('/kategori', 'kategori')->name('katelog.kategori'); // Route untuk Kategori Pakaian
         Route::post('/store', 'store')->name('katelog.store');
         Route::post('/update/{id}', 'update')->name('katelog.update');
         Route::delete('/destroy/{id}', 'destroy')->name('katelog.destroy');
     });
+
     
+    // dummy kategori pakaian
+    Route::get('/katelog/kategori', function () {
+        return view('admin.katalog.kategori');
+    })->name('katelog.kategori');
 
     Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
     Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
