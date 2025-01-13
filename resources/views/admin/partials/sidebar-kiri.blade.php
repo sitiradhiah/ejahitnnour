@@ -36,10 +36,8 @@
                         <span>Maklumat Sistem</span>
                     </a>
                     <ul class="submenu ">
-                        <li class="submenu-item {{ Request::is('maklumat-sistem/akaun-pekerja*') ? 'active' : '' }}">
-                            <a href="{{ route('tempahan.baru') }}">
-                                <span>Senarai Pekerja N'NOUR</span>
-                            </a>
+                        <li class="submenu-item {{ Request::is('maklumat-sistem/senarai-pekerja') ? 'active' : '' }}">
+                            <a href="{{ route('maklumat-sistem.senarai-pekerja') }}">Senarai Pekerja Kedai N'NOUR</a>
                         </li>
                         <li class="submenu-item {{ Request::is('maklumat-sistem/maklumat-umum') ? 'active' : '' }}">
                             <a href="{{ route('tempahan.baru') }}">Maklumat Umum</a>
@@ -59,8 +57,8 @@
                         <li class="submenu-item {{ Request::is('admin/tempahan/borang') ? 'active' : '' }}">
                             <a href="{{ route('tempahan.baru') }}">Borang Tempahan Baru</a>
                         </li>
-                        <li class="submenu-item {{ Request::is('admin/tempahan/pelanggan-lama') ? 'active' : '' }}">
-                            <a href="{{ route('tempahan.baru') }}">Senarai Pelanggan Lama</a>
+                        <li class="submenu-item {{ Request::is('admin/tempahan/senarai') ? 'active' : '' }}">
+                            <a href="{{ route('tempahan.senarai') }}">Senarai Pelanggan Lama</a>
                         </li>
                     </ul>
                 </li>
@@ -74,8 +72,8 @@
                         <li class="submenu-item {{ Request::is('katalog/senarai') ? 'active' : '' }}">
                             <a href="{{ route('katelog.senarai') }}">Senarai Pakaian</a>
                         </li>
-                        <li class="submenu-item {{ Request::is('katalog/kategori') ? 'active' : '' }}">
-                            <a href="#">Kategori Pakaian</a>
+                        <li class="submenu-item {{ Request::is('katelog/kategori') ? 'active' : '' }}">
+                            <a href="{{ route('katelog.kategori') }}">Kategori Pakaian</a>
                         </li>
                     </ul>
                 </li>
@@ -95,27 +93,29 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item has-sub {{ Request::is('janaan-laporan*') ? 'active' : '' }}">
-                    <a href="#" class='sidebar-link'>
+                <li class="sidebar-item {{ Request::is('janaan-laporan*') ? 'active' : '' }}">
+                    <a href="{{ route('janaan-laporan.index') }}" class="sidebar-link">
                         <i class="bi bi-stack"></i>
                         <span>Janaan Laporan</span>
                     </a>
-                    <ul class="submenu ">
+                    {{-- <ul class="submenu ">
                         <li class="submenu-item {{ Request::is('janaan-laporan/tempahan') ? 'active' : '' }}">
                             <a href="">Tempahan</a>
                         </li>
                         <li class="submenu-item {{ Request::is('janaan-laporan/stok') ? 'active' : '' }}">
                             <a href="#">Stok</a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
 
-                <li class="sidebar-item">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-chat-dots-fill"></i>
-                        <span>Aduan & Cadangan Pengguna Awam</span>
+                <li class="sidebar-item {{ Request::is('aduan-cadangan*') ? 'active' : '' }}">
+                    <a href="{{ route('aduan-cadangan.index') }}" class="sidebar-link">
+                        <i class="bi bi-chat-dots"></i>
+                        <span>Aduan & Cadangan</span>
                     </a>
                 </li>
+                
+                
 
             </ul>
         </div>

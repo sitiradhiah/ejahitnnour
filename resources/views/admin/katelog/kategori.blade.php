@@ -2,87 +2,34 @@
 
 @section('css')
 <style>
-    .h2-custom {
+    .page-heading {
+        margin-bottom: 20px;
         text-align: center;
-        color: #b42e8b;
-        font-size: 2rem;
-        font-weight: bold;
+    }
+
+    .card {
         margin-bottom: 20px;
     }
 
-    .kategori-section {
-        margin-bottom: 40px;
-    }
-
-    .kategori-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: #f8f8f8;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .kategori-title {
-        font-size: 1.5rem;
+    .btn-add, .btn-edit, .btn-delete {
         font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
     }
 
-    .btn-add-item {
+    .btn-add {
         background-color: #28a745;
         color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-        transition: all 0.3s ease;
     }
 
-    .btn-add-item:hover {
+    .btn-add:hover {
         background-color: #218838;
-    }
-
-    .kategori-content {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        padding: 20px 0;
-    }
-
-    .katelog-item {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 10px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .katelog-item img {
-        max-width: 100%;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
-
-    .btn-edit, .btn-delete {
-        padding: 6px 12px;
-        border-radius: 5px;
-        font-size: 12px;
-        font-weight: bold;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
     }
 
     .btn-edit {
         background-color: #007bff;
         color: white;
-        margin-right: 5px;
     }
 
     .btn-edit:hover {
@@ -97,65 +44,102 @@
     .btn-delete:hover {
         background-color: #c82333;
     }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
 </style>
 @endsection
 
 @section('content')
-<section class="katelog-section py-5">
-    <div class="container">
-        <h2 class="h2-custom">Pengurusan Katelog</h2>
+<div class="page-heading">
+    <h3>Kategori Pakaian</h3>
+</div>
+<div class="container">
+    <div class="card shadow p-3">
+        <div class="card-header d-flex justify-content-between">
+            <h4>Senarai Kategori Pakaian</h4>
+            <button class="btn-add" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Tambah Kategori</button>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama Kategori</th>
+                        <th>Tindakan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Pakaian Harian</td>
+                        <td>
+                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
+                            <button class="btn-delete">Padam</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Pakaian Rasmi</td>
+                        <td>
+                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
+                            <button class="btn-delete">Padam</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Aksesori</td>
+                        <td>
+                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
+                            <button class="btn-delete">Padam</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-        <!-- Loop through categories -->
-        @foreach(['Pakaian Harian', 'Pakaian Rasmi', 'Aksesori'] as $kategori)
-        <div class="kategori-section">
-            <!-- Header -->
-            <div class="kategori-header">
-                <span class="kategori-title">{{ $kategori }}</span>
+<!-- Modal Tambah Kategori -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCategoryModalLabel">Tambah Kategori</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            <!-- Borang Tambah Gambar -->
-            <form action="{{ route('katelog.store') }}" method="POST" enctype="multipart/form-data" style="margin: 20px 0;">
-                @csrf
-                <input type="text" name="nama" placeholder="Nama Item" required style="margin-right: 10px; padding: 5px; width: 20%;">
-                <select name="kategori" required style="margin-right: 10px; padding: 5px; width: 20%;">
-                    <option value="Pakaian Harian" {{ $kategori == 'Pakaian Harian' ? 'selected' : '' }}>Pakaian Harian</option>
-                    <option value="Pakaian Rasmi" {{ $kategori == 'Pakaian Rasmi' ? 'selected' : '' }}>Pakaian Rasmi</option>
-                    <option value="Aksesori" {{ $kategori == 'Aksesori' ? 'selected' : '' }}>Aksesori</option>
-                </select>
-                <input type="file" name="gambar" required style="margin-right: 10px; padding: 5px; width: 20%;">
-                <button type="submit" class="btn-add-item" style="padding: 5px 10px;">Tambah Gambar</button>
-            </form>
-            <!-- Katelog Content -->
-            <div class="kategori-content">
-                @foreach($katelogs->where('kategori', $kategori) as $item)
-                <div class="katelog-item">
-                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}">
-                    <p>{{ $item->nama }}</p>
-                    <form action="{{ route('katelog.update', $item->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="text" name="nama" value="{{ $item->nama }}" placeholder="Nama Item" required>
-                        <input type="file" name="gambar">
-                        <button type="submit" class="btn-edit">Kemaskini</button>
-                    </form>
-                    <form action="{{ route('katelog.destroy', $item->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-delete">Padam</button>
-                    </form>
-                </div>
-                @endforeach
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="categoryName" class="form-label">Nama Kategori</label>
+                        <input type="text" class="form-control" id="categoryName" placeholder="Masukkan nama kategori">
+                    </div>
+                    <button type="submit" class="btn-add w-100">Simpan</button>
+                </form>
             </div>
         </div>
-        @endforeach
     </div>
-</section>
-@endsection
+</div>
 
-@section('scripts')
-<script>
-    // Handle add, edit, delete button functionality (if needed)
-    document.addEventListener("DOMContentLoaded", function () {
-        // Add custom JS logic here if required
-    });
-</script>
+<!-- Modal Edit Kategori -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Kategori</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="editCategoryName" class="form-label">Nama Kategori</label>
+                        <input type="text" class="form-control" id="editCategoryName" value="Pakaian Harian">
+                    </div>
+                    <button type="submit" class="btn-edit w-100">Kemaskini</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
