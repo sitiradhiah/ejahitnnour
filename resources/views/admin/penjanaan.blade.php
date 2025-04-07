@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    <!-- Laporan Stok -->
+    {{-- <!-- Laporan Stok -->
     <div class="card shadow p-3">
         <div class="card-header">
             <h4>Janaan Laporan Stok</h4>
@@ -118,6 +118,6 @@
             </table>
             <button class="btn-generate mt-3">Jana Laporan Stok</button>
         </div>
-    </div>
+    </div> --}}
 </div>
 @endsection

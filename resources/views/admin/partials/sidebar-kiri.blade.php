@@ -78,7 +78,7 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item has-sub {{ Request::is('stok-bahan-mentah*') ? 'active' : '' }}">
+                {{-- <li class="sidebar-item has-sub {{ Request::is('stok-bahan-mentah*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-stack"></i>
                         <span>Stok Bahan Mentah</span>
@@ -91,7 +91,7 @@
                             <a href="#">Kategori Bahan</a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="sidebar-item {{ Request::is('janaan-laporan*') ? 'active' : '' }}">
                     <a href="{{ route('janaan-laporan.index') }}" class="sidebar-link">
