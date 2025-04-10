@@ -3,39 +3,26 @@
 @section('css')
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Poppins', sans-serif;
         text-align: center;
         margin: 0;
         padding: 0;
-    }
-
-    .product-card {
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin: 10px;
-        display: inline-block;
-        width: 200px;
-        text-align: center;
-    }
-
-    .product-card img {
-        width: 100%;
-        height: auto;
+        background-color: #f9f9f9;
     }
 
     .h2-custom {
         text-align: center;
         color: #b42e8b;
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     .p-custom {
         text-align: center;
         color: #555;
         font-size: 1rem;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     .tabs {
@@ -84,35 +71,47 @@
     .containerKt {
         display: grid;
         gap: 20px;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         padding: 0 20px;
     }
 
-    .containerKt div {
-        background: white;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
+    .item {
+        background-color: #fff;
+        border-radius: 16px;
         overflow: hidden;
-        transition: 0.3s ease-in-out;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: all 0.3s ease-in-out;
+        padding: 10px;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        height: 300px;
     }
 
-    .containerKt div:hover {
+    .item:hover {
         transform: translateY(-5px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .item p {
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #333;
     }
 
     .image-grid {
-        max-width: 100%;
-        max-height: 100%;
+        border-radius: 12px;
+        width: 100%;
+        height: 200px;
         object-fit: cover;
+    }
+
+    .filter-container {
+        max-width: 500px;
+        margin: 0 auto 20px;
     }
 </style>
 @endsection
-
 
 @section('content')
 <section class="about_section py-5 px-3">
@@ -121,17 +120,25 @@
             <div class="col-md-12">
                 <h2 class="h2-custom">KATALOG PRODUK DAN PERKHIDMATAN</h2>
                 <p class="p-custom">Bahagian ini memaparkan katalog produk dan perkhidmatan yang ditawarkan oleh Kedai Jahit N'NOUR.</p>
+
+                <div class="filter-container">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Cari nama produk...">
+                    <select id="categoryFilter" class="form-select mt-2">
+                        <option value="all">Semua Kategori</option>
+                        <option value="tab1">Pakaian Harian</option>
+                        <option value="tab2">Pakaian Rasmi</option>
+                        <option value="tab3">Aksesori</option>
+                    </select>
+                </div>
+
                 <div class="tabs-container">
-                    <!-- Tab Navigation -->
                     <ul class="tabs">
                         <li class="tab-item active" data-tab="tab1">PAKAIAN HARIAN</li>
                         <li class="tab-item" data-tab="tab2">PAKAIAN RASMI</li>
                         <li class="tab-item" data-tab="tab3">AKSESORI</li>
                     </ul>
 
-                    <!-- Tab Content -->
                     <div class="tab-content">
-                        <!-- Pakaian Harian -->
                         <div id="tab1" class="tab-pane active">
                             <div class="containerKt">
                                 @foreach($katalogs->where('kategori', 'Pakaian Harian') as $item)
@@ -143,7 +150,6 @@
                             </div>
                         </div>
 
-                        <!-- Pakaian Rasmi -->
                         <div id="tab2" class="tab-pane">
                             <div class="containerKt">
                                 @foreach($katalogs->where('kategori', 'Pakaian Rasmi') as $item)
@@ -155,7 +161,6 @@
                             </div>
                         </div>
 
-                        <!-- Aksesori -->
                         <div id="tab3" class="tab-pane">
                             <div class="containerKt">
                                 @foreach($katalogs->where('kategori', 'Aksesori') as $item)
@@ -168,6 +173,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -179,34 +185,34 @@
     // Tab Navigation
     document.querySelectorAll('.tab-item').forEach(item => {
         item.addEventListener('click', function () {
-            // Remove active class
             document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
 
-            // Add active class to the clicked tab
             this.classList.add('active');
             const tabId = this.getAttribute('data-tab');
             document.getElementById(tabId).classList.add('active');
         });
     });
 
-    // Filter Produk Menggunakan Search Query dari URL
-    window.onload = function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('search')?.toLowerCase();
-        
-        if (searchQuery) {
-            const products = document.querySelectorAll('.product-card');
-            
-            products.forEach(product => {
-                const productName = product.querySelector('.product-name').textContent.toLowerCase();
-                if (!productName.includes(searchQuery)) {
-                    product.style.display = 'none'; // Sembunyikan produk yang tidak sepadan
-                } else {
-                    product.style.display = 'block'; // Paparkan produk yang sepadan
-                }
+    // Filter Produk
+    function filterProducts() {
+        const searchVal = document.getElementById('searchInput').value.toLowerCase();
+        const category = document.getElementById('categoryFilter').value;
+
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            const isActive = category === 'all' || pane.id === category;
+            pane.style.display = isActive ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.querySelectorAll('.item').forEach(item => {
+                const name = item.querySelector('p').textContent.toLowerCase();
+                item.style.display = name.includes(searchVal) ? 'flex' : 'none';
             });
-        }
-    };
+        });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterProducts);
+    document.getElementById('categoryFilter').addEventListener('change', filterProducts);
 </script>
 @endsection
