@@ -25,58 +25,44 @@
         background-color: #218838;
     }
 
-    .kategori-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 20px;
-        border-left: 5px solid #b42e8b;
-        padding-left: 10px;
-        color: #333;
-    }
-
-    .kategori-content {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 25px;
-    }
-
     .katelog-item {
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         text-align: center;
-        transition: transform 0.2s;
+        transition: transform 0.2s ease;
+        padding: 15px;
     }
 
     .katelog-item:hover {
-        transform: scale(1.02);
+        transform: scale(1.05);
     }
 
     .katelog-item img {
         width: 100%;
-        height: 220px;
+        height: 200px;
         object-fit: cover;
+        border-radius: 8px;
     }
 
     .katelog-item p {
         font-weight: bold;
         padding: 10px;
         margin: 0;
+        font-size: 1.1rem;
     }
 
     .action-buttons {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         gap: 10px;
-        padding: 10px;
-        border-top: 1px solid #eee;
+        padding-top: 10px;
     }
 
     .btn-edit, .btn-delete {
         font-size: 12px;
         padding: 6px 12px;
-        border: none;
         border-radius: 4px;
         color: white;
         font-weight: bold;
@@ -99,6 +85,26 @@
     .btn-delete:hover {
         background-color: #c82333;
     }
+
+    .kategori-section {
+        margin-bottom: 30px;
+    }
+
+    .kategori-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+        border-bottom: 2px solid #b42e8b;
+        padding-bottom: 10px;
+    }
+
+    .kategori-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
 </style>
 @endsection
 
@@ -139,7 +145,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="gambar" class="form-label">Pilih Gambar</label>
-                                <input type="file" name="gambar" class="form-control" required>
+                                <input type="file" name="gambar" class="form-control" id="imageInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <div id="image-container">
+                                    <!-- Cropped image will appear here -->
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success w-100">Simpan Gambar</button>
                         </form>
@@ -148,9 +159,13 @@
             </div>
         </div>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css" />
+
+
         <!-- Paparan Mengikut Kategori -->
         @foreach(['Pakaian Harian', 'Pakaian Rasmi', 'Aksesori'] as $kategori)
-        <div class="kategori-section mb-5">
+        <div class="kategori-section">
             <div class="kategori-title">{{ $kategori }}</div>
             <div class="kategori-content">
                 @foreach($katelogs->where('kategori', $kategori) as $item)
@@ -181,9 +196,24 @@
 
 @section('scripts')
 <script>
-    // Handle add, edit, delete button functionality (if needed)
-    document.addEventListener("DOMContentLoaded", function () {
-        // Add custom JS logic here if required
+    let cropper;
+    document.getElementById('imageInput').addEventListener('change', function (e) {
+        let reader = new FileReader();
+        reader.onload = function (event) {
+            let img = document.createElement('img');
+            img.src = event.target.result;
+            document.getElementById('image-container').innerHTML = '';
+            document.getElementById('image-container').appendChild(img);
+            cropper = new Cropper(img, {
+                aspectRatio: 3/4, // Portrait aspect ratio
+                viewMode: 1,
+                responsive: true,
+                autoCropArea: 0.8,
+                minCropBoxWidth: 100,
+                minCropBoxHeight: 200
+            });
+        };
+        reader.readAsDataURL(this.files[0]);
     });
 </script>
 @endsection

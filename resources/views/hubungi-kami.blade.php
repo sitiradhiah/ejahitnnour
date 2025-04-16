@@ -16,7 +16,6 @@
         font-size: 1rem;
         margin-bottom: 40px;
     }
-
 </style>
 
 @section('content')
@@ -25,15 +24,11 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="col-md-12">
-            <h1 class="h1-custom">
-              HUBUNGI KAMI
-          </h1>
-            <p class="p-custom">
-                Jika anda mempunyai sebarang masalah, cadangan, atau pertanyaan, 
-                sila hubungi kami. Kami sedia membantu dan ingin mendengar daripada anda.
-            </p>
-          </div>
+          <h1 class="h1-custom">HUBUNGI KAMI</h1>
+          <p class="p-custom">
+            Jika anda mempunyai sebarang masalah, cadangan, atau pertanyaan, 
+            sila hubungi kami. Kami sedia membantu dan ingin mendengar daripada anda.
+          </p>
         </div>
       </div>
       <div class="row px-5">
@@ -47,7 +42,7 @@
         </div>
         <div class="col-md-6">
           <div class="contact-form">
-            <form action="/send-message" method="POST">
+            <form action="{{ route('send-message') }}" method="POST">
               @csrf
               <div class="form-group">
                 <label for="name">Nama:</label>

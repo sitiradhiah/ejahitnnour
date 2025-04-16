@@ -71,30 +71,22 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($categories as $category)
                     <tr>
-                        <td>1</td>
-                        <td>Pakaian Harian</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $category->name }}</td>
                         <td>
-                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
-                            <button class="btn-delete">Padam</button>
+                            <!-- Edit button triggering modal -->
+                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})">Edit</button>
+                            <!-- Delete button with form -->
+                            <form action="{{ route('kategori.destroy', $category->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete">Padam</button>
+                            </form>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Pakaian Rasmi</td>
-                        <td>
-                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
-                            <button class="btn-delete">Padam</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Aksesori</td>
-                        <td>
-                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
-                            <button class="btn-delete">Padam</button>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -110,10 +102,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('kategori.store') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
                         <label for="categoryName" class="form-label">Nama Kategori</label>
-                        <input type="text" class="form-control" id="categoryName" placeholder="Masukkan nama kategori">
+                        <input type="text" class="form-control" id="categoryName" name="name" required placeholder="Masukkan nama kategori">
                     </div>
                     <button type="submit" class="btn-add w-100">Simpan</button>
                 </form>
@@ -131,10 +124,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('kategori.update', '') }}" method="POST" id="editCategoryForm">
+                    @csrf
+                    @method('PUT')
                     <div class="mb-3">
                         <label for="editCategoryName" class="form-label">Nama Kategori</label>
-                        <input type="text" class="form-control" id="editCategoryName" value="Pakaian Harian">
+                        <input type="text" class="form-control" id="editCategoryName" name="name" required>
                     </div>
                     <button type="submit" class="btn-edit w-100">Kemaskini</button>
                 </form>
@@ -142,4 +137,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Edit Category function
+    function editCategory(id) {
+        fetch(`/admin/kategori/${id}/edit`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('editCategoryName').value = data.name;
+                document.getElementById('editCategoryForm').action = `/admin/kategori/${id}`;
+            });
+    }
+</script>
 @endsection

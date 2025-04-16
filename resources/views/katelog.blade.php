@@ -3,184 +3,189 @@
 @section('css')
 <style>
     body {
-        font-family: 'Poppins', sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-    }
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
 
-    .h2-custom {
-        text-align: center;
-        color: #b42e8b;
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+.h2-custom {
+    text-align: center;
+    color: #b42e8b;
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 
-    .p-custom {
-        text-align: center;
-        color: #555;
-        font-size: 1rem;
-        margin-bottom: 30px;
-    }
+.p-custom {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
 
-    .tabs {
-        list-style: none;
-        padding: 0;
-        margin: 0 auto 30px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto 20px;
+    gap: 20px;
+}
 
-    .tab-item {
-        padding: 12px 25px;
-        cursor: pointer;
-        background-color: #eee;
-        border: 1px solid #ddd;
-        border-radius: 30px;
-        transition: 0.3s ease-in-out;
-        font-weight: 500;
-    }
+.form-control, .form-select {
+    width: 100%;
+    max-width: 250px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
 
-    .tab-item.active {
-        background-color: #b42e8b;
-        color: white;
-        font-weight: bold;
-        border-color: #b42e8b;
-    }
+.filter-container input, .filter-container select {
+    font-size: 1rem;
+    color: #333;
+}
 
-    .tab-item:hover {
-        background-color: #ddd;
-    }
+.catalogue-container {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    padding: 0 15px;
+}
 
-    .tab-content {
-        border: none;
-        padding: 0;
-    }
+.product-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
 
-    .tab-pane {
-        display: none;
-    }
+.product-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; /* Ensures image maintains aspect ratio */
+    transition: transform 0.3s ease-in-out;
+}
 
-    .tab-pane.active {
-        display: block;
-    }
+.product-card:hover img {
+    transform: scale(1.05);
+}
 
-    .containerKt {
-        display: grid;
-        gap: 20px;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        padding: 0 20px;
-    }
+.product-card p {
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
 
-    .item {
-        background-color: #fff;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transition: all 0.3s ease-in-out;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
 
-    .item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    }
+.tab-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: 0.3s ease-in-out;
+}
 
-    .item p {
-        margin-top: 10px;
-        font-weight: 600;
-        font-size: 1rem;
-        color: #333;
-    }
+.tab-item.active {
+    background-color: #b42e8b;
+    color: white;
+    font-weight: bold;
+    border-color: #b42e8b;
+}
 
-    .image-grid {
-        border-radius: 12px;
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
+.tab-item:hover {
+    background-color: #ddd;
+}
 
-    .filter-container {
-        max-width: 500px;
-        margin: 0 auto 20px;
-    }
+.tab-content {
+    border: none;
+    padding: 0;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
 </style>
 @endsection
 
 @section('content')
-<section class="about_section py-5 px-3">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="h2-custom">KATALOG PRODUK DAN PERKHIDMATAN</h2>
-                <p class="p-custom">Bahagian ini memaparkan katalog produk dan perkhidmatan yang ditawarkan oleh Kedai Jahit N'NOUR.</p>
+<section class="catalogue-section py-5">
+    <div class="container">
+        <h2 class="h2-custom">KATALOG PRODUK DAN PERKHIDMATAN</h2>
+        <p class="p-custom">Bahagian ini memaparkan katalog produk dan perkhidmatan yang ditawarkan oleh Kedai Jahit N'NOUR.</p>
 
-                <div class="filter-container">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Cari nama produk...">
-                    <select id="categoryFilter" class="form-select mt-2">
-                        <option value="all">Semua Kategori</option>
-                        <option value="tab1">Pakaian Harian</option>
-                        <option value="tab2">Pakaian Rasmi</option>
-                        <option value="tab3">Aksesori</option>
-                    </select>
-                </div>
+        <!-- Filter Section -->
+        <div class="filter-container">
+            <input type="text" id="searchInput" class="form-control" placeholder="Cari nama produk...">
+            <select id="categoryFilter" class="form-select">
+                <option value="all">Semua Kategori</option>
+                <option value="tab1">Pakaian Harian</option>
+                <option value="tab2">Pakaian Rasmi</option>
+                <option value="tab3">Aksesori</option>
+            </select>
+        </div>
 
-                <div class="tabs-container">
-                    <ul class="tabs">
-                        <li class="tab-item active" data-tab="tab1">PAKAIAN HARIAN</li>
-                        <li class="tab-item" data-tab="tab2">PAKAIAN RASMI</li>
-                        <li class="tab-item" data-tab="tab3">AKSESORI</li>
-                    </ul>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab-item active" data-tab="tab1">PAKAIAN HARIAN</div>
+            <div class="tab-item" data-tab="tab2">PAKAIAN RASMI</div>
+            <div class="tab-item" data-tab="tab3">AKSESORI</div>
+        </div>
 
-                    <div class="tab-content">
-                        <div id="tab1" class="tab-pane active">
-                            <div class="containerKt">
-                                @foreach($katalogs->where('kategori', 'Pakaian Harian') as $item)
-                                <div class="item">
-                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
-                                    <p>{{ $item->nama }}</p>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <div id="tab2" class="tab-pane">
-                            <div class="containerKt">
-                                @foreach($katalogs->where('kategori', 'Pakaian Rasmi') as $item)
-                                <div class="item">
-                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
-                                    <p>{{ $item->nama }}</p>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <div id="tab3" class="tab-pane">
-                            <div class="containerKt">
-                                @foreach($katalogs->where('kategori', 'Aksesori') as $item)
-                                <div class="item">
-                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" class="image-grid">
-                                    <p>{{ $item->nama }}</p>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <div id="tab1" class="tab-pane active">
+                <div class="catalogue-container">
+                    @foreach($katalogs->where('kategori', 'Pakaian Harian') as $item)
+                    <div class="product-card">
+                        <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}">
+                        <p>{{ $item->nama }}</p>
                     </div>
+                    @endforeach
                 </div>
+            </div>
 
+            <div id="tab2" class="tab-pane">
+                <div class="catalogue-container">
+                    @foreach($katalogs->where('kategori', 'Pakaian Rasmi') as $item)
+                    <div class="product-card">
+                        <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}">
+                        <p>{{ $item->nama }}</p>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div id="tab3" class="tab-pane">
+                <div class="catalogue-container">
+                    @foreach($katalogs->where('kategori', 'Aksesori') as $item)
+                    <div class="product-card">
+                        <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}">
+                        <p>{{ $item->nama }}</p>
+                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
 </section>
-@endsection
 
-@section('scripts')
 <script>
     // Tab Navigation
     document.querySelectorAll('.tab-item').forEach(item => {
@@ -205,9 +210,9 @@
         });
 
         document.querySelectorAll('.tab-pane').forEach(pane => {
-            pane.querySelectorAll('.item').forEach(item => {
+            pane.querySelectorAll('.product-card').forEach(item => {
                 const name = item.querySelector('p').textContent.toLowerCase();
-                item.style.display = name.includes(searchVal) ? 'flex' : 'none';
+                item.style.display = name.includes(searchVal) ? 'block' : 'none';
             });
         });
     }

@@ -77,12 +77,12 @@
                                     <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
                                     <td style="text-align: center;">
                                         <!-- Info Button triggers modal -->
-                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}">Info</button>
-                                        <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}">Maklumat</button>
+                                        <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm">Kemaskini</a>
                                         <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm">Padam</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -112,7 +112,7 @@
                                                 <p><strong>Catatan Tambahan:</strong> {{ $item->additional_notes }}</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                             </div>
                                         </div>
                                     </div>

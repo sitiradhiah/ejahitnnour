@@ -72,8 +72,8 @@
                         <li class="submenu-item {{ Request::is('katalog/senarai') ? 'active' : '' }}">
                             <a href="{{ route('katelog.senarai') }}">Senarai Pakaian</a>
                         </li>
-                        <li class="submenu-item {{ Request::is('katelog/kategori') ? 'active' : '' }}">
-                            <a href="{{ route('katelog.kategori') }}">Kategori Pakaian</a>
+                        <li class="submenu-item {{ Request::is('admin/kategori*') ? 'active' : '' }}">
+                            <a href="{{ route('kategori.index') }}">Kategori Pakaian</a>
                         </li>
                     </ul>
                 </li>

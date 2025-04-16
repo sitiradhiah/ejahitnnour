@@ -63,30 +63,20 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($aduans as $aduan)
                     <tr>
-                        <td>1</td>
-                        <td>Ali Bin Ahmad</td>
-                        <td>Kualiti Produk</td>
-                        <td>Aduan</td>
-                        <td>2025-01-10</td>
-                        <td><span class="status-badge status-pending">Menunggu</span></td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $aduan->nama_pelanggan }}</td>
+                        <td>{{ $aduan->tajuk }}</td>
+                        <td>{{ $aduan->kategori }}</td>
+                        <td>{{ $aduan->tarikh->format('Y-m-d') }}</td>
+                        <td>
+                            <span class="status-badge @if($aduan->status == 'Menunggu') status-pending @elseif($aduan->status == 'Selesai') status-resolved @else status-rejected @endif">
+                                {{ $aduan->status }}
+                            </span>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Siti Binti Hassan</td>
-                        <td>Servis Pelanggan</td>
-                        <td>Cadangan</td>
-                        <td>2025-01-11</td>
-                        <td><span class="status-badge status-resolved">Selesai</span></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Abu Bin Kassim</td>
-                        <td>Harga Produk</td>
-                        <td>Aduan</td>
-                        <td>2025-01-12</td>
-                        <td><span class="status-badge status-rejected">Ditolak</span></td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

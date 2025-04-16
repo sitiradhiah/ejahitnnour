@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KatelogController;
 use App\Http\Controllers\TempahanController;
-
+use App\Http\Controllers\AduanCadanganController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CategoryController;
 
 //route sebelum login
 Route::get('/', function () {
@@ -45,10 +47,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     });
 
     
-    // dummy kategori pakaian
-    Route::get('/katelog/kategori', function () {
-        return view('admin.katelog.kategori');
-    })->name('katelog.kategori');
+    // Route Group for Admin Section
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    // Category Routes
+    Route::resource('kategori', CategoryController::class);
+});
+    
 
     Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
     Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
@@ -63,9 +67,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     });
 
     Route::prefix('aduan-cadangan')->middleware(['auth'])->group(function () {
-        Route::get('/', function () {
-            return view('admin.aduan');
-        })->name('aduan-cadangan.index');
+        // Route for displaying the list of complaints and suggestions (handled by AduanCadanganController)
+        Route::get('/', [AduanCadanganController::class, 'index'])->name('aduan-cadangan.index');
+        
+        // Route for handling message submission from Hubungi Kami (handled by ContactController)
+        Route::post('/send-message', [ContactController::class, 'store'])->name('send-message');
     });
     
 
