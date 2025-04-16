@@ -17,7 +17,7 @@ class TempahanController extends Controller
     {
         // Fetch all tempahan records (existing customers)
         $tempahan = Tempahan::all();
-    
+
         // Pass the data to the view
         return view('admin.tempahan.borang-tempahan', compact('tempahan'));
     }
@@ -51,4 +51,21 @@ class TempahanController extends Controller
 
         return redirect()->route('tempahan.senarai')->with('success', 'Tempahan deleted successfully.');
     }
+
+    public function edit($id)
+    {
+        // Find the tempahan record by ID
+        $tempahan = Tempahan::findOrFail($id);
+        // Pass the data to the view
+        return view('admin.tempahan.edit-tempahan', compact('tempahan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $tempahan = Tempahan::findOrFail($id);
+        $tempahan->update($request->all());
+
+        return redirect()->route('tempahan.senarai')->with('success', 'Tempahan berjaya dikemaskini.');
+    }
+
 }
