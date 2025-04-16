@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToTempahansTable extends Migration
+class CreateTempahansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddColumnsToTempahansTable extends Migration
      */
     public function up()
     {
-        Schema::table('tempahans', function (Blueprint $table) {
-            // Adding new columns to the existing 'tempahans' table
+        Schema::create('tempahans', function (Blueprint $table) {
+            // Define the columns for the new 'tempahans' table
+            $table->id();  // Add the primary key (id)
             $table->string('alamat')->nullable();
             $table->string('nombor_telefon')->nullable();
             $table->integer('chest_size')->nullable();
@@ -26,6 +27,7 @@ class AddColumnsToTempahansTable extends Migration
             $table->string('size')->nullable();
             $table->decimal('harga_tempahan', 10, 2)->nullable();
             $table->text('additional_notes')->nullable();
+            $table->timestamps();  // Add timestamps (created_at and updated_at)
         });
     }
 
@@ -36,21 +38,6 @@ class AddColumnsToTempahansTable extends Migration
      */
     public function down()
     {
-        Schema::table('tempahans', function (Blueprint $table) {
-            // Dropping the columns in case of rollback
-            $table->dropColumn([
-                'alamat',
-                'nombor_telefon',
-                'chest_size',
-                'waist_size',
-                'shoulder_width',
-                'sleeve_length',
-                'jenis_kain',
-                'warna_kain',
-                'size',
-                'harga_tempahan',
-                'additional_notes',
-            ]);
-        });
+        Schema::dropIfExists('tempahans');  // Drop the 'tempahans' table if rolling back
     }
 }
