@@ -52,6 +52,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
     Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
+    Route::post('/tempahan/store', [TempahanController::class, 'store'])->name('tempahan.store');
     Route::get('tempahan/{id}/edit', [TempahanController::class, 'edit'])->name('tempahan.edit');
     Route::resource('tempahan', TempahanController::class);
 
