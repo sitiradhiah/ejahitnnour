@@ -3,62 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tempahan;  // Import the Tempahan model
 
 class TempahanController extends Controller
 {
     public function senarai()
     {
-        $tempahan = [
-            (object)[
-                'id' => 1,
-                'nama_pelanggan' => 'Ali Bin Abu',
-                'jenis_tempahan' => 'Baju Kurung',
-                'tarikh_tempahan' => '2023-10-01'
-            ],
-            (object)[
-                'id' => 2,
-                'nama_pelanggan' => 'Siti Binti Ahmad',
-                'jenis_tempahan' => 'Baju Melayu',
-                'tarikh_tempahan' => '2023-10-02'
-            ],
-            (object)[
-                'id' => 3,
-                'nama_pelanggan' => 'Ahmad Bin Ali',
-                'jenis_tempahan' => 'Kebaya',
-                'tarikh_tempahan' => '2023-10-03'
-            ]
-        ];
-        return view('admin.tempahan.senarai', ['tempahan' => $tempahan]);
+        $tempahan = Tempahan::all(); // Fetch all tempahan records
+        return view('admin.tempahan.senarai', compact('tempahan'));
     }
 
     public function baru()
     {
-        // Your logic for the 'baru' route
-        return view('admin.tempahan.borang-tempahan');
+        // Fetch all tempahan records (existing customers)
+        $tempahan = Tempahan::all();
+    
+        // Pass the data to the view
+        return view('admin.tempahan.borang-tempahan', compact('tempahan'));
     }
 
-    public function edit($id)
+
+    public function store(Request $request)
     {
-        // Fetch the item by its ID
-        // $item = Tempahan::findOrFail($id);
-        $item = [
-            (object)[
-                'id' => 1,
-                'nama_pelanggan' => 'Ali Bin Abu',
-                'jenis_tempahan' => 'Baju Kurung',
-                'tarikh_tempahan' => '2023-10-01'
-            ]]; // Sample data for demonstration
+        // Validate the incoming request data
+        $request->validate([
+            'nama_pelanggan' => 'required|string|max:255',
+            'jenis_tempahan' => 'required|string|max:255',
+            'tarikh_tempahan' => 'required|date',
+        ]);
 
-        // Pass the item to the edit view
-        return view('admin.tempahan.edit', compact('item'));
+        // Create a new tempahan record
+        Tempahan::create([
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'jenis_tempahan' => $request->jenis_tempahan,
+            'tarikh_tempahan' => $request->tarikh_tempahan,
+        ]);
+
+        // Redirect back with a success message
+        return redirect()->route('tempahan.senarai')->with('success', 'Tempahan added successfully!');
     }
 
-    // In TempahanController.php
     public function destroy($id)
     {
-        // $tempahan = Tempahan::findOrFail($id);
-        // $tempahan->delete();
+        // Find and delete the tempahan record
+        $tempahan = Tempahan::findOrFail($id);
+        $tempahan->delete();
 
-        return redirect()->route('tempahan.index')->with('success', 'Tempahan deleted successfully.');
+        return redirect()->route('tempahan.senarai')->with('success', 'Tempahan deleted successfully.');
     }
 }

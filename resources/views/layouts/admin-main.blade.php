@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,11 +69,20 @@
 
        
     </div>
+
+    <!-- Scripts for Bootstrap Modal and other features -->
     <script src="{{ asset('admin/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('admin/js/pages/dashboard.js') }}"></script>
     <script src="{{ asset('admin/js/main.js') }}"></script>
+
+    <!-- Bootstrap modal JS -->
+    <!-- Ensure that Bootstrap's JavaScript is included -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     @yield('scripts')
 </body>
 

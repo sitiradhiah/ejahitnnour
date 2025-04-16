@@ -1,9 +1,29 @@
-
 @extends('layouts.admin-main')
 
 @section('css')
 <style>
+    /* Custom modal styling */
+    .modal-content {
+        border-radius: 8px;
+        border: 2px solid #007bff;
+    }
 
+    .modal-header {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .modal-body {
+        font-size: 16px;
+    }
+
+    .modal-footer {
+        border-top: none;
+    }
+
+    .modal-title {
+        font-weight: bold;
+    }
 </style>
 @endsection
 
@@ -27,7 +47,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item filter-btn" href="#" data-filter="All">All</a></li>
-                                            @foreach(collect($tempahan)->unique('jenis_tempahan') as $item)
+                                            @foreach($tempahan->unique('jenis_tempahan') as $item)
                                                 <li><a class="dropdown-item filter-btn" href="#" data-filter="{{ $item->jenis_tempahan }}">{{ $item->jenis_tempahan }}</a></li>
                                             @endforeach
                                         </ul>
@@ -41,7 +61,6 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <!-- <th><input type="checkbox" id="select-all"></th> -->
                                     <th style="text-align: center;">No</th>
                                     <th>Nama Pelanggan</th>
                                     <th style="text-align: center;">Jenis Tempahan</th>
@@ -52,13 +71,13 @@
                             <tbody>
                                 @foreach($tempahan as $index => $item)
                                 <tr>
-                                    <!-- <td><input type="checkbox" class="select-item"></td> -->
                                     <td style="text-align: center;">{{ $index + 1 }}</td>
-                                    <td >{{ $item->nama_pelanggan }}</td>
+                                    <td>{{ $item->nama_pelanggan }}</td>
                                     <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
                                     <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
                                     <td style="text-align: center;">
-                                        <a href="{{ route('tempahan.show', $item->id) }}" class="btn btn-info btn-sm">Info</a>
+                                        <!-- Info Button triggers modal -->
+                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}">Info</button>
                                         <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                         <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf
@@ -67,19 +86,40 @@
                                         </form>
                                     </td>
                                 </tr>
+
+                                <!-- Modal for Info -->
+                                <div class="modal fade" id="infoModal{{ $item->id }}" tabindex="-1" aria-labelledby="infoModalLabel{{ $item->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="infoModalLabel{{ $item->id }}">Detail Tempahan: {{ $item->nama_pelanggan }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Nama Pelanggan:</strong> {{ $item->nama_pelanggan }}</p>
+                                                <p><strong>Jenis Tempahan:</strong> {{ $item->jenis_tempahan }}</p>
+                                                <p><strong>Tarikh Tempahan:</strong> {{ $item->tarikh_tempahan }}</p>
+                                                <p><strong>Alamat:</strong> {{ $item->alamat }}</p>
+                                                <p><strong>Nombor Telefon:</strong> {{ $item->nombor_telefon }}</p>
+                                                <p><strong>Ukuran Dada:</strong> {{ $item->chest_size }} cm</p>
+                                                <p><strong>Ukuran Pinggang:</strong> {{ $item->waist_size }} cm</p>
+                                                <p><strong>Lebar Bahu:</strong> {{ $item->shoulder_width }} cm</p>
+                                                <p><strong>Panjang Lengan:</strong> {{ $item->sleeve_length }} cm</p>
+                                                <p><strong>Jenis Kain:</strong> {{ $item->jenis_kain }}</p>
+                                                <p><strong>Warna Kain:</strong> {{ $item->warna_kain }}</p>
+                                                <p><strong>Saiz:</strong> {{ $item->size }}</p>
+                                                <p><strong>Harga Tempahan:</strong> RM {{ $item->harga_tempahan }}</p>
+                                                <p><strong>Catatan Tambahan:</strong> {{ $item->additional_notes }}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 @endforeach
                             </tbody>
                         </table>
-
-                            <script>
-                                document.getElementById('select-all').onclick = function() {
-                                    var checkboxes = document.querySelectorAll('.select-item');
-                                    for (var checkbox of checkboxes) {
-                                        checkbox.checked = this.checked;
-                                    }
-                                }
-                            </script>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -90,6 +130,7 @@
 
 @section('scripts')
 <script>
+    // Filter Tempahan by Jenis Tempahan
     document.querySelectorAll('.filter-btn').forEach(function(button) {
         button.addEventListener('click', function(event) {
             event.preventDefault();

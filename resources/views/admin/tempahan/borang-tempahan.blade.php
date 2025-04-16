@@ -31,11 +31,11 @@
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <label for="existing_user" class="form-label">Pilih Pengguna Sedia Ada</label>
-                                    <select class="form-control" id="existing_user">
+                                    <select class="form-control" id="existing_user" name="existing_user">
                                         <option value="" disabled selected>Pilih Pengguna</option>
-                                        <option value="user1">Ali Bin Ahmad</option>
-                                        <option value="user2">Siti Binti Hassan</option>
-                                        <option value="user3">Abu Bin Kassim</option>
+                                        @foreach($tempahan as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama_pelanggan }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -154,48 +154,12 @@
 
 @section('scripts')
 <script>
-    // Dummy data for existing users
-    const userData = {
-        user1: {
-            nama: "Ali Bin Ahmad",
-            telefon: "0123456789",
-            alamat: "123, Jalan Merah, Kuala Lumpur",
-            chest_size: 100,
-            waist_size: 90,
-            shoulder_width: 50,
-            sleeve_length: 60
-        },
-        user2: {
-            nama: "Siti Binti Hassan",
-            telefon: "0134567890",
-            alamat: "456, Taman Hijau, Selangor",
-            chest_size: 95,
-            waist_size: 85,
-            shoulder_width: 48,
-            sleeve_length: 58
-        },
-        user3: {
-            nama: "Abu Bin Kassim",
-            telefon: "0145678901",
-            alamat: "789, Kampung Biru, Johor",
-            chest_size: 110,
-            waist_size: 100,
-            shoulder_width: 55,
-            sleeve_length: 65
-        }
-    };
-
+    // Dummy data for existing users (optional if you're not using dynamic fetching)
     document.getElementById('existing_user').addEventListener('change', function () {
-        const selectedUser = this.value;
-        if (userData[selectedUser]) {
-            document.getElementById('nama_pelanggan').value = userData[selectedUser].nama;
-            document.getElementById('nombor_telefon').value = userData[selectedUser].telefon;
-            document.getElementById('alamat').value = userData[selectedUser].alamat;
-            document.getElementById('chest_size').value = userData[selectedUser].chest_size;
-            document.getElementById('waist_size').value = userData[selectedUser].waist_size;
-            document.getElementById('shoulder_width').value = userData[selectedUser].shoulder_width;
-            document.getElementById('sleeve_length').value = userData[selectedUser].sleeve_length;
-        }
+        var selectedUserId = this.value;
+        
+        // Fetch the selected user details and populate the form fields if needed
+        // You can use AJAX to fetch the data if you prefer dynamic population
     });
 </script>
 @endsection
