@@ -16,9 +16,15 @@ class CategoryController extends Controller
 
 public function store(Request $request)
 {
-    $request->validate(['name' => 'required|string|max:255']);
-    Category::create(['name' => $request->name]);
-    return redirect()->route('kategori.index');
+    $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    Category::create([
+        'name' => $request->name,
+    ]);
+
+    return redirect()->route('kategori.index')->with('success', 'Kategori berjaya ditambah');
 }
 
 public function edit($id)

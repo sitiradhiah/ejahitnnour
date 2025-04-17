@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Katelog;
+use App\Models\Category;
 
 class KatelogController extends Controller
 {
@@ -15,11 +16,27 @@ class KatelogController extends Controller
     }
 
     // Method for user-facing Katelog page
-    public function KatalogUmum()
+    public function KatalogUmum(Request $request)
     {
-        $katalogs = Katelog::all();
-        return view('katelog', compact('katalogs')); 
+        $search = $request->input('search');
+        $kategori = $request->input('kategori', 'all');  // Default to 'all' if no category is selected
+
+        $query = Katelog::query();
+
+        if ($search) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        }
+
+        if ($kategori !== 'all') {
+            $query->where('kategori', $kategori);
+        }
+
+        $katalogs = $query->get();
+        $categories = Category::all(); // Fetch categories from the database
+
+        return view('katelog', compact('katalogs', 'search', 'kategori', 'categories'));
     }
+
 
     // Store a new Katelog item
     public function store(Request $request)

@@ -132,13 +132,18 @@
 
         <!-- Filter Section -->
         <div class="filter-container">
-            <input type="text" id="searchInput" class="form-control" placeholder="Cari nama produk...">
-            <select id="categoryFilter" class="form-select">
-                <option value="all">Semua Kategori</option>
-                <option value="tab1">Pakaian Harian</option>
-                <option value="tab2">Pakaian Rasmi</option>
-                <option value="tab3">Aksesori</option>
-            </select>
+            <form action="{{ route('KatalogUmum') }}" method="GET" style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="searchInput" name="search" class="form-control" placeholder="Cari nama produk..." value="{{ request('search') }}">
+                <select id="categoryFilter" name="kategori" class="form-select">
+                    <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->name }}" {{ request('kategori') == $category->name ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <button type="submit" class="btn btn-primary">Cari</button>
+            </form>
         </div>
 
         <!-- Tabs -->
