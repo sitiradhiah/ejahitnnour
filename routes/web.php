@@ -14,15 +14,15 @@ Route::get('/', function () {
 });
 Route::get('/tentangkami', function () {
     return view('about');
-})->name('about'); 
+})->name('about');
 // Route::get('/katelog', function () { //route (url)
 //     return view('katelog'); //blade view file
 // })->name('katelog');
-Route::get('/KatalogUmum', [KatelogController::class, 'KatalogUmum'])->name('KatalogUmum'); 
-// Route::resource('katelog', KatelogController::class); 
+Route::get('/KatalogUmum', [KatelogController::class, 'KatalogUmum'])->name('KatalogUmum');
+// Route::resource('katelog', KatelogController::class);
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
-})->name('hubungi.kami'); 
+})->name('hubungi.kami');
 
 //LOGIN & LOGOUT Pengguna Berdaftar
 Route::prefix('logmasuk')->controller(AuthController::class)->group(function () {
@@ -30,6 +30,9 @@ Route::prefix('logmasuk')->controller(AuthController::class)->group(function () 
     Route::post('/authenticate', 'authenticate')->name('authenticate');
     Route::post('/logout', 'logout')->name('logout');
 });
+
+// POST /hubungi-kami - for public form submission
+Route::post('/hubungi-kami', [AduanCadanganController::class, 'store'])->name('aduan.store');
 
 // Add all routes that require authentication here
 //route selepas login
@@ -46,13 +49,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::delete('/destroy/{id}', 'destroy')->name('katelog.destroy');
     });
 
-    
-    // Route Group for Admin Section
-Route::prefix('admin')->middleware(['auth'])->group(function () {
     // Category Routes
     Route::resource('kategori', CategoryController::class);
-});
-    
 
     Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
     Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
@@ -69,20 +67,14 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::prefix('aduan-cadangan')->middleware(['auth'])->group(function () {
         // Route for displaying the list of complaints and suggestions (handled by AduanCadanganController)
         Route::get('/', [AduanCadanganController::class, 'index'])->name('aduan-cadangan.index');
-        
-        // Route for handling message submission from Hubungi Kami (handled by ContactController)
-        Route::post('/send-message', [ContactController::class, 'store'])->name('send-message');
     });
-    
 
     Route::prefix('maklumat-sistem')->middleware(['auth'])->group(function () {
         Route::get('/senarai-pekerja', function () {
             return view('admin.maklumatsistem.senaraipekerja');
         })->name('maklumat-sistem.senarai-pekerja');
     });
-    
-    
-    
+
 
     // Route::get('/profile', function () {
     //     return view('profile');
@@ -97,6 +89,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     // Route::get('/pengurusan-katelog', function () {
     //     return view('admin.pengurusan-katelog'); // atau 'admin.pengurusan-katelog' jika dalam folder admin
     // })->name('pengurusan-katelog');
-    
+
 });
 

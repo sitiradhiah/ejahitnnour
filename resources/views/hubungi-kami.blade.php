@@ -26,7 +26,7 @@
         <div class="col-md-12">
           <h1 class="h1-custom">HUBUNGI KAMI</h1>
           <p class="p-custom">
-            Jika anda mempunyai sebarang masalah, cadangan, atau pertanyaan, 
+            Jika anda mempunyai sebarang masalah, cadangan, atau pertanyaan,
             sila hubungi kami. Kami sedia membantu dan ingin mendengar daripada anda.
           </p>
         </div>
@@ -34,15 +34,15 @@
       <div class="row px-5">
         <div class="col-md-6">
           <div class="map-box">
-            <iframe 
-              src="https://maps.google.com/maps?q=50,%20Jalan%20Abdul%20Aziz,%20Taman%20Perdana,%2086100%20Ayer%20Hitam,%20Johor&hl=en&z=15&output=embed" 
+            <iframe
+              src="https://maps.google.com/maps?q=50,%20Jalan%20Abdul%20Aziz,%20Taman%20Perdana,%2086100%20Ayer%20Hitam,%20Johor&hl=en&z=15&output=embed"
               width="100%" height="400" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
             </iframe>
           </div>
         </div>
         <div class="col-md-6">
           <div class="contact-form">
-            <form action="{{ route('send-message') }}" method="POST">
+            <form action="{{ route('aduan.store') }}" method="POST">
               @csrf
               <div class="form-group">
                 <label for="name">Nama:</label>
