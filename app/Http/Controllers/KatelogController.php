@@ -5,21 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Katelog;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class KatelogController extends Controller
 {
-    // Admin view method
     public function index()
     {
         $katelogs = Katelog::all();
-        return view('admin.katelog.senarai', compact('katelogs'));
+        $categories = Category::orderBy('name', 'asc')->get();
+
+        return view('admin.katelog.senarai', compact('katelogs', 'categories'));
     }
 
-    // Method for user-facing Katelog page
     public function KatalogUmum(Request $request)
     {
         $search = $request->input('search');
-        $kategori = $request->input('kategori', 'all');  // Default to 'all' if no category is selected
+        $kategori = $request->input('kategori', 'all');
 
         $query = Katelog::query();
 
@@ -32,69 +34,99 @@ class KatelogController extends Controller
         }
 
         $katalogs = $query->get();
-        $categories = Category::all(); // Fetch categories from the database
+        $categories = Category::orderBy('name', 'asc')->get();
 
         return view('katelog', compact('katalogs', 'search', 'kategori', 'categories'));
     }
 
-
-    // Store a new Katelog item
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'kategori' => 'required',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'nama' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'warna' => 'nullable|string|max:255',
+            'saiz' => 'nullable|string|max:255',
+            'harga' => 'nullable|numeric',
+            'stok' => 'nullable|integer',
+            'penerangan' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-
-        // Save the image to public/images directory
-        $path = $request->file('gambar')->move(public_path('images'), $request->file('gambar')->getClientOriginalName());
-
-        // Store the relative path in the database
+    
+        $gambarPath = null;
+    
+        if ($request->hasFile('gambar')) {
+            $filename = time() . '-' . uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
+            $path = $request->file('gambar')->storeAs('images', $filename, 'public');
+            $gambarPath = $path;
+        }
+    
         Katelog::create([
             'nama' => $request->nama,
             'kategori' => $request->kategori,
-            'gambar' => 'images/' . $request->file('gambar')->getClientOriginalName(),
-        ]);
-
-        return redirect()->back()->with('success', 'Gambar berjaya dimuat naik.');
-    }
-
-    // Update an existing Katelog item
-    public function update(Request $request, $id)
-    {
-        $Katelog = Katelog::findOrFail($id);
-
-        $gambarPath = $Katelog->gambar; // Retain the existing image path by default
-
-        if ($request->hasFile('gambar')) {
-            // Save the new image to public/images directory
-            $path = $request->file('gambar')->move(public_path('images'), $request->file('gambar')->getClientOriginalName());
-            $gambarPath = 'images/' . $request->file('gambar')->getClientOriginalName();
-        }
-
-        // Update Katelog details
-        $Katelog->update([
-            'nama' => $request->nama,
-            'kategori' => $request->kategori,
+            'warna' => $request->warna,
+            'saiz' => $request->saiz,
+            'harga' => $request->harga,
+            'stok' => $request->stok,
+            'penerangan' => $request->penerangan,
             'gambar' => $gambarPath,
         ]);
+    
+        return redirect()->back()->with('success', 'Produk berjaya ditambah.');
+    }
+    
 
-        return redirect()->back()->with('success', 'Gambar berjaya dikemas kini.');
+    public function update(Request $request, $id)
+    {
+        $katelog = Katelog::findOrFail($id);
+    
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'warna' => 'nullable|string|max:255',
+            'saiz' => 'nullable|string|max:255',
+            'harga' => 'nullable|numeric',
+            'stok' => 'nullable|integer',
+            'penerangan' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+    
+        $gambarPath = $katelog->gambar;
+    
+        if ($request->hasFile('gambar')) {
+            if (\Storage::disk('public')->exists($gambarPath)) {
+                \Storage::disk('public')->delete($gambarPath);
+            }
+    
+            $filename = time() . '-' . uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
+            $path = $request->file('gambar')->storeAs('images', $filename, 'public');
+            $gambarPath = $path;
+        }
+    
+        $katelog->update([
+            'nama' => $request->nama,
+            'kategori' => $request->kategori,
+            'warna' => $request->warna,
+            'saiz' => $request->saiz,
+            'harga' => $request->harga,
+            'stok' => $request->stok,
+            'penerangan' => $request->penerangan,
+            'gambar' => $gambarPath,
+        ]);
+    
+        return redirect()->back()->with('success', 'Produk berjaya dikemaskini.');
     }
 
-    // Delete a Katelog item
+
     public function destroy($id)
     {
-        $Katelog = Katelog::findOrFail($id);
+        $katelog = Katelog::findOrFail($id);
 
-        // Delete the image file from the public/images directory
-        $imagePath = public_path($Katelog->gambar);
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
+        // Delete image if exists
+        if (Storage::disk('public')->exists($katelog->gambar)) {
+            Storage::disk('public')->delete($katelog->gambar);
         }
 
-        $Katelog->delete();
+        $katelog->delete();
 
         return redirect()->back()->with('success', 'Gambar berjaya dipadam.');
     }

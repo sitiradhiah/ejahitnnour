@@ -45,9 +45,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::prefix('katelog')->controller(KatelogController::class)->group(function () {
         Route::get('/', 'index')->name('katelog.senarai');
         Route::post('/store', 'store')->name('katelog.store');
+        Route::get('/{id}/edit', 'edit')->name('katelog.edit'); // << tambah route ini
         Route::post('/update/{id}', 'update')->name('katelog.update');
         Route::delete('/destroy/{id}', 'destroy')->name('katelog.destroy');
     });
+    
 
     // Category Routes
     Route::resource('kategori', CategoryController::class);
