@@ -1,18 +1,15 @@
-<!-- HTML -->
 <header class="header_section">
   <div class="container-fluid">
     <nav class="navbar navbar-expand-lg custom_nav-container">
       <a class="navbar-brand" href="/">
-        <img class="shadow" src="{{ asset('images/logo nnour.jpg') }}" alt="Logo">
+        <img src="{{ asset('images/logo nnour.jpg') }}" alt="Logo">
         <span>E-NourJahit</span>
       </a>
 
-      <!-- Hamburger Menu for Mobile -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="text-white">☰</span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+        <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml;utf8,<svg viewBox=\'0 0 32 32\' xmlns=\'http://www.w3.org/2000/svg\'><path stroke=\'white\' stroke-width=\'2\' d=\'M4 8h24M4 16h24M4 24h24\'/></svg>');"></span>
       </button>
 
-      <!-- Navigation Links -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
@@ -38,90 +35,64 @@
       </div>
     </nav>
   </div>
+
+  <!-- Mobile Offcanvas -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="mobileMenuLabel">Menu</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="/">Utama</a></li>
+        <li class="nav-item"><a class="nav-link" href="/tentangkami">Tentang Kami</a></li>
+        <li class="nav-item"><a class="nav-link" href="/KatalogUmum">Katalog</a></li>
+        <li class="nav-item"><a class="nav-link" href="/hubungi-kami">Hubungi Kami</a></li>
+        <li class="nav-item mt-3">
+          @if(Auth::check())
+            <a href="{{ route('dashboard') }}" class="btn btn-primary w-100">Dashboard</a>
+          @else
+            <a href="{{ route('logmasuk') }}" class="btn btn-primary w-100">Log Masuk</a>
+          @endif
+        </li>
+      </ul>
+    </div>
+  </div>
 </header>
 
 <!-- CSS -->
 <style>
-  /* Base Styles for Navigation */
-  .navbar-nav {
-    display: flex;
-    justify-content: space-between;
+  .header_section {
+    background: linear-gradient(to right, rgba(125, 10, 87, 0.995), rgb(235, 12, 153)); 
+    border-bottom: 8px solid rgba(132, 11, 92, 0.995);
   }
 
-  .nav-item {
-    list-style-type: none;
-    padding: 10px 20px;
+  .navbar-nav .nav-link {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 20px;
+    text-transform: uppercase;
+    transition: 0.3s;
   }
 
-  .nav-link {
-    text-decoration: none;
-    color: #fff;
-    font-size: 16px;
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    color: #ffe600;
   }
 
-  /* Sidebar Styles (Hidden by Default) */
-  .sidebar {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100%;
-    background-color: #fff;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    padding: 20px;
+  .btn-primary {
+    background-color: #46b7da;
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 30px;
+    padding: 10px 25px;
+    transition: 0.3s;
   }
 
-  .sidebar ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-
-  .sidebar ul li {
-    padding: 15px;
-  }
-
-  .sidebar.active {
-    display: block;
-  }
-
-  /* Media Query for Mobile View */
-  @media (max-width: 768px) {
-    /* Hide navbar links on smaller screens */
-    .navbar-nav {
-      display: none;
-    }
-
-    /* Show the sidebar menu on mobile screens */
-    .sidebar.active {
-      display: block;
-    }
-
-    .navbar-toggler {
-      display: block;
-    }
+  .btn-primary:hover {
+    background-color: #09fff3;
+    color: black;
   }
 </style>
-
-<!-- JavaScript (for sidebar toggle) -->
-<script>
-  // Hamburger Menu Toggle
-  const hamburger = document.querySelector('.navbar-toggler');
-  const sidebar = document.createElement('div');
-  sidebar.classList.add('sidebar');
-  sidebar.innerHTML = `
-    <ul>
-      <li><a href="/">Utama</a></li>
-      <li><a href="/tentangkami">Tentang Kami</a></li>
-      <li><a href="/KatalogUmum">Katalog</a></li>
-      <li><a href="/hubungi-kami">Hubungi Kami</a></li>
-    </ul>
-  `;
-
-  document.body.appendChild(sidebar);
-
-  hamburger.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
-  });
-</script>
