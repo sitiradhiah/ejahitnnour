@@ -51,15 +51,15 @@ class KatelogController extends Controller
             'penerangan' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
+
         $gambarPath = null;
-    
+
         if ($request->hasFile('gambar')) {
             $filename = time() . '-' . uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
             $path = $request->file('gambar')->storeAs('images', $filename, 'public');
             $gambarPath = $path;
         }
-    
+
         Katelog::create([
             'nama' => $request->nama,
             'kategori' => $request->kategori,
@@ -70,15 +70,15 @@ class KatelogController extends Controller
             'penerangan' => $request->penerangan,
             'gambar' => $gambarPath,
         ]);
-    
+
         return redirect()->back()->with('success', 'Produk berjaya ditambah.');
     }
-    
+
 
     public function update(Request $request, $id)
     {
         $katelog = Katelog::findOrFail($id);
-    
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'kategori' => 'required|string|max:255',
@@ -89,19 +89,19 @@ class KatelogController extends Controller
             'penerangan' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
+
         $gambarPath = $katelog->gambar;
-    
+
         if ($request->hasFile('gambar')) {
             if ( Storage::disk('public')->exists($gambarPath)) {
                  Storage::disk('public')->delete($gambarPath);
             }
-    
+
             $filename = time() . '-' . uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();
             $path = $request->file('gambar')->storeAs('images', $filename, 'public');
             $gambarPath = $path;
         }
-    
+
         $katelog->update([
             'nama' => $request->nama,
             'kategori' => $request->kategori,
@@ -112,10 +112,15 @@ class KatelogController extends Controller
             'penerangan' => $request->penerangan,
             'gambar' => $gambarPath,
         ]);
-    
+
         return redirect()->back()->with('success', 'Produk berjaya dikemaskini.');
     }
 
+    public function edit($id)
+    {
+        $katelog = Katelog::findOrFail($id);
+        return response()->json($katelog);
+    }
 
     public function destroy($id)
     {

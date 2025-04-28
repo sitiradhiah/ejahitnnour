@@ -6,7 +6,7 @@
           <h5 class="modal-title" id="editProductModalLabel">Edit Produk</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
-        <form method="POST" id="editProductForm" enctype="multipart/form-data">
+        <form method="POST" id="editProductForm" action="" enctype="multipart/form-data">
           @csrf
           @method('POST')
           <div class="modal-body">
@@ -57,4 +57,3 @@
       </div>
     </div>
   </div>
-  
