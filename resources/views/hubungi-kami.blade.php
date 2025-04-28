@@ -44,20 +44,28 @@
           <div class="contact-form">
             <form action="{{ route('aduan.store') }}" method="POST">
               @csrf
-              <div class="form-group">
-                <label for="name">Nama:</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+              <div class="mb-3">
+                  <label for="name" class="form-label">Nama:</label>
+                  <input type="text" name="name" id="name" class="form-control" required>
               </div>
-              <div class="form-group">
-                <label for="email">Emel:</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+
+              <div class="mb-3">
+                  <label for="email" class="form-label">Emel:</label>
+                  <input type="email" name="email" id="email" class="form-control" required>
               </div>
-              <div class="form-group">
-                <label for="message">Ulasan / Pertanyaan:</label>
-                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+
+              <div class="mb-3">
+                  <label for="no_telefon" class="form-label">No Telefon:</label>
+                  <input type="text" name="no_telefon" id="no_telefon" class="form-control" required>
               </div>
+
+              <div class="mb-3">
+                  <label for="message" class="form-label">Ulasan / Pertanyaan:</label>
+                  <textarea name="message" id="message" rows="4" class="form-control" required></textarea>
+              </div>
+
               <button type="submit" class="btn btn-primary">Hantar Mesej</button>
-            </form>
+          </form>
           </div>
         </div>
       </div>

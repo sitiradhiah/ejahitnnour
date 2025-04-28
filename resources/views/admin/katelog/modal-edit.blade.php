@@ -8,7 +8,7 @@
         </div>
         <form method="POST" id="editProductForm" enctype="multipart/form-data">
           @csrf
-          @method('PUT')
+          @method('POST')
           <div class="modal-body">
             <div class="row">
               <div class="col-md-6 mb-3">

@@ -93,8 +93,8 @@ class KatelogController extends Controller
         $gambarPath = $katelog->gambar;
     
         if ($request->hasFile('gambar')) {
-            if (\Storage::disk('public')->exists($gambarPath)) {
-                \Storage::disk('public')->delete($gambarPath);
+            if ( Storage::disk('public')->exists($gambarPath)) {
+                 Storage::disk('public')->delete($gambarPath);
             }
     
             $filename = time() . '-' . uniqid() . '.' . $request->file('gambar')->getClientOriginalExtension();

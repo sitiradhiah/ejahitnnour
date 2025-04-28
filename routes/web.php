@@ -44,8 +44,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::prefix('katelog')->controller(KatelogController::class)->group(function () {
         Route::get('/', 'index')->name('katelog.senarai');
-        Route::post('/store', 'store')->name('katelog.store');
-        Route::get('/{id}/edit', 'edit')->name('katelog.edit'); // << tambah route ini
+        Route::post('/store', 'store')->name('katelog.store'); // <-- ini WAJIB ADA
+        Route::get('/{id}/edit', 'edit')->name('katelog.edit');
         Route::post('/update/{id}', 'update')->name('katelog.update');
         Route::delete('/destroy/{id}', 'destroy')->name('katelog.destroy');
     });
@@ -69,6 +69,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::prefix('aduan-cadangan')->middleware(['auth'])->group(function () {
         // Route for displaying the list of complaints and suggestions (handled by AduanCadanganController)
         Route::get('/', [AduanCadanganController::class, 'index'])->name('aduan-cadangan.index');
+        Route::get('/{id}/preview', [AduanCadanganController::class, 'preview'])->name('aduan-cadangan.preview');
+        Route::delete('/{id}', [AduanCadanganController::class, 'destroy'])->name('aduan-cadangan.destroy');
+
     });
 
     Route::prefix('maklumat-sistem')->middleware(['auth'])->group(function () {

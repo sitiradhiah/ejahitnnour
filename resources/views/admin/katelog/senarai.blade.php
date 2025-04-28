@@ -121,7 +121,8 @@
                 document.getElementById('editStok').value = data.stok;
                 document.getElementById('editPenerangan').value = data.penerangan;
 
-                document.getElementById('editProductForm').action = `/admin/katelog/${id}`;
+                // Ini fix penting supaya action form betul
+                document.getElementById('editProductForm').action = `/admin/katelog/update/${id}`;
 
                 // buka modal
                 var myModal = new bootstrap.Modal(document.getElementById('editProductModal'));

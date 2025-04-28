@@ -11,14 +11,23 @@ class AduanCadanganController extends Controller
     /**
      * Function untuk ADMIN / CMS
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch all AduanCadangan records
-        $aduans = AduanCadangan::all();  // You can filter or paginate the results if needed
+        $search = $request->input('search');
 
-        // Pass the data to the view
-        return view('admin.aduan', compact('aduans'));
+        $aduans = AduanCadangan::query()
+            ->when($search, function ($query, $search) {
+                $query->where('nama_pelanggan', 'like', "%{$search}%")
+                    ->orWhere('tajuk', 'like', "%{$search}%")
+                    ->orWhere('kategori', 'like', "%{$search}%")
+                    ->orWhere('status', 'like', "%{$search}%");
+            })
+            ->orderBy('tarikh', 'desc')
+            ->get();
+
+        return view('admin.aduan', compact('aduans', 'search'));
     }
+
 
 
     /**
@@ -26,25 +35,47 @@ class AduanCadanganController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
+            'no_telefon' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
-
-        // Save the data in the 'AduanCadangan' table
+    
         AduanCadangan::create([
             'nama_pelanggan' => $request->name,
-            'tajuk' => 'Hubungi Kami', // or a custom title
-            'kategori' => 'Aduan',  // Or use 'Cadangan' if it's a suggestion
+            'email' => $request->email,
+            'no_telefon' => $request->no_telefon,
+            'tajuk' => 'Hubungi Kami',
+            'kategori' => 'Aduan',
             'tarikh' => now(),
-            'status' => 'Menunggu',  // Set to "Menunggu" by default
+            'status' => 'Menunggu',
             'message' => $request->message,
         ]);
-
-        // Redirect to a thank you page or back to the form with success
+    
         return redirect()->back()->with('success', 'Mesej berjaya dihantar!');
     }
+
+    public function preview($id)
+    {
+        $aduan = AduanCadangan::findOrFail($id);
+
+        // Auto update status kepada "Selesai" kalau masih "Menunggu"
+        if ($aduan->status == 'Menunggu') {
+            $aduan->update(['status' => 'Selesai']);
+        }
+
+        return view('admin.aduan-preview', compact('aduan'));
+    }
+
+    public function destroy($id)
+    {
+        $aduan = AduanCadangan::findOrFail($id);
+        $aduan->delete();
+
+        return redirect()->route('aduan-cadangan.index')->with('success', 'Aduan / Cadangan berjaya dipadam.');
+    }
+
+
 }
 

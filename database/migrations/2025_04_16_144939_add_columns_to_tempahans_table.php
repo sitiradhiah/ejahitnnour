@@ -13,18 +13,17 @@ class AddColumnsToTempahansTable extends Migration
      */
     public function up()
     {
-        Schema::table('tempahans', function (Blueprint $table) {
-            // Add new columns to the tempahans table
-            $table->integer('ukuran_dada')->nullable(); // Ukuran Dada (cm)
-            $table->integer('ukuran_pinggang')->nullable(); // Ukuran Pinggang (cm)
-            $table->integer('lebar_bahu')->nullable(); // Lebar Bahu (cm)
-            $table->integer('panjang_lengan')->nullable(); // Panjang Lengan (cm)
-            $table->string('jenis_kain')->nullable(); // Jenis Kain
-            $table->string('warna_kain')->nullable(); // Warna Kain
-            $table->string('saiz')->nullable(); // Saiz
-            $table->decimal('harga_tempahan', 8, 2)->nullable(); // Harga Tempahan (RM)
-            $table->text('catatan_tambahan')->nullable(); // Catatan Tambahan
-        });
+        // Schema::table('tempahans', function (Blueprint $table) {
+        //     $table->integer('ukuran_dada')->nullable();
+        //     $table->integer('ukuran_pinggang')->nullable();
+        //     $table->integer('lebar_bahu')->nullable();
+        //     $table->integer('panjang_lengan')->nullable();
+        //     // $table->string('jenis_kain')->nullable(); <-- KOMEN / PADAM LINE NI
+        //     //$table->string('warna_kain')->nullable();
+        //     $table->string('saiz')->nullable();
+        //     $table->decimal('harga_tempahan', 8, 2)->nullable();
+        //     $table->text('catatan_tambahan')->nullable();
+        // });
     }
 
     /**
@@ -34,19 +33,19 @@ class AddColumnsToTempahansTable extends Migration
      */
     public function down()
     {
-        Schema::table('tempahans', function (Blueprint $table) {
-            // Drop the columns that were added in the 'up' method
-            $table->dropColumn([
-                'ukuran_dada',
-                'ukuran_pinggang',
-                'lebar_bahu',
-                'panjang_lengan',
-                'jenis_kain',
-                'warna_kain',
-                'saiz',
-                'harga_tempahan',
-                'catatan_tambahan',
-            ]);
-        });
+        // Schema::table('tempahans', function (Blueprint $table) {
+        //     // Drop the columns that were added in the 'up' method
+        //     $table->dropColumn([
+        //         'ukuran_dada',
+        //         'ukuran_pinggang',
+        //         'lebar_bahu',
+        //         'panjang_lengan',
+        //         //'jenis_kain',
+        //         //'warna_kain',
+        //         'saiz',
+        //         'harga_tempahan',
+        //         'catatan_tambahan',
+        //     ]);
+        // });
     }
 }

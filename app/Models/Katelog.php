@@ -12,6 +12,11 @@ class Katelog extends Model
     protected $fillable = [
         'nama',
         'kategori',
+        'warna',
+        'saiz',
+        'harga',
+        'stok',
+        'penerangan',
         'gambar',
     ];
 }
