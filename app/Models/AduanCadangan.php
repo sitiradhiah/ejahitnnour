@@ -12,9 +12,7 @@ class AduanCadangan extends Model
     // Tell Laravel the correct table name
     protected $table = 'aduan_cadangan';
 
-    protected $fillable = [
-        'nama_pelanggan', 'tajuk', 'kategori', 'tarikh', 'status', 'message'
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'tarikh' => 'date',
