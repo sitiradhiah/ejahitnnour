@@ -1,9 +1,7 @@
-
 @extends('layouts.admin-main')
 
 @section('css')
 <style>
-
 </style>
 @endsection
 
@@ -17,30 +15,27 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card shadow p-3">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h4 class="mb-0">Borang Tempahan Baru</h4>
-                                <a href="{{ route('tempahan.senarai') }}" class="btn btn-secondary ms-2">
-                                    <i class="bi bi-arrow-left"></i> Kembali
-                                </a>
-                            </div>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Borang Tempahan Baru</h4>
+                            <a href="{{ route('tempahan.senarai') }}" class="btn btn-secondary ms-2">
+                                <i class="bi bi-arrow-left"></i> Kembali
+                            </a>
                         </div>
                         <form action="{{ route('tempahan.store') }}" method="POST" class="px-3">
                             @csrf
-                            <!-- Select Existing User -->
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <label for="existing_user" class="form-label">Pilih Pengguna Sedia Ada</label>
-                                    <select class="form-control" id="existing_user" name="existing_user">
-                                        <option value="" disabled selected>Pilih Pengguna</option>
-                                        @foreach($tempahan as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama_pelanggan }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
+                            <!-- Pilih pengguna sedia ada -->
+                            <div class="mb-3">
+                                <label for="existing_user" class="form-label">Pilih Pengguna Sedia Ada</label>
+                                <select class="form-control" id="existing_user" name="existing_user">
+                                    <option value="" disabled selected>Pilih Pengguna</option>
+                                    @foreach($tempahan as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nama_pelanggan }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
-                            <!-- Customer and Order Details -->
+                            <!-- Maklumat Pelanggan -->
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
@@ -51,98 +46,86 @@
                                     <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon">
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <label for="alamat" class="form-label">Alamat</label>
-                                    <textarea class="form-control" id="alamat" name="alamat" rows="2"></textarea>
-                                </div>
+                            <div class="mb-3">
+                                <label for="alamat" class="form-label">Alamat</label>
+                                <textarea class="form-control" id="alamat" name="alamat" rows="2"></textarea>
                             </div>
 
-                            <!-- Remaining Form Fields -->
-                            <div class="row mb-5">
+                            <!-- Tempahan -->
+                            <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="jenis_tempahan" class="form-label">Jenis Tempahan</label>
                                     <select class="form-control" id="jenis_tempahan" name="jenis_tempahan" required>
-                                        <option value="" disabled selected>Pilih Jenis Tempahan</option>
-                                        <option value="Baju Kurung">Baju Kurung</option>
-                                        <option value="Baju Melayu">Baju Melayu</option>
-                                        <option value="Blouse">Blouse</option>
-                                        <option value="Jubah">Jubah</option>
-                                        <option value="Kemeja">Kemeja</option>
-                                        <option value="Seluar">Seluar</option>
-                                        <option value="Pakaian Kanak-Kanak">Pakaian Kanak-Kanak</option>
-                                        <option value="Custom">Custom</option>
+                                        <option disabled selected>Pilih Jenis Tempahan</option>
+                                        @foreach(['Baju Kurung','Baju Melayu','Blouse','Jubah','Kemeja','Seluar','Pakaian Kanak-Kanak','Custom'] as $jenis)
+                                            <option value="{{ $jenis }}">{{ $jenis }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                
                                 <div class="col-md-6">
                                     <label for="tarikh_tempahan" class="form-label">Tarikh Tempahan</label>
                                     <input type="date" class="form-control" id="tarikh_tempahan" name="tarikh_tempahan" required>
                                 </div>
                             </div>
 
-                            <!-- Measurements -->
+                            <!-- Ukuran -->
                             <h5 class="mb-3">Ukuran Badan</h5>
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="chest_size" class="form-label">Ukuran Dada (cm)</label>
-                                    <input type="number" class="form-control" id="chest_size" name="chest_size" required>
+                                    <label for="ukuran_dada" class="form-label">Ukuran Dada (cm)</label>
+                                    <input type="number" class="form-control" id="ukuran_dada" name="ukuran_dada">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="waist_size" class="form-label">Ukuran Pinggang (cm)</label>
-                                    <input type="number" class="form-control" id="waist_size" name="waist_size" required>
+                                    <label for="ukuran_pinggang" class="form-label">Ukuran Pinggang (cm)</label>
+                                    <input type="number" class="form-control" id="ukuran_pinggang" name="ukuran_pinggang">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="shoulder_width" class="form-label">Lebar Bahu (cm)</label>
-                                    <input type="number" class="form-control" id="shoulder_width" name="shoulder_width" required>
+                                    <label for="lebar_bahu" class="form-label">Lebar Bahu (cm)</label>
+                                    <input type="number" class="form-control" id="lebar_bahu" name="lebar_bahu">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="sleeve_length" class="form-label">Panjang Lengan (cm)</label>
-                                    <input type="number" class="form-control" id="sleeve_length" name="sleeve_length" required>
+                                    <label for="panjang_lengan" class="form-label">Panjang Lengan (cm)</label>
+                                    <input type="number" class="form-control" id="panjang_lengan" name="panjang_lengan">
                                 </div>
                             </div>
 
-                            <!-- Fabric and Size Details -->
+                            <!-- Kain -->
                             <h5 class="mb-3">Maklumat Kain</h5>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="jenis_kain" class="form-label">Jenis Kain</label>
-                                    <input type="text" class="form-control" id="jenis_kain" name="jenis_kain" required>
+                                    <input type="text" class="form-control" id="jenis_kain" name="jenis_kain">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="warna_kain" class="form-label">Warna Kain</label>
-                                    <input type="text" class="form-control" id="warna_kain" name="warna_kain" required>
+                                    <input type="text" class="form-control" id="warna_kain" name="warna_kain">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="size" class="form-label">Saiz</label>
-                                    <select class="form-control" id="size" name="size" required>
-                                        <option value="" disabled selected>Pilih Saiz</option>
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
-                                        <option value="Custom">Custom</option>
+                                    <select class="form-control" id="size" name="size">
+                                        <option disabled selected>Pilih Saiz</option>
+                                        @foreach(['S','M','L','XL','Custom'] as $saiz)
+                                            <option value="{{ $saiz }}">{{ $saiz }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="harga_tempahan" class="form-label">Harga Tempahan (RM)</label>
-                                    <input type="number" class="form-control" id="harga_tempahan" name="harga_tempahan" required>
+                                    <input type="number" class="form-control" id="harga_tempahan" name="harga_tempahan">
                                 </div>
                             </div>
 
-                            <!-- Additional Notes -->
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <label for="additional_notes" class="form-label">Catatan Tambahan</label>
-                                    <textarea class="form-control" id="additional_notes" name="additional_notes" rows="3"></textarea>
-                                </div>
+                            <!-- Nota Tambahan -->
+                            <div class="mb-3">
+                                <label for="catatan_tambahan" class="form-label">Catatan Tambahan</label>
+                                <textarea class="form-control" id="catatan_tambahan" name="catatan_tambahan" rows="3"></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-lg w-100">Simpan</button>
+                            <button type="submit" class="btn btn-primary w-100">Simpan</button>
                         </form>
                     </div>
                 </div>
@@ -154,13 +137,28 @@
 
 @section('scripts')
 <script>
-    // Dummy data for existing users (optional if you're not using dynamic fetching)
-    document.getElementById('existing_user').addEventListener('change', function () {
-        var selectedUserId = this.value;
-        
-        // Fetch the selected user details and populate the form fields if needed
-        // You can use AJAX to fetch the data if you prefer dynamic population
-    });
+document.getElementById('existing_user').addEventListener('change', function () {
+    var selectedId = this.value;
+
+    fetch(`/tempahan/pelanggan/${selectedId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('nama_pelanggan').value = data.nama_pelanggan || '';
+            document.getElementById('nombor_telefon').value = data.nombor_telefon || '';
+            document.getElementById('alamat').value = data.alamat || '';
+            document.getElementById('jenis_tempahan').value = data.jenis_tempahan || '';
+            document.getElementById('tarikh_tempahan').value = (data.tarikh_tempahan || '').substring(0,10);
+            document.getElementById('ukuran_dada').value = data.chest_size || '';
+            document.getElementById('ukuran_pinggang').value = data.waist_size || '';
+            document.getElementById('lebar_bahu').value = data.shoulder_width || '';
+            document.getElementById('panjang_lengan').value = data.sleeve_length || '';
+            document.getElementById('jenis_kain').value = data.jenis_kain || '';
+            document.getElementById('warna_kain').value = data.warna_kain || '';
+            document.getElementById('size').value = data.size || '';
+            document.getElementById('harga_tempahan').value = data.harga_tempahan || '';
+            document.getElementById('catatan_tambahan').value = data.additional_notes || '';
+        })
+        .catch(error => console.error('Gagal ambil data pelanggan:', error));
+});
 </script>
 @endsection
-           
