@@ -73,8 +73,13 @@
     <div class="card shadow p-3">
         <div class="card-header">
             <h4>Senarai Pekerja</h4>
+            <a href="{{ route('pekerja.create') }}" class="btn btn-success">Tambah Pekerja</a>
         </div>
         <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -87,54 +92,24 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($workers as $worker)
                     <tr>
-                        <td>1</td>
-                        <td>Ali Bin Ahmad</td>
-                        <td>Admin</td>
-                        <td>012-3456789</td>
-                        <td>ali@admin.com</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $worker->name }}</td>
+                        <td>{{ $worker->peranan }}</td>
+                        <td>{{ $worker->phone }}</td>
+                        <td>{{ $worker->email }}</td>
                         <td>
-                            <button class="btn-info">Info</button>
-                            <button class="btn-edit">Edit</button>
-                            <button class="btn-delete">Delete</button>
+                            <a href="{{ route('pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">Edit</a>
+                
+                            <form action="{{ route('pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">Delete</button>
+                            </form>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Siti Binti Hassan</td>
-                        <td>Pekerja</td>
-                        <td>013-4567890</td>
-                        <td>siti@worker.com</td>
-                        <td>
-                            <button class="btn-info">Info</button>
-                            <button class="btn-edit">Edit</button>
-                            <button class="btn-delete">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Ahmad Bin Kassim</td>
-                        <td>Pekerja</td>
-                        <td>014-5678901</td>
-                        <td>ahmad@worker.com</td>
-                        <td>
-                            <button class="btn-info">Info</button>
-                            <button class="btn-edit">Edit</button>
-                            <button class="btn-delete">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Nabilah Binti Zainal</td>
-                        <td>Pekerja</td>
-                        <td>015-6789012</td>
-                        <td>nabilah@worker.com</td>
-                        <td>
-                            <button class="btn-info">Info</button>
-                            <button class="btn-edit">Edit</button>
-                            <button class="btn-delete">Delete</button>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

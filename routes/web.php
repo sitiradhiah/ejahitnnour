@@ -7,6 +7,9 @@ use App\Http\Controllers\TempahanController;
 use App\Http\Controllers\AduanCadanganController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\TestimonialController;
 
 //route sebelum login
 Route::get('/', function () {
@@ -15,42 +18,59 @@ Route::get('/', function () {
 Route::get('/tentangkami', function () {
     return view('about');
 })->name('about');
-// Route::get('/katelog', function () { //route (url)
-//     return view('katelog'); //blade view file
-// })->name('katelog');
 Route::get('/KatalogUmum', [KatelogController::class, 'KatalogUmum'])->name('KatalogUmum');
-// Route::resource('katelog', KatelogController::class);
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi.kami');
 
-//LOGIN & LOGOUT Pengguna Berdaftar
+// LOGIN & LOGOUT Pengguna Berdaftar
 Route::prefix('logmasuk')->controller(AuthController::class)->group(function () {
-    Route::get('/', 'logmasuk')->name('logmasuk');
-    Route::post('/authenticate', 'authenticate')->name('authenticate');
-    Route::post('/logout', 'logout')->name('logout');
+    Route::get('/', 'logmasuk')->name('logmasuk'); // Route untuk view log masuk
+    Route::post('/authenticate', 'authenticate')->name('authenticate'); // Proses log masuk
+    Route::post('/logout', 'logout')->name('logout'); // Proses log keluar
 });
+
+// Route untuk Daftar Pengguna Baru
+Route::get('/daftarmasuk', function () {
+    return view('daftarmasuk'); // View untuk pendaftaran pengguna baru
+});
+Route::post('/daftarmasuk', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register'); // Proses pendaftaran
 
 // POST /hubungi-kami - for public form submission
 Route::post('/hubungi-kami', [AduanCadanganController::class, 'store'])->name('aduan.store');
 
 // Add all routes that require authentication here
-//route selepas login
 Route::prefix('admin')->middleware(['auth'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('admin.Dashboard');
-    })->name('dashboard');
+     // Route untuk Dashboard
+     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+     // MAKLUMAT SISTEM
+     // Senarai Pekerja
+    Route::get('admin/pekerja', [WorkerController::class, 'index'])->name('pekerja.index');
+    Route::get('admin/pekerja/tambah', [WorkerController::class, 'create'])->name('pekerja.create');
+    Route::post('pekerja/tambah', [WorkerController::class, 'store'])->name('pekerja.store');
+     // Route untuk mengedit pekerja
+     Route::get('pekerja/{id}/edit', [WorkerController::class, 'edit'])->name('pekerja.edit');
+     Route::post('pekerja/{id}/update', [WorkerController::class, 'update'])->name('pekerja.update');
+     // Route untuk memadam pekerja
+     Route::delete('pekerja/{id}', [WorkerController::class, 'destroy'])->name('pekerja.destroy');
+ 
+    // Maklumat Umum - Testimonial
+    Route::get('maklumat-sistem/maklumat-umum', [TestimonialController::class, 'index'])->name('testimonial.index');
+    Route::get('maklumat-sistem/maklumat-umum/edit/{id}', [TestimonialController::class, 'edit'])->name('testimonial.edit');
+    Route::post('maklumat-sistem/maklumat-umum/{id}', [TestimonialController::class, 'update'])->name('testimonial.update');
+
+    
+    // Katalog (Katalog pakaian, dan sebagainya)
     Route::prefix('katelog')->controller(KatelogController::class)->group(function () {
         Route::get('/', 'index')->name('katelog.senarai');
-        Route::post('/store', 'store')->name('katelog.store'); // <-- ini WAJIB ADA
+        Route::post('/store', 'store')->name('katelog.store'); // <-- Ini WAJIB ADA
         Route::get('/{id}/edit', 'edit')->name('katelog.edit');
         Route::post('/update/{id}', 'update')->name('katelog.update');
         Route::delete('/destroy/{id}', 'destroy')->name('katelog.destroy');
     });
     
-
     // Category Routes
     Route::resource('kategori', CategoryController::class);
 
@@ -59,8 +79,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
     Route::get('/tempahan/pelanggan/{id}', [TempahanController::class, 'getPelanggan'])->name('tempahan.getPelanggan');
     Route::resource('tempahan', TempahanController::class)->except(['index', 'create']);
-
-
+    
+    // Lain-lain route
     Route::prefix('janaan-laporan')->middleware(['auth'])->group(function () {
         Route::get('/', function () {
             return view('admin.penjanaan');
@@ -72,7 +92,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/', [AduanCadanganController::class, 'index'])->name('aduan-cadangan.index');
         Route::get('/{id}/preview', [AduanCadanganController::class, 'preview'])->name('aduan-cadangan.preview');
         Route::delete('/{id}', [AduanCadanganController::class, 'destroy'])->name('aduan-cadangan.destroy');
-
     });
 
     Route::prefix('maklumat-sistem')->middleware(['auth'])->group(function () {
@@ -81,20 +100,4 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         })->name('maklumat-sistem.senarai-pekerja');
     });
 
-
-    // Route::get('/profile', function () {
-    //     return view('profile');
-    // })->name('profile');
-
-    // Route::get('/settings', function () {
-    //     return view('settings');
-    // })->name('settings');
-
-    // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-    // Route::get('/pengurusan-katelog', function () {
-    //     return view('admin.pengurusan-katelog'); // atau 'admin.pengurusan-katelog' jika dalam folder admin
-    // })->name('pengurusan-katelog');
-
 });
-

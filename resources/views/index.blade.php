@@ -251,25 +251,22 @@
 
 <div class="divider"></div>
 
+@php
+    $testimonials = \App\Models\Testimonial::all();
+@endphp
+
 <section class="testimoni-section">
   <h2>Apa Kata Pelanggan Kami</h2>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
+      @foreach($testimonials as $testi)
       <div class="swiper-slide">
-        <img src="{{ asset('images/user1.jpg') }}" alt="Nurul Ain">
-        <div class="testimoni-name">Nurul Ain</div>
-        <div class="testimoni-text">"Saya sangat berpuas hati dengan hasil jahitan dari N'NOUR. Servis terbaik dan pantas!"</div>
+        <!-- Pastikan gambar diambil dari folder public/images -->
+        <img src="{{ asset('storage/' . $testi->image) }}" alt="{{ $testi->name }}">
+        <div class="testimoni-name">{{ $testi->name }}</div>
+        <div class="testimoni-text">"{{ $testi->feedback }}"</div>
       </div>
-      <div class="swiper-slide">
-        <img src="{{ asset('images/user2.jpg') }}" alt="Siti Khadijah">
-        <div class="testimoni-name">Siti Khadijah</div>
-        <div class="testimoni-text">"Material kain sangat selesa, design ikut apa yang saya minta. Recommended!"</div>
-      </div>
-      <div class="swiper-slide">
-        <img src="{{ asset('images/user3.jpg') }}" alt="Azman Hakim">
-        <div class="testimoni-name">Azman Hakim</div>
-        <div class="testimoni-text">"Tempahan siap cepat dan kualiti sangat memuaskan. Terima kasih!"</div>
-      </div>
+      @endforeach
     </div>
   </div>
 </section>

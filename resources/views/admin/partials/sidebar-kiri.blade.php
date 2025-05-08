@@ -39,11 +39,12 @@
                         <li class="submenu-item {{ Request::is('maklumat-sistem/senarai-pekerja') ? 'active' : '' }}">
                             <a href="{{ route('maklumat-sistem.senarai-pekerja') }}">Senarai Pekerja Kedai N'NOUR</a>
                         </li>
-                        <li class="submenu-item {{ Request::is('maklumat-sistem/maklumat-umum') ? 'active' : '' }}">
-                            <a href="{{ route('tempahan.baru') }}">Maklumat Umum</a>
+                        <li class="submenu-item {{ Request::is('admin/testimonial') ? 'active' : '' }}">
+                            <a href="{{ route('testimonial.index') }}">Maklumat Umum</a>
                         </li>
                     </ul>
                 </li>
+                
 
                 <li class="sidebar-item has-sub {{ Request::is('admin/tempahan*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>

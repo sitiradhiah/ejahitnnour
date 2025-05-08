@@ -1,9 +1,8 @@
-
 @extends('layouts.admin-main')
 
 @section('css')
 <style>
-
+    /* Tambah styling jika perlu */
 </style>
 @endsection
 
@@ -26,7 +25,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Jumlah Tempahan 2025</h6>
-                                    <h6 class="font-extrabold mb-0">242 </h6>
+                                    <h6 class="font-extrabold mb-0">{{ $totalOrders }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -42,11 +41,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Jumlah Jualan 2025 (Siap) </h6>
-                                    <h6 class="font-extrabold mb-0">RM6,500</h6>
-                                    <!-- <div>
-                                        <i class="icon-list"></i> Total Items: <span id="totalItems">0</span>
-                                    </div> -->
+                                    <h6 class="text-muted font-semibold">Jumlah Jualan 2025 (Siap)</h6>
+                                    <h6 class="font-extrabold mb-0">RM{{ number_format($completedSales, 2) }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +59,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Tempahan Dalam Proses</h6>
-                                    <h6 class="font-extrabold mb-0">100</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $ordersInProgress }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -80,13 +76,15 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Tempahan Bulan ini (Januari)</h6>
-                                    <h6 class="font-extrabold mb-0">10</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $monthlyOrders }}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Statistik Tempahan -->
             <div class="row">
                 <div class="col-12">
                     <div class="card shadow">
@@ -99,6 +97,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pertanyaan Terkini -->
             <div class="row">
                 <div class="col-12 col-xl-12">
                     <div class="card shadow">
@@ -115,32 +115,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="{{ asset('admin/images/faces/5.jpg')}}">
+                                        @foreach($latestInquiries as $inquiry)
+                                            <tr>
+                                                <td class="col-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar avatar-md">
+                                                            <img src="{{ asset('admin/images/faces/5.jpg') }}">
+                                                        </div>
+                                                        <p class="font-bold ms-3 mb-0">{{ $inquiry->name }}</p>
                                                     </div>
-                                                    <p class="font-bold ms-3 mb-0">Orang 1</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Ada sediakan perkhidmatan untuk cutting baju tak?</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="{{ asset('admin/images/faces/2.jpg')}}">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Orang 2</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Boleh buat tempah untuk Baju Kurta Modern?</p>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="col-auto">
+                                                    <p class="mb-0">{{ $inquiry->question }}</p>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -149,7 +138,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- Sidebar -->
         <div class="col-12 col-lg-3">
+            <!-- Pekerja dan Pemberitahuan -->
             <div class="card shadow">
                 <div class="card-body py-4 px-5">
                     <div class="d-flex align-items-center">
@@ -169,6 +161,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pekerja -->
             <div class="card shadow">
                 <div class="card-header">
                     <h4>Pekerja</h4>
@@ -176,36 +170,20 @@
                 <div class="card-content pb-4">
                     <div class="recent-message d-flex px-4 py-3">
                         <div class="avatar avatar-lg">
-                            <img src="{{ asset('admin/images/faces/4.jpg')}}">
+                            <img src="{{ asset('admin/images/faces/4.jpg') }}">
                         </div>
                         <div class="name ms-4">
                             <h5 class="mb-1">Pekerja1</h5>
-                            {{-- <h6 class="text-muted mb-0">@johnducky</h6> --}}
                         </div>
                     </div>
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('admin/images/faces/5.jpg')}}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Pekerja2</h5>
-                            {{-- <h6 class="text-muted mb-0">@imdean</h6> --}}
-                        </div>
-                    </div>
-                    <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
-                            <img src="{{ asset('admin/images/faces/1.jpg')}}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Pekerja3</h5>
-                            {{-- <h6 class="text-muted mb-0">@dodoljohn</h6> --}}
-                        </div>
-                    </div>
+                    <!-- Pekerja2 dan Pekerja3, tambahkan jika perlu -->
                     <div class="px-4">
                         <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Pemberitahuan</button>
                     </div>
                 </div>
             </div>
+
+            <!-- Carta Pai Peratus Jantina -->
             <div class="card shadow">
                 <div class="card-header">
                     <h4>Carta Pai Peratus Jantina</h4>
@@ -224,10 +202,10 @@
     var options = {
         series: [{
             name: 'Siap',
-            data: [20, 35, 30, 0, 0, 0, 0, 0, 0]
+            data: @json($monthlyOrdersCompleted)
         }, {
             name: 'Dalam Proses',
-            data: [10, 20, 0, 7, 27, 34, 23, 5, 10]
+            data: @json($monthlyOrdersInProgress)
         }],
         chart: {
             type: 'bar',
@@ -237,7 +215,7 @@
             text: 'Jumlah Tempahan Siap dan Dalam Proses',
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         }
     };
 
