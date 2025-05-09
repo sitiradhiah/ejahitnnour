@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order; // Pastikan model Order ada
-use App\Models\Inquiry; // Pastikan model Inquiry ada
+use App\Models\AduanCadangan; // Dari inquriy default ubah ke aduancadangan
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -30,8 +30,9 @@ class DashboardController extends Controller
             $monthlyOrdersInProgress[] = Order::whereMonth('created_at', $i)->where('status', 'in-progress')->count();
         }
 
-        // Ambil pertanyaan terkini
-        $latestInquiries = Inquiry::latest()->take(5)->get();
+        // Ambil 5 aduan atau cadangan terbaru
+        $latestInquiries = AduanCadangan::orderBy('tarikh', 'desc')->take(5)->get();
+
 
         // Hantar data ke view
         return view('admin.dashboard', compact('totalOrders', 'completedSales', 'ordersInProgress', 'monthlyOrders', 'monthlyOrdersCompleted', 'monthlyOrdersInProgress', 'latestInquiries'));

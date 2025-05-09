@@ -24,6 +24,27 @@
     .modal-title {
         font-weight: bold;
     }
+
+    .btn-filter-status {
+        background-color: #CC6600; /* oren gelap */
+        color: white;
+        border: none;
+        font-weight: 500;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .btn-filter-status:hover,
+    .btn-filter-status:focus,
+    .btn-filter-status:active,
+    .show > .btn-filter-status.dropdown-toggle {
+        background-color: #FF8C00; /* oren terang */
+        color: white;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+        background-color: #ffe5cc;
+        color: #000;
+    }
 </style>
 @endsection
 
@@ -52,6 +73,20 @@
                                             @endforeach
                                         </ul>
                                     </div>
+
+                                    <!-- Filter Status Pelanggan -->
+                                    <div class="btn-group ms-2">
+                                        <button type="button" class="btn btn-filter-status dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Filter Status
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item filter-status-btn" href="#" data-status="All">Semua</a></li>
+                                            <li><a class="dropdown-item filter-status-btn" href="#" data-status="Aktif">Tempahan Aktif</a></li>
+                                            <li><a class="dropdown-item filter-status-btn" href="#" data-status="Lama">Pelanggan Lama</a></li>
+                                        </ul>
+                                    </div>
+                                    
+
                                     <a href="{{ route('tempahan.baru') }}" class="btn btn-success ms-2">
                                         <i class="bi bi-plus"></i> Tempahan Baru
                                     </a>
@@ -65,6 +100,7 @@
                                     <th>Nama Pelanggan</th>
                                     <th style="text-align: center;">Jenis Tempahan</th>
                                     <th style="text-align: center;">Tarikh Tempahan</th>
+                                    <th style="text-align: center;">Status</th>
                                     <th style="width: 15%; text-align: center;">Tindakan</th>
                                 </tr>
                             </thead>
@@ -75,6 +111,7 @@
                                     <td>{{ $item->nama_pelanggan }}</td>
                                     <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
                                     <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
+                                    <td style="text-align: center;">{{ $item->status }}</td>
                                     <td style="text-align: center;">
                                         <!-- Info Button triggers modal -->
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}">Maklumat</button>
@@ -130,21 +167,43 @@
 
 @section('scripts')
 <script>
-    // Filter Tempahan by Jenis Tempahan
+    let currentFilterJenis = 'All';
+    let currentFilterStatus = 'All';
+
+    function applyFilters() {
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(function(row) {
+            const jenisTempahan = row.querySelector('td:nth-child(3)').textContent.trim();
+            const statusTempahan = row.querySelector('td:nth-child(5)').textContent.trim();
+
+            const matchJenis = (currentFilterJenis === 'All' || jenisTempahan === currentFilterJenis);
+            const matchStatus = (currentFilterStatus === 'All' || statusTempahan === currentFilterStatus);
+
+            if (matchJenis && matchStatus) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Penapis Jenis Tempahan
     document.querySelectorAll('.filter-btn').forEach(function(button) {
         button.addEventListener('click', function(event) {
             event.preventDefault();
-            var filterValue = this.getAttribute('data-filter');
-            var rows = document.querySelectorAll('tbody tr');
-            rows.forEach(function(row) {
-                var jenisTempahan = row.querySelector('td:nth-child(3)').textContent;
-                if (jenisTempahan === filterValue || filterValue === 'All') {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+            currentFilterJenis = this.getAttribute('data-filter');
+            applyFilters();
+        });
+    });
+
+    // Penapis Status Tempahan
+    document.querySelectorAll('.filter-status-btn').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            currentFilterStatus = this.getAttribute('data-status');
+            applyFilters();
         });
     });
 </script>
 @endsection
+

@@ -1,8 +1,22 @@
 @extends('layouts.admin-main')
 
+@php
+    use Illuminate\Support\Str;
+    use Carbon\Carbon;
+@endphp
+
 @section('css')
 <style>
-    /* Tambah styling jika perlu */
+    <style>
+    .badge.bg-primary {
+        background-color: #ff6600 !important;
+        color: white;
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 10px;
+    }
+</style>
+
 </style>
 @endsection
 
@@ -116,20 +130,27 @@
                                     </thead>
                                     <tbody>
                                         @foreach($latestInquiries as $inquiry)
-                                            <tr>
-                                                <td class="col-3">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="avatar avatar-md">
-                                                            <img src="{{ asset('admin/images/faces/5.jpg') }}">
-                                                        </div>
-                                                        <p class="font-bold ms-3 mb-0">{{ $inquiry->name }}</p>
+                                        <tr onclick="window.location.href='{{ route('aduan-cadangan.index') }}';" style="cursor: pointer;">
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-md">
+                                                        <img src="{{ asset('admin/images/faces/5.jpg') }}">
                                                     </div>
-                                                </td>
-                                                <td class="col-auto">
-                                                    <p class="mb-0">{{ $inquiry->question }}</p>
-                                                </td>
-                                            </tr>
+                                                    <p class="font-bold ms-3 mb-0">
+                                                        {{ $inquiry->nama_pelanggan }}
+                                                        @if(Carbon::parse($inquiry->tarikh)->gt(Carbon::now()->subDay()))
+                                                            <span class="badge bg-primary ms-2">Baru</span>
+                                                        @endif
+                                                    </p>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class="mb-0">{{ Str::limit($inquiry->message, 50) }}</p>
+                                            </td>
+                                        </tr>
                                         @endforeach
+
                                     </tbody>
                                 </table>
                             </div>

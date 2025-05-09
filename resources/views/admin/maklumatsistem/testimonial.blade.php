@@ -6,6 +6,44 @@
         margin-bottom: 20px;
         text-align: center;
     }
+
+    .btn-add, .btn-edit, .btn-delete {
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .btn-add {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-add:hover {
+        background-color: #218838;
+    }
+
+    .btn-edit {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-edit:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
 </style>
 @endsection
 
@@ -15,34 +53,52 @@
 </div>
 <div class="container">
     <div class="card shadow p-3">
-        <div class="card-header">
-            <h4>Pengurusan Testimonial</h4>
+        <div class="card-header d-flex justify-content-between">
+            <h4>Senarai Testimonial</h4>
+            <button class="btn-add" data-bs-toggle="modal" data-bs-target="#addTestimonialModal">Tambah Testimonial</button>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('testimonial.update', $testimonial->id) }}" enctype="multipart/form-data">
-                @csrf
-                @method('POST')
-                <div class="form-group">
-                    <label for="name">Nama</label>
-                    <input type="text" name="name" class="form-control" value="{{ $testimonial->name }}" required>
-                </div>
-            
-                <div class="form-group">
-                    <label for="feedback">Kata-Kata Pelanggan</label>
-                    <textarea name="feedback" class="form-control" required>{{ $testimonial->feedback }}</textarea>
-                </div>
-            
-                <div class="form-group">
-                    <label for="image">Gambar</label>
-                    <input type="file" name="image" class="form-control">
-                    @if($testimonial->image)
-                    <img src="{{ asset('storage/' . $testimonial->image) }}" alt="Testimonial Image" class="mt-2" width="100">
-                    @endif
-                </div>
-            
-                <button type="submit" class="btn btn-success">Simpan</button>
-            </form>
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Maklum Balas</th>
+                        <th>Gambar</th>
+                        <th>Tindakan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($testimonials as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->feedback }}</td>
+                        <td>
+                            @if($item->image)
+                                <img src="{{ asset('storage/' . $item->image) }}" width="50">
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('testimonial.edit', $item->id) }}" class="btn-edit btn-sm">Edit</a>
+                            <form action="{{ route('testimonial.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete btn-sm" onclick="return confirm('Padam testimonial ini?')">Padam</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+{{-- Modal Tambah Testimonial --}}
+@include('admin.maklumatsistem.testimonial-add')
 @endsection
