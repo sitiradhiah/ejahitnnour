@@ -80,7 +80,7 @@
                         <td>{{ $item->feedback }}</td>
                         <td>
                             @if($item->image)
-                                <img src="{{ asset('storage/' . $item->image) }}" width="50">
+                                <img src="{{ asset('storage/images/' . $item->image) }}" width="50">
                             @endif
                         </td>
                         <td>
