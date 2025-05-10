@@ -58,9 +58,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // Maklumat Umum - Testimonial
     Route::get('maklumat-sistem/maklumat-umum', [TestimonialController::class, 'index'])->name('testimonial.index');
+    Route::post('maklumat-sistem/maklumat-umum/store', [TestimonialController::class, 'store'])->name('testimonial.store');
     Route::get('maklumat-sistem/maklumat-umum/edit/{id}', [TestimonialController::class, 'edit'])->name('testimonial.edit');
     Route::post('maklumat-sistem/maklumat-umum/{id}', [TestimonialController::class, 'update'])->name('testimonial.update');
-    Route::post('maklumat-sistem/maklumat-umum/store', [TestimonialController::class, 'store'])->name('testimonial.store');
     Route::delete('maklumat-sistem/maklumat-umum/{id}', [TestimonialController::class, 'destroy'])->name('testimonial.destroy');
 
 
