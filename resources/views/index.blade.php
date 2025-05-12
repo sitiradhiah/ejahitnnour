@@ -210,7 +210,7 @@
     <h1>KEDAI JAHIT N'NOUR</h1>
     <p>Selamat Datang ke Kedai Jahit N'NOUR, sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.</p>
     <div class="btn-box">
-      <a href="{{ route('hubungi.kami') }}" class="btn1">Hubungi Kami</a>
+      <a href="{{ route('hubungi.kami') }}" class="btn1">Tempah Sekarang!!</a>
       <a href="{{ route('about') }}" class="btn2">Tentang Kami</a>
     </div>
     <div class="search-bar-container">

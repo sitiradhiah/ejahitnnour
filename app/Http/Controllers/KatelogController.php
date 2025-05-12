@@ -22,6 +22,8 @@ class KatelogController extends Controller
     {
         $search = $request->input('search');
         $kategori = $request->input('kategori', 'all');
+        $warna = $request->input('warna');
+        $saiz = $request->input('saiz');
 
         $query = Katelog::query();
 
@@ -29,14 +31,26 @@ class KatelogController extends Controller
             $query->where('nama', 'like', '%' . $search . '%');
         }
 
-        if ($kategori !== 'all') {
+        if ($kategori && $kategori !== 'all') {
             $query->where('kategori', $kategori);
+        }
+
+        if ($warna && $warna !== 'all') {
+            $query->where('warna', $warna);
+        }
+
+        if ($saiz && $saiz !== 'all') {
+            $query->where('saiz', $saiz);
         }
 
         $katalogs = $query->get();
         $categories = Category::orderBy('name', 'asc')->get();
 
-        return view('katelog', compact('katalogs', 'search', 'kategori', 'categories'));
+        // Ambil senarai unik warna dan saiz
+        $warnaList = Katelog::select('warna')->distinct()->pluck('warna')->filter()->sort()->values();
+        $saizList = Katelog::select('saiz')->distinct()->pluck('saiz')->filter()->sort()->values();
+
+        return view('katelog', compact('katalogs', 'search', 'kategori', 'warna', 'saiz', 'categories', 'warnaList', 'saizList'));
     }
 
     public function store(Request $request)
