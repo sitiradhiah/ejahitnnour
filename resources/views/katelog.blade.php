@@ -7,6 +7,43 @@
         background: linear-gradient(to bottom, #fff4fd, #ffe3ef);
     }
 
+    /* Styling untuk Image Slider */
+    .hero-slider {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .slider-container {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .slider {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .slider img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        max-height: 400px; /* Saiz maksimum untuk gambar slider */
+        display: block;
+    }
+
+    /* Animasi untuk slider */
+    @keyframes slide {
+        0% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(-200%);
+        }
+    }
+
     .hero-banner {
         width: 100%;
         background: linear-gradient(to right, #fce4ec, #f1afc6);
@@ -97,11 +134,12 @@
     }
 
     .catalogue-container {
-        display: grid;
+            display: grid;
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         gap: 24px;
         padding: 30px 20px;
         animation: fadeIn 1s ease-in-out;
+        margin-top: 20px; /* Memberi sedikit ruang antara slider dan katalog */
     }
 
     .product-card {
@@ -185,6 +223,17 @@
 
 
 @section('content')
+
+<section class="hero-slider">
+    <div class="slider-container">
+        <div class="slider">
+            <img src="{{ asset('images/Slider1.jpg') }}" alt="Slider 1">
+            <img src="{{ asset('images/Slider2.jpg') }}" alt="Slider 2">
+            <img src="{{ asset('images/Slider3.jpg') }}" alt="Slider 3">
+        </div>
+    </div>
+</section>
+
 <section class="hero-banner">
     <h2>KATALOG REKA BENTUK PAKAIAN</h2>
     <p class="pre-order-text">PRE-ORDER NOW!</p>
@@ -241,4 +290,5 @@
         </div>
     </div>
 </section>
+
 @endsection
