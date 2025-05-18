@@ -7,15 +7,22 @@
         background: linear-gradient(to bottom, #fff4fd, #ffe3ef);
     }
 
-    /* Styling untuk Image Slider */
-    .hero-slider {
-        width: 100%;
-        margin-bottom: 20px;
+    /* Container gabungan slider + banner */
+    .hero-section {
+        background: linear-gradient(to right, #fce4ec, #f1afc6);
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        padding: 0;
+        margin-bottom: 30px;
+        overflow: hidden;
     }
 
+    /* Styling untuk Image Slider */
     .slider-container {
         overflow: hidden;
         position: relative;
+        border-radius: 12px 12px 0 0;
+        max-height: 400px; /* Batasi tinggi slider */
     }
 
     .slider {
@@ -25,9 +32,8 @@
 
     .slider img {
         width: 100%;
-        height: auto;
+        height: 400px;   /* Tetap konsisten dengan max-height */
         object-fit: cover;
-        max-height: 400px; /* Saiz maksimum untuk gambar slider */
         display: block;
     }
 
@@ -44,25 +50,17 @@
         }
     }
 
+    /* Banner bawah slider */
     .hero-banner {
-        width: 100%;
-        background: linear-gradient(to right, #fce4ec, #f1afc6);
-        padding: 40px 20px; /* Kecilkan sedikit padding */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        padding: 30px 20px;
         text-align: center;
-        position: relative;
-        z-index: 1;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        border-radius: 12px;
+        color: #880e4f;
+        border-radius: 0 0 12px 12px;
     }
 
     .hero-banner h2 {
         font-size: 2.6rem;
         font-weight: 700;
-        color: #880e4f;
         margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -90,16 +88,11 @@
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
     }
 
+    /* Pulse animation */
     @keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.05);
-        }
-        100% {
-            transform: scale(1);
-        }
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
 
     /* Filter Bar */
@@ -109,37 +102,38 @@
         justify-content: center;
         gap: 20px;
         margin-top: 30px;
-        background: transparent; /* Set background transparent */
+        background: transparent;
     }
 
     .filter-bar select {
         padding: 12px 20px;
         border-radius: 10px;
-        border: 1px solid #c2185b; /* New border color to make it stand out */
+        border: 1px solid #c2185b;
         font-size: 1rem;
-        background-color: #fff; /* Set background transparent */
+        background-color: #fff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: 0.3s ease;
     }
 
     .filter-bar select:hover {
-        border-color: #880e4f; /* Make border darker on hover */
+        border-color: #880e4f;
         transform: scale(1.02);
     }
 
     .filter-bar select:focus {
         outline: none;
         border-color: #880e4f;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box-shadow on focus */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
+    /* Container katalog produk */
     .catalogue-container {
-            display: grid;
+        display: grid;
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         gap: 24px;
         padding: 30px 20px;
         animation: fadeIn 1s ease-in-out;
-        margin-top: 20px; /* Memberi sedikit ruang antara slider dan katalog */
+        margin-top: 20px; /* Ruang antara banner dan katalog */
     }
 
     .product-card {
@@ -216,6 +210,10 @@
             flex-direction: column;
             gap: 10px;
         }
+
+        .slider img {
+            height: 250px; /* lebih kecil di mobile */
+        }
     }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
@@ -224,7 +222,7 @@
 
 @section('content')
 
-<section class="hero-slider">
+<section class="hero-section">
     <div class="slider-container">
         <div class="slider">
             <img src="{{ asset('images/Slider1.jpg') }}" alt="Slider 1">
@@ -232,45 +230,42 @@
             <img src="{{ asset('images/Slider3.jpg') }}" alt="Slider 3">
         </div>
     </div>
+
+    <div class="hero-banner">
+        <h2>KATALOG REKA BENTUK PAKAIAN</h2>
+        <p class="pre-order-text">PRE-ORDER NOW!</p>
+        <p class="catchphrase">Tempah ikut citarasa anda. Cepat dan mudah.</p>
+
+        <form method="GET" class="filter-bar">
+            <select name="kategori" onchange="this.form.submit()">
+                <option value="">Semua Kategori</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->name }}" {{ request('kategori') == $cat->name ? 'selected' : '' }}>
+                        {{ $cat->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            <select name="warna" onchange="this.form.submit()">
+                <option value="">Semua Warna</option>
+                @foreach($warnaList as $w)
+                    <option value="{{ $w }}" {{ request('warna') == $w ? 'selected' : '' }}>
+                        {{ $w }}
+                    </option>
+                @endforeach
+            </select>
+
+            <select name="saiz" onchange="this.form.submit()">
+                <option value="">Semua Saiz</option>
+                @foreach($saizList as $s)
+                    <option value="{{ $s }}" {{ request('saiz') == $s ? 'selected' : '' }}>
+                        {{ $s }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
+    </div>
 </section>
-
-<section class="hero-banner">
-    <h2>KATALOG REKA BENTUK PAKAIAN</h2>
-    <p class="pre-order-text">PRE-ORDER NOW!</p>
-    <p class="catchphrase">Tempah ikut citarasa anda. Cepat dan mudah.</p>
-    
-    <form method="GET" class="filter-bar">
-        <select name="kategori" onchange="this.form.submit()">
-            <option value="">Semua Kategori</option>
-            @foreach($categories as $cat)
-                <option value="{{ $cat->name }}" {{ request('kategori') == $cat->name ? 'selected' : '' }}>
-                    {{ $cat->name }}
-                </option>
-            @endforeach
-        </select>
-
-        <select name="warna" onchange="this.form.submit()">
-            <option value="">Semua Warna</option>
-            @foreach($warnaList as $w)
-                <option value="{{ $w }}" {{ request('warna') == $w ? 'selected' : '' }}>
-                    {{ $w }}
-                </option>
-            @endforeach
-        </select>
-
-        <select name="saiz" onchange="this.form.submit()">
-            <option value="">Semua Saiz</option>
-            @foreach($saizList as $s)
-                <option value="{{ $s }}" {{ request('saiz') == $s ? 'selected' : '' }}>
-                    {{ $s }}
-                </option>
-            @endforeach
-        </select>
-    </form>
-</section>
-
-<!-- ✅ Fade effect antara layer -->
-<div class="fade-divider"></div>
 
 <section class="catalogue-section py-5">
     <div class="container">

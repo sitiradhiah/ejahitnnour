@@ -142,11 +142,14 @@
   }
 
   .swiper-slide img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 700px;       /* ukuran diperbesar */
+    height: 500px;      /* ukuran diperbesar */
+    border-radius: 0;   /* hilangkan bentuk bulat */
     margin-bottom: 20px;
     object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .testimoni-name {
@@ -162,6 +165,72 @@
     margin-top: 10px;
   }
 
+  /* --- Tambahan untuk Order Check Section --- */
+
+  .order-check-section {
+    background: #f0f8ff; /* warna latar lembut */
+    padding: 80px 20px;
+    text-align: center;
+    border-radius: 15px;
+    max-width: 600px;
+    margin: 40px auto; /* kasih margin atas bawah */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .order-check-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .order-check-section p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #555;
+  }
+
+  .order-check-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .order-check-form input[type="text"] {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    width: 70%;
+    max-width: 400px;
+    transition: border-color 0.3s ease;
+  }
+
+  .order-check-form input[type="text"]:focus {
+    border-color: #b42e8b;
+    outline: none;
+  }
+
+  .order-check-form button {
+    background-color: #b42e8b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .order-check-form button:hover {
+    background-color: #8a2167;
+  }
+
+  /* Responsive tweaks */
   @media (max-width: 768px) {
     .detail-box {
       padding: 30px 20px;
@@ -199,9 +268,24 @@
     .search-bar-container form {
       flex-direction: column;
     }
+
+    .order-check-form {
+      flex-direction: column;
+    }
+
+    .order-check-form input[type="text"] {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .order-check-form button {
+      width: 100%;
+      padding: 15px;
+    }
   }
 </style>
 @endsection
+
 
 @section('content')
 
@@ -240,16 +324,17 @@
 
 <div class="divider"></div>
 
-<div style="text-align: center; padding: 100px 0;">
-  <h2>Pengesanan Tempahan Anda</h2>
-  <p>Jejaki tempahan berdasarkan format nombor penjejakan</p>
-  <div class="form-group">
-    <input type="text" placeholder="Nombor penjejakan (ID)">
-    <button><i class="fa fa-search"></i> Cari</button>
-  </div>
+<div class="order-check-section">
+  <h2>Semakan Pesanan Anda</h2>
+  <p>Semak tempahan anda untuk pengetahui kemajuan</p>
+  <form class="order-check-form" action="#" method="GET">
+    <input type="text" placeholder="Masukkan nama atau no telefon" name="query" required>
+    <button type="submit"><i class="fa fa-search"></i> Cari</button>
+  </form>
 </div>
 
 <div class="divider"></div>
+
 
 @php
     $testimonials = \App\Models\Testimonial::all();
@@ -262,7 +347,11 @@
       @foreach($testimonials as $testi)
       <div class="swiper-slide">
         <!-- Pastikan gambar diambil dari folder public/images -->
-        <img src="{{ asset('storage/' . $testi->image) }}" alt="{{ $testi->name }}">
+        @if($testi->image && file_exists(public_path('storage/images/' . $testi->image)))
+          <img src="{{ asset('storage/images/' . $testi->image) }}" alt="{{ $testi->name }}">
+        @else
+          <img src="{{ asset('images/default-user.png') }}" alt="Default Image">
+        @endif
         <div class="testimoni-name">{{ $testi->name }}</div>
         <div class="testimoni-text">"{{ $testi->feedback }}"</div>
       </div>
@@ -272,6 +361,7 @@
 </section>
 
 @endsection
+
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
