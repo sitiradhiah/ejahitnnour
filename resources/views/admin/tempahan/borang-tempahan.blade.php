@@ -33,8 +33,8 @@
                                         <option value="{{ $item->id }}">{{ $item->nama_pelanggan }}</option>
                                     @endforeach
                                 </select>
+                                
                             </div>
-
                             <!-- Maklumat Pelanggan -->
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -137,28 +137,29 @@
 
 @section('scripts')
 <script>
-document.getElementById('existing_user').addEventListener('change', function () {
-    var selectedId = this.value;
-
-    fetch(`/tempahan/pelanggan/${selectedId}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('nama_pelanggan').value = data.nama_pelanggan || '';
-            document.getElementById('nombor_telefon').value = data.nombor_telefon || '';
-            document.getElementById('alamat').value = data.alamat || '';
-            document.getElementById('jenis_tempahan').value = data.jenis_tempahan || '';
-            document.getElementById('tarikh_tempahan').value = (data.tarikh_tempahan || '').substring(0,10);
-            document.getElementById('ukuran_dada').value = data.chest_size || '';
-            document.getElementById('ukuran_pinggang').value = data.waist_size || '';
-            document.getElementById('lebar_bahu').value = data.shoulder_width || '';
-            document.getElementById('panjang_lengan').value = data.sleeve_length || '';
-            document.getElementById('jenis_kain').value = data.jenis_kain || '';
-            document.getElementById('warna_kain').value = data.warna_kain || '';
-            document.getElementById('size').value = data.size || '';
-            document.getElementById('harga_tempahan').value = data.harga_tempahan || '';
-            document.getElementById('catatan_tambahan').value = data.additional_notes || '';
-        })
-        .catch(error => console.error('Gagal ambil data pelanggan:', error));
-});
-</script>
+    document.getElementById('existing_user').addEventListener('change', function () {
+        var selectedId = this.value;
+    
+        // Correct the fetch URL
+        fetch(`/admin/tempahan/pelanggan/${selectedId}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('nama_pelanggan').value = data.nama_pelanggan || '';
+                document.getElementById('nombor_telefon').value = data.nombor_telefon || '';
+                document.getElementById('alamat').value = data.alamat || '';
+                document.getElementById('jenis_tempahan').value = data.jenis_tempahan || '';
+                document.getElementById('tarikh_tempahan').value = (data.tarikh_tempahan || '').substring(0,10);
+                document.getElementById('ukuran_dada').value = data.chest_size || '';
+                document.getElementById('ukuran_pinggang').value = data.waist_size || '';
+                document.getElementById('lebar_bahu').value = data.shoulder_width || '';
+                document.getElementById('panjang_lengan').value = data.sleeve_length || '';
+                document.getElementById('jenis_kain').value = data.jenis_kain || '';
+                document.getElementById('warna_kain').value = data.warna_kain || '';
+                document.getElementById('size').value = data.size || '';
+                document.getElementById('harga_tempahan').value = data.harga_tempahan || '';
+                document.getElementById('catatan_tambahan').value = data.additional_notes || '';
+            })
+            .catch(error => console.error('Gagal ambil data pelanggan:', error));
+    });
+    </script>
 @endsection

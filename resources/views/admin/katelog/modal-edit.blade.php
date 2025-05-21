@@ -36,10 +36,6 @@
                 <label>Harga (RM)</label>
                 <input type="number" step="0.01" name="harga" id="editHarga" class="form-control">
               </div>
-              <div class="col-md-6 mb-3">
-                <label>Stok</label>
-                <input type="number" name="stok" id="editStok" class="form-control">
-              </div>
               <div class="col-md-12 mb-3">
                 <label>Penerangan Produk</label>
                 <textarea name="penerangan" id="editPenerangan" class="form-control" rows="3"></textarea>

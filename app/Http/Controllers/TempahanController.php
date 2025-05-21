@@ -117,7 +117,28 @@ class TempahanController extends Controller
     // Hantar data pelanggan untuk autofill borang tempahan baru
     public function getPelanggan($id)
     {
-        $tempahan = Tempahan::findOrFail($id);
-        return response()->json($tempahan);
+        $pelanggan = Tempahan::find($id);
+        if (!$pelanggan) {
+            return response()->json([], 404);
+        }
+    
+        return response()->json([
+            'nama_pelanggan' => $pelanggan->nama_pelanggan,
+            'nombor_telefon' => $pelanggan->nombor_telefon,
+            'alamat' => $pelanggan->alamat,
+            'jenis_tempahan' => $pelanggan->jenis_tempahan,
+            'tarikh_tempahan' => $pelanggan->tarikh_tempahan,
+            'chest_size' => $pelanggan->chest_size,
+            'waist_size' => $pelanggan->waist_size,
+            'shoulder_width' => $pelanggan->shoulder_width,
+            'sleeve_length' => $pelanggan->sleeve_length,
+            'jenis_kain' => $pelanggan->jenis_kain,
+            'warna_kain' => $pelanggan->warna_kain,
+            'size' => $pelanggan->size,
+            'harga_tempahan' => $pelanggan->harga_tempahan,
+            'additional_notes' => $pelanggan->additional_notes,
+        ]);
+        
     }
+    
 }

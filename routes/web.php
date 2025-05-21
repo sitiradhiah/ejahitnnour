@@ -79,7 +79,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     // Custom untuk senarai & borang baru
     Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
     Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
-    Route::get('/tempahan/pelanggan/{id}', [TempahanController::class, 'getPelanggan'])->name('tempahan.getPelanggan');
+    Route::get('/tempahan/pelanggan/{id}', [TempahanController::class, 'getPelanggan']);
     Route::resource('tempahan', TempahanController::class)->except(['index', 'create']);
 
     // Lain-lain route
