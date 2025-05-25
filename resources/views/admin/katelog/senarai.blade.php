@@ -71,7 +71,6 @@
                         <th>Warna</th>
                         <th>Saiz</th>
                         <th>Harga</th>
-                        <th>Stok</th>
                         <th>Penerangan</th>
                         <th>Gambar</th>
                         <th>Tindakan</th>
@@ -86,7 +85,6 @@
                         <td>{{ $item->warna }}</td>
                         <td>{{ $item->saiz }}</td>
                         <td>RM {{ number_format($item->harga, 2) }}</td>
-                        <td>{{ $item->stok }}</td>
                         <td>{{ $item->penerangan }}</td>
                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="50"></td>
                         <td>
@@ -118,7 +116,6 @@
                 document.getElementById('editWarna').value = data.warna;
                 document.getElementById('editSaiz').value = data.saiz;
                 document.getElementById('editHarga').value = data.harga;
-                document.getElementById('editStok').value = data.stok;
                 document.getElementById('editPenerangan').value = data.penerangan;
 
                 // Ini fix penting supaya action form betul
