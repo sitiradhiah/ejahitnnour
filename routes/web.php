@@ -92,9 +92,17 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::prefix('aduan-cadangan')->middleware(['auth'])->group(function () {
         // Route for displaying the list of complaints and suggestions (handled by AduanCadanganController)
         Route::get('/', [AduanCadanganController::class, 'index'])->name('aduan-cadangan.index');
+        
+        // Route for previewing a specific complaint or suggestion
         Route::get('/{id}/preview', [AduanCadanganController::class, 'preview'])->name('aduan-cadangan.preview');
+        
+        // Route for deleting a specific complaint or suggestion
         Route::delete('/{id}', [AduanCadanganController::class, 'destroy'])->name('aduan-cadangan.destroy');
+        
+        // Route for marking a complaint or suggestion as read (Dibaca)
+        Route::post('/{id}/read', [AduanCadanganController::class, 'markAsRead'])->name('aduan-cadangan.read');
     });
+    
 
     Route::prefix('maklumat-sistem')->controller(WorkerController::class)->group(function () {
         Route::get('/senarai-pekerja', 'index')->name('maklumat-sistem.senarai-pekerja');

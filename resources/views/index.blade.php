@@ -42,10 +42,22 @@
     line-height: 1.8;
   }
 
+  /* Divider yang lebih minimalis */
   .divider {
-    height: 50px;
+    height: 0;
+    margin: 40px 0;
+    border: none;
+    background: transparent;
+  }
+
+  /* Mengganti divider dengan garis halus dan lebih bersih */
+  .divider::before {
+    content: '';
+    display: block;
+    width: 80%;
+    height: 2px;
     background: linear-gradient(to right, rgba(125, 10, 87, 0.995), rgb(235, 12, 153));
-    border-bottom: 10px solid rgba(132, 11, 92, 0.995);
+    margin: 0 auto;
   }
 
   .btn-box {
@@ -142,9 +154,9 @@
   }
 
   .swiper-slide img {
-    width: 700px;       /* ukuran diperbesar */
-    height: 500px;      /* ukuran diperbesar */
-    border-radius: 0;   /* hilangkan bentuk bulat */
+    width: 700px;
+    height: 500px;
+    border-radius: 0;
     margin-bottom: 20px;
     object-fit: cover;
     display: block;
@@ -168,12 +180,12 @@
   /* --- Tambahan untuk Order Check Section --- */
 
   .order-check-section {
-    background: #f0f8ff; /* warna latar lembut */
+    background: #f0f8ff;
     padding: 80px 20px;
     text-align: center;
     border-radius: 15px;
     max-width: 600px;
-    margin: 40px auto; /* kasih margin atas bawah */
+    margin: 40px auto;
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
@@ -306,6 +318,7 @@
   </div>
 </div>
 
+<!-- Divider telah dikurangkan dan ditukar dengan gaya yang lebih bersih -->
 <div class="divider"></div>
 
 <div style="text-align: center; padding: 100px 0;">
@@ -322,6 +335,7 @@
   @endforeach
 </div>
 
+<!-- Divider telah dikurangkan dan ditukar dengan gaya yang lebih bersih -->
 <div class="divider"></div>
 
 <div class="order-check-section">
@@ -335,7 +349,6 @@
 
 <div class="divider"></div>
 
-
 @php
     $testimonials = \App\Models\Testimonial::all();
 @endphp
@@ -348,9 +361,9 @@
       <div class="swiper-slide">
         <!-- Pastikan gambar diambil dari folder public/images -->
         @if($testi->image && file_exists(public_path('storage/images/' . $testi->image)))
-          <img src="{{ asset('storage/images/' . $testi->image) }}" alt="{{ $testi->name }}">
+          <img src="{{ asset('storage/images/' . $testi->image) }}" alt="{{ $testi->name }}"/>
         @else
-          <img src="{{ asset('images/default-user.png') }}" alt="Default Image">
+          <img src="{{ asset('images/default-user.png') }}" alt="Default Image"/>
         @endif
         <div class="testimoni-name">{{ $testi->name }}</div>
         <div class="testimoni-text">"{{ $testi->feedback }}"</div>
@@ -361,7 +374,6 @@
 </section>
 
 @endsection
-
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>

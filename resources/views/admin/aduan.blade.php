@@ -35,8 +35,50 @@
         background-color: #28a745;
     }
 
+    .status-read {
+        background-color: #28a745; /* Hijau */
+    }
+
     .status-rejected {
         background-color: #dc3545;
+    }
+
+    /* Responsif: Membuatkan jadual dan elemen lain responsif */
+    @media (max-width: 768px) {
+        .table {
+            font-size: 0.9rem; /* Kecilkan saiz font untuk skrin lebih kecil */
+        }
+        .table th, .table td {
+            padding: 10px; /* Lebih ruang dalam setiap sel */
+        }
+
+        .status-badge {
+            font-size: 0.8rem; /* Kecilkan saiz tulisan status untuk ruang yang lebih efisien */
+            padding: 5px 8px; /* Pad pengurangan untuk skrin kecil */
+        }
+
+        .d-flex {
+            flex-direction: column; /* Menukar susunan button dalam kolum untuk telefon */
+        }
+
+        .card {
+            padding: 15px; /* Sesuaikan padding dalam kad supaya lebih kecil */
+        }
+
+        .modal-content {
+            width: 100%; /* Sesuaikan lebar modal pada skrin kecil */
+            margin: 0; /* Pastikan modal tidak mempunyai margin */
+        }
+
+        /* Responsif untuk form carian */
+        .form-control {
+            width: 100%; /* Lebar input 100% pada skrin kecil */
+            margin-bottom: 10px; /* Tambah jarak antara input dan butang */
+        }
+
+        .btn {
+            width: 100%; /* Butang cari juga lebar penuh */
+        }
     }
 </style>
 @endsection
@@ -83,16 +125,19 @@
                             <span class="status-badge 
                                 @if($aduan->status == 'Menunggu') status-pending 
                                 @elseif($aduan->status == 'Selesai') status-resolved 
+                                @elseif($aduan->status == 'Dibaca') status-read 
                                 @else status-rejected 
                                 @endif">
                                 {{ $aduan->status }}
                             </span>
                         </td>
                         <td class="d-flex gap-2">
-                            <!-- Butang Lihat -->
-                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#previewModal{{ $aduan->id }}">
-                                Lihat
-                            </button>
+                            <form action="{{ route('aduan-cadangan.read', $aduan->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#previewModal{{ $aduan->id }}">
+                                    Lihat
+                                </button>
+                            </form>
 
                             <!-- Butang Padam -->
                             <form action="{{ route('aduan-cadangan.destroy', $aduan->id) }}" method="POST" onsubmit="return confirm('Adakah anda pasti untuk padam aduan ini?')">
@@ -124,6 +169,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- End Modal -->
 
                     @endforeach

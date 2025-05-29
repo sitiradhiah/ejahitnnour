@@ -77,6 +77,13 @@
         }
     }
 
+    /* Center the button */
+    .text-center-button {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
     /* Button style */
     .btn1 {
         background-color: #b42e8b;
@@ -88,7 +95,7 @@
         font-size: 1.2em;
         display: inline-block;
         text-align: center;
-        margin-top: 30px;
+        transition: background-color 0.3s ease;
     }
 
     .btn1:hover {
@@ -156,7 +163,9 @@
             </div>
         </div>
         <!-- Call-to-action Button linked to 'Hubungi Kami' page -->
-        <a href="{{ route('hubungi.kami') }}" class="btn1">Hubungi Kami</a>
+        <div class="text-center-button">
+            <a href="{{ route('hubungi.kami') }}" class="btn1">Hubungi Kami</a>
+        </div>
     </div>
 </section>
 

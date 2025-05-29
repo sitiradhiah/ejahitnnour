@@ -76,6 +76,15 @@ class AduanCadanganController extends Controller
         return redirect()->route('aduan-cadangan.index')->with('success', 'Aduan / Cadangan berjaya dipadam.');
     }
 
+    public function markAsRead($id)
+    {
+        $aduan = AduanCadangan::find($id);
+        $aduan->status = 'Dibaca';
+        $aduan->save();
+
+        return back();
+    }
+
 
 }
 
