@@ -17,38 +17,83 @@
         overflow: hidden;
     }
 
-    /* Styling untuk Image Slider */
+    /* Styling for the slider */
     .slider-container {
-        overflow: hidden;
         position: relative;
-        border-radius: 12px 12px 0 0;
-        max-height: 400px; /* Batasi tinggi slider */
+        width: 100%;
+        max-width: 100%;
+        margin: auto;
+        overflow: hidden;
     }
 
+    /* Slider setup: hide all images initially */
     .slider {
         display: flex;
         transition: transform 0.5s ease-in-out;
     }
 
-    .slider img {
+    .slide {
         width: 100%;
-        height: 400px;   /* Tetap konsisten dengan max-height */
-        object-fit: cover;
-        display: block;
+        display: none; /* Hide all slides by default */
     }
 
-    /* Animasi untuk slider */
-    @keyframes slide {
-        0% {
-            transform: translateX(0);
-        }
-        50% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(-200%);
+    /* Make sure all images fill the container */
+    .slider img {
+        width: 100%;
+        height: 400px; /* Adjust height as needed */
+        object-fit: cover;
+    }
+
+    /* Navigation buttons */
+    .slider-navigation {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+
+    .prev, .next {
+        font-size: 30px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    /* Dots for slider navigation */
+    .dots-container {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
+    }
+
+    .dot {
+        height: 10px;
+        width: 10px;
+        margin: 0 5px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+    .dot.active {
+        background-color: #717171;
+    }
+
+    /* Add styling for mobile responsiveness */
+    @media (max-width: 768px) {
+        .slider img {
+            height: 250px; /* Smaller height for mobile */
         }
     }
+
 
     /* Banner bawah slider */
     .hero-banner {
@@ -225,15 +270,32 @@
 <section class="hero-section">
     <div class="slider-container">
         <div class="slider">
-            <img src="{{ asset('images/Slider1.jpg') }}" alt="Slider 1">
-            <img src="{{ asset('images/Slider2.jpg') }}" alt="Slider 2">
-            <img src="{{ asset('images/Slider3.jpg') }}" alt="Slider 3">
+            <div class="slide">
+                <img src="{{ asset('images/Slider1.jpg') }}" alt="Slider 1">
+            </div>
+            <div class="slide">
+                <img src="{{ asset('images/Slider2.jpg') }}" alt="Slider 2">
+            </div>
+            <div class="slide">
+                <img src="{{ asset('images/Slider3.jpg') }}" alt="Slider 3">
+            </div>
+        </div>
+        <div class="slider-navigation">
+            <span class="prev" onclick="moveSlide(-1)">&#10094;</span>
+            <span class="next" onclick="moveSlide(1)">&#10095;</span>
+        </div>
+        <!-- Dots for slider navigation -->
+        <div class="dots-container">
+            <span class="dot" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
         </div>
     </div>
+    
 
     <div class="hero-banner">
         <h2>KATALOG REKA BENTUK PAKAIAN</h2>
-        <p class="pre-order-text">PRE-ORDER NOW!</p>
+        <p class="pre-order-text">JOM TEMPAH SEKARANG!</p>
         <p class="catchphrase">Tempah ikut citarasa anda. Cepat dan mudah.</p>
 
         <form method="GET" class="filter-bar">
@@ -287,3 +349,49 @@
 </section>
 
 @endsection
+
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script>
+let currentIndex = 0;
+
+function moveSlide(step) {
+    const slides = document.querySelectorAll('.slide');
+    currentIndex += step;
+    if (currentIndex < 0) {
+        currentIndex = slides.length - 1;
+    } else if (currentIndex >= slides.length) {
+        currentIndex = 0;
+    }
+    updateSlider();
+}
+
+function currentSlide(index) {
+    currentIndex = index;
+    updateSlider();
+}
+
+function updateSlider() {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+
+    slides.forEach((slide, i) => {
+        slide.style.display = i === currentIndex ? 'block' : 'none';  // Show current slide
+    });
+
+    dots.forEach((dot, i) => {
+        dot.classList.remove('active');
+        if (i === currentIndex) {
+            dot.classList.add('active');  // Add active class to the current dot
+        }
+    });
+}
+
+// Initialize the slider
+updateSlider();
+
+</script>
+@endsection
+
+

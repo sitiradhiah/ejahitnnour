@@ -3,7 +3,7 @@
 @section('css')
 <style>
     .about_section .row {
-        align-items: flex-start; /* Pastikan konten sejajar di atas */
+        align-items: flex-start; /* Ensure content is aligned at the top */
     }
 
     .img_container {
@@ -22,7 +22,13 @@
         max-height: 500px;
         object-fit: cover;
         border: 1px solid #ddd;
-        border-radius: 10px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added subtle shadow for depth */
+    }
+
+    .media-item:hover {
+        transform: scale(1.05); /* Zoom-in effect on hover */
+        transition: transform 0.3s ease;
     }
 
     .detail-box {
@@ -35,6 +41,9 @@
         font-size: 2rem;
         font-weight: bold;
         margin-bottom: 20px;
+        background: linear-gradient(90deg, #b42e8b, #f056a1);
+        -webkit-background-clip: text;
+        color: transparent;
     }
 
     h2, h3 {
@@ -47,15 +56,43 @@
 
     p {
         font-size: 18px;
-        line-height: 1.8;
+        line-height: 2.0; /* Increased line height for readability */
         color: #333;
     }
 
     .font1 {
-        font-size: 1.5em; 
-        /* font-weight: bold;  */
-        /* margin-top: 20px; */
+        font-size: 1.5em;
+        margin-top: 20px; /* Added margin to separate sections */
+    }
 
+    /* Add subtle fade-in effect for sections */
+    .about_section .row {
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Button style */
+    .btn1 {
+        background-color: #b42e8b;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2em;
+        display: inline-block;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn1:hover {
+        background-color: #f056a1;
     }
 </style>
 @endsection
@@ -74,8 +111,8 @@
                 <img class="media-item" src="images/about1.jpg" alt="Gambar Kedai">
             </div>
             <div class="col">
-                <span class= "font1 fw-bold" style="">Sejarah Penubuhan</span>
-                <p class= "font1" style="text-align: justify;">
+                <span class="font1 fw-bold">Sejarah Penubuhan</span>
+                <p class="font1" style="text-align: justify;">
                     Kedai Jahit N'NOUR telah ditubuhkan pada tahun 2019, 
                     bermula dengan operasi kecil-kecilan dari rumah dan kini berkembang menjadi sebuah kedai 
                     fizikal yang terletak di Taman Perdana, Ayer Hitam. Dengan dedikasi dan usaha gigih, 
@@ -85,8 +122,8 @@
             </div>
             <div class="w-100 my-2"></div>
             <div class="col">
-                <span  class= "font1 fw-bold" >Perkhidmatan Kami</span>
-                <p  class= "font1" style="text-align: justify;">
+                <span class="font1 fw-bold">Perkhidmatan Kami</span>
+                <p class="font1" style="text-align: justify;">
                     Kami menawarkan pelbagai servis jahitan tempahan pakaian yang direka khas mengikut citarasa pelanggan. 
                     Antara perkhidmatan utama kami adalah menjahit pakaian tradisional seperti baju kurung, baju melayu, kebaya,
                      dan kurta, selain pakaian moden yang sesuai untuk pelbagai acara seperti majlis perkahwinan, majlis rasmi, 
@@ -108,18 +145,18 @@
                 </video>
             </div>
             <div class="col">
-                
-                <span class= "font1 fw-bold" style="">Pengubahsuaian Pakaian</span>
-                <p class= "font1" style="text-align: justify;">
+                <span class="font1 fw-bold">Pengubahsuaian Pakaian</span>
+                <p class="font1" style="text-align: justify;">
                     Selain itu, kami juga menyediakan perkhidmatan pengubahsuaian pakaian seperti mengecilkan, 
                     membesarkan, atau membaiki pakaian agar sesuai dengan saiz dan keperluan pelanggan. 
                     Kami memahami kepentingan pakaian yang tidak hanya kelihatan cantik tetapi juga memberikan 
                     keselesaan kepada pemakai. Dengan kepakaran dalam bidang jahitan, kami memastikan setiap
                     pengubahsuaian dilakukan dengan sempurna tanpa mengorbankan kualiti atau reka bentuk asal.
-                    
                 </p>
             </div>
-          </div>  
+        </div>
+        <!-- Call-to-action Button linked to 'Hubungi Kami' page -->
+        <a href="{{ route('hubungi.kami') }}" class="btn1">Hubungi Kami</a>
     </div>
 </section>
 
