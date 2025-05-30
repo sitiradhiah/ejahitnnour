@@ -90,12 +90,27 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('kategori', CategoryController::class);
 
     // Custom untuk senarai & borang baru
-    Route::controller(TempahanController::class)->prefix('tempahan')->group(function () {
-        Route::get('/senarai', 'senarai')->name('tempahan.senarai');
-        Route::get('/baru', 'baru')->name('tempahan.baru');
-        Route::get('/pelanggan/{id}', 'getPelanggan');
+    // Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
+    // Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
+    // Route::get('/tempahan/pelanggan/{id}', [TempahanController::class, 'getPelanggan']);
+    // Route::resource('tempahan', TempahanController::class)->except(['index', 'create']);
+    // Route untuk semakan pesanan di dashboard (untuk pengguna log masuk)
+    Route::prefix('tempahan')->name('tempahan.')->group(function () {
+        Route::get('/senarai', [TempahanController::class, 'senarai'])->name('senarai');
+        Route::get('/baru', [TempahanController::class, 'baru'])->name('baru');
+        Route::get('/edit', [TempahanController::class, 'edit'])->name('edit');
+        Route::get('/pelanggan/{id}', [TempahanController::class, 'getPelanggan'])->name('pelanggan');
+
         Route::resource('/', TempahanController::class)->except(['index', 'create']);
     });
+    Route::get('/dashboard/semakan-pesanan', [TempahanController::class, 'semakanPesananDashboard'])->name('semakan-pesanan.dashboard');
+
+    // Route untuk semakan pesanan di index (untuk pengguna tidak log masuk)
+    Route::get('/semakan-pesanan', [TempahanController::class, 'semakanPesanan'])->name('semakan-pesanan');
+
+    // Tambahkan route untuk mengemaskini status tempahan
+    Route::patch('/tempahan/{id}/status', [TempahanController::class, 'updateStatus'])->name('tempahan.update.status');
+
 
     // Lain-lain route
     Route::prefix('janaan-laporan')->middleware(['auth'])->group(function () {

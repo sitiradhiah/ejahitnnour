@@ -140,5 +140,69 @@ class TempahanController extends Controller
         ]);
         
     }
+
+    public function semakanPesananDashboard(Request $request)
+    {
+        $query = $request->input('query');
+        $tempahan = Tempahan::where('nama_pelanggan', 'LIKE', "%{$query}%")
+                            ->orWhere('nombor_telefon', 'LIKE', "%{$query}%")
+                            ->get();
+
+        // Jika permintaan adalah AJAX, kembalikan hanya bahagian status tempahan
+        if ($request->ajax()) {
+            return view('admin.tempahan.status-tempahan', compact('tempahan'));
+        }
+
+        // Betulkan path view kepada 'admin.tempahan.semakan-pesanan'
+        return view('admin.tempahan.semakan-pesanan', compact('tempahan'));
+    }
+
+
+    // Kemaskini status tempahan
+    public function updateStatus(Request $request, $id)
+    {
+        $tempahan = Tempahan::findOrFail($id);
     
+        // Validate status yang dipilih
+        $request->validate([
+            'status' => 'required|string|in:Dalam Pelaksanaan,Sudah Selesai',
+        ]);
+    
+        // Kemaskini status tempahan
+        $tempahan->status = $request->status;
+        $tempahan->save();
+    
+        // Kembalikan status untuk dikemaskini dalam halaman
+        return response()->json([
+            'status' => $tempahan->status,  // Kembalikan status yang dikemas kini
+            'success' => 'Status tempahan berjaya dikemaskini.'
+        ]);
+    }
+    
+
+
+
+
+    
+    // Semakan Pesanan berdasarkan nama atau nombor telefon untuk permintaan AJAX
+    public function semakanPesanan(Request $request)
+    {
+        // Dapatkan input carian dari pengguna
+        $query = $request->input('query');
+        
+        // Cari tempahan berdasarkan nama atau nombor telefon
+        $tempahan = Tempahan::where('nama_pelanggan', 'LIKE', "%{$query}%")
+                            ->orWhere('nombor_telefon', 'LIKE', "%{$query}%")
+                            ->get();
+
+        // Jika permintaan adalah AJAX, kembalikan hanya bahagian status tempahan
+        if ($request->ajax()) {
+            return view('admin.tempahan.status-tempahan', compact('tempahan'));
+        }
+
+        // Jika bukan AJAX, kembalikan view penuh
+        return view('index', compact('tempahan'));
+    }
+
+
 }

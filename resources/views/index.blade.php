@@ -340,12 +340,16 @@
 
 <div class="order-check-section">
   <h2>Semakan Pesanan Anda</h2>
-  <p>Semak tempahan anda untuk pengetahui kemajuan</p>
-  <form class="order-check-form" action="#" method="GET">
-    <input type="text" placeholder="Masukkan nama atau no telefon" name="query" required>
-    <button type="submit"><i class="fa fa-search"></i> Cari</button>
+  <p>Semak tempahan anda untuk mengetahui kemajuan</p>
+  <form class="order-check-form" id="order-check-form">
+      <input type="text" id="query" placeholder="Masukkan nama atau no telefon" name="query" required>
+      <button type="button" id="search-btn"><i class="fa fa-search"></i> Cari</button>
   </form>
+
+  <!-- Paparan status tempahan akan muncul di bawah form semakan -->
+  <div id="status-section" class="mt-4"></div>
 </div>
+
 
 <div class="divider"></div>
 
@@ -377,6 +381,8 @@
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 var swiper = new Swiper(".mySwiper", {
   loop: true,
@@ -386,4 +392,34 @@ var swiper = new Swiper(".mySwiper", {
   },
 });
 </script>
+
+<script>
+  jQuery(document).ready(function() {
+      // Event listener untuk butang Cari
+      jQuery('#search-btn').on('click', function() {
+          // Ambil nilai input carian
+          var query = jQuery('#query').val();
+    
+          // Pastikan input tidak kosong
+          if(query.trim() !== '') {
+              // Hantar permintaan AJAX ke route semakan-pesanan
+              jQuery.ajax({
+                  url: '{{ route("semakan-pesanan") }}', // Route yang akan dipanggil
+                  method: 'GET',
+                  data: { query: query },
+                  success: function(response) {
+                      // Paparkan hasil semakan di bawah form
+                      jQuery('#status-section').html(response);
+                  },
+                  error: function() {
+                      alert('Ralat semasa memuatkan semakan.');
+                  }
+              });
+          } else {
+              alert('Sila masukkan nama atau nombor telefon.');
+          }
+      });
+  });
+</script>
+
 @endsection

@@ -61,6 +61,18 @@
                         <li class="submenu-item {{ Request::is('maklumat-sistem/senarai-pelanggan') ? 'active' : '' }}">
                             <a href="{{ route('pelanggan.index') }}">Senarai Pelanggan</a>
                         </li>
+                        {{-- <li class="submenu-item {{ Request::is('admin/tempahan/senarai') ? 'active' : '' }}">
+                            <a href="{{ route('tempahan.senarai') }}">Senarai Pelanggan Lama</a>
+                        </li> --}}
+
+                         <!-- Add "Semakan Pesanan" link here -->
+                         <li class="sidebar-item {{ Request::is('admin/semakan-pesanan') ? 'active' : '' }}">
+                            <a href="{{ route('semakan-pesanan.dashboard') }}" class='sidebar-link'>
+                                <i class="bi bi-search"></i>
+                                <span>Semakan Pesanan</span>
+                            </a>
+                        </li>
+                        
                     </ul>
                 </li>
 
