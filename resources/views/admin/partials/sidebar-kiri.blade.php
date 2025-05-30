@@ -58,9 +58,9 @@
                         <li class="submenu-item {{ Request::is('admin/tempahan/borang') ? 'active' : '' }}">
                             <a href="{{ route('tempahan.baru') }}">Borang Tempahan Baru</a>
                         </li>
-                        {{-- <li class="submenu-item {{ Request::is('admin/tempahan/senarai') ? 'active' : '' }}">
-                            <a href="{{ route('tempahan.senarai') }}">Senarai Pelanggan Lama</a>
-                        </li> --}}
+                        <li class="submenu-item {{ Request::is('maklumat-sistem/senarai-pelanggan') ? 'active' : '' }}">
+                            <a href="{{ route('pelanggan.index') }}">Senarai Pelanggan</a>
+                        </li>
                     </ul>
                 </li>
 

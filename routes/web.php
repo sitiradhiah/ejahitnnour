@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\PelangganController;
 
 //route sebelum login
 Route::get('/', function () {
@@ -47,22 +48,34 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
      // MAKLUMAT SISTEM
      // Senarai Pekerja
-    Route::get('pekerja', [WorkerController::class, 'index'])->name('pekerja.index');
-    Route::get('pekerja/tambah', [WorkerController::class, 'create'])->name('pekerja.create');
-    Route::post('pekerja/tambah', [WorkerController::class, 'store'])->name('pekerja.store');
-     // Route untuk mengedit pekerja
-     Route::get('pekerja/{id}/edit', [WorkerController::class, 'edit'])->name('pekerja.edit');
-     Route::post('pekerja/{id}/update', [WorkerController::class, 'update'])->name('pekerja.update');
-     // Route untuk memadam pekerja
-     Route::delete('pekerja/{id}', [WorkerController::class, 'destroy'])->name('pekerja.destroy');
+    Route::controller(WorkerController::class)->prefix('maklumat-sistem')->group(function () {
+        Route::get('/senarai-pekerja', 'index')->name('maklumat-sistem.senarai-pekerja');
+        Route::get('/pekerja/tambah', 'create')->name('pekerja.create');
+        Route::post('/pekerja/tambah', 'store')->name('pekerja.store');
+        Route::get('/pekerja/{id}/edit', 'edit')->name('pekerja.edit');
+        Route::post('/pekerja/{id}/update', 'update')->name('pekerja.update');
+        Route::delete('/pekerja/{id}', 'destroy')->name('pekerja.destroy');
+    });
 
     // Maklumat Umum - Testimonial
-    Route::get('maklumat-sistem/maklumat-umum', [TestimonialController::class, 'index'])->name('testimonial.index');
-    Route::post('maklumat-sistem/maklumat-umum/store', [TestimonialController::class, 'store'])->name('testimonial.store');
-    Route::get('maklumat-sistem/maklumat-umum/edit/{id}', [TestimonialController::class, 'edit'])->name('testimonial.edit');
-    Route::post('maklumat-sistem/maklumat-umum/{id}', [TestimonialController::class, 'update'])->name('testimonial.update');
-    Route::delete('maklumat-sistem/maklumat-umum/{id}', [TestimonialController::class, 'destroy'])->name('testimonial.destroy');
+    Route::controller(TestimonialController::class)->prefix('maklumat-sistem/maklumat-umum')->group(function () {
+        Route::get('/', 'index')->name('testimonial.index');
+        Route::post('/store', 'store')->name('testimonial.store');
+        Route::get('/edit/{id}', 'edit')->name('testimonial.edit');
+        Route::post('/{id}', 'update')->name('testimonial.update');
+        Route::delete('/{id}', 'destroy')->name('testimonial.destroy');
+    });
 
+    // Maklumat Umum - Pelanggan
+    Route::controller(PelangganController::class)->prefix('maklumat-sistem')->group(function () {
+        Route::get('senarai-pelanggan', 'index')->name('pelanggan.index');
+        // Route::get('pelanggan/tambah', 'create')->name('pelanggan.create');
+        // Route::post('pelanggan/tambah', 'store')->name('pelanggan.store');
+        // Route::get('pelanggan/{id}/edit', 'edit')->name('pelanggan.edit');
+        // Route::post('pelanggan/{id}/update', 'update')->name('pelanggan.update');
+        // Route::delete('pelanggan/{id}', 'destroy')->name('pelanggan.destroy');
+        // Route untuk mengemaskini status pelanggan
+    });
 
     // Katalog (Katalog pakaian, dan sebagainya)
     Route::prefix('katelog')->controller(KatelogController::class)->group(function () {
@@ -77,10 +90,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('kategori', CategoryController::class);
 
     // Custom untuk senarai & borang baru
-    Route::get('/tempahan/senarai', [TempahanController::class, 'senarai'])->name('tempahan.senarai');
-    Route::get('/tempahan/baru', [TempahanController::class, 'baru'])->name('tempahan.baru');
-    Route::get('/tempahan/pelanggan/{id}', [TempahanController::class, 'getPelanggan']);
-    Route::resource('tempahan', TempahanController::class)->except(['index', 'create']);
+    Route::controller(TempahanController::class)->prefix('tempahan')->group(function () {
+        Route::get('/senarai', 'senarai')->name('tempahan.senarai');
+        Route::get('/baru', 'baru')->name('tempahan.baru');
+        Route::get('/pelanggan/{id}', 'getPelanggan');
+        Route::resource('/', TempahanController::class)->except(['index', 'create']);
+    });
 
     // Lain-lain route
     Route::prefix('janaan-laporan')->middleware(['auth'])->group(function () {
@@ -104,8 +119,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     });
     
 
-    Route::prefix('maklumat-sistem')->controller(WorkerController::class)->group(function () {
-        Route::get('/senarai-pekerja', 'index')->name('maklumat-sistem.senarai-pekerja');
-    });
+    
 
 });

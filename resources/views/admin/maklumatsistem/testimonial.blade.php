@@ -84,7 +84,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('testimonial.edit', $item->id) }}" class="btn-edit btn-sm">Edit</a>
+                            <a href="{{ route('testimonial.edit', $item->id) }}" class="btn-edit btn-sm">Kemaskini</a>
                             <form action="{{ route('testimonial.destroy', $item->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')

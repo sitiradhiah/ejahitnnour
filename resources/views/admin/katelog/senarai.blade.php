@@ -88,7 +88,7 @@
                         <td>{{ $item->penerangan }}</td>
                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="50"></td>
                         <td>
-                            <button class="btn-edit btn-sm" onclick="editKatalog({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#editProductModal">Edit</button>
+                            <button class="btn-edit btn-sm" onclick="editKatalog({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#editProductModal">Kemaskini</button>
                             <form action="{{ route('katelog.destroy', $item->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')

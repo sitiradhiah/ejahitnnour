@@ -77,7 +77,7 @@
                         <td>{{ $category->name }}</td>
                         <td>
                             <!-- Edit button triggering modal -->
-                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})">Edit</button>
+                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})">Kemaskini</button>
                             <!-- Delete button with form -->
                             <form action="{{ route('kategori.destroy', $category->id) }}" method="POST" style="display:inline;">
                                 @csrf

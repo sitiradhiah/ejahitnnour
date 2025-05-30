@@ -11,7 +11,7 @@ class WorkerController extends Controller
     public function index()
     {
         // Ambil semua pekerja yang mempunyai peranan 'pekerja'
-        $workers = User::where('peranan', 'pekerja')->get(); 
+        $workers = User::where('peranan', '!=', 'pelanggan')->get();
 
         // Pastikan data pekerja dihantar ke view
         return view('admin.maklumatsistem.senaraipekerja', compact('workers')); 

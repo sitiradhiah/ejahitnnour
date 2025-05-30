@@ -67,14 +67,14 @@
 
 @section('content')
 <div class="page-heading">
-    <h3>Senarai Pekerja</h3>
+    <h3>Senarai Pelanggan</h3>
 </div>
 <div class="container">
     <div class="card shadow p-3">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">Senarai Pekerja</h4>
-                <a href="#" class="btn btn-success">Tambah Pekerja</a>
+                <h4 class="mb-0">Senarai Pelanggan</h4>
+                <a href="#" class="btn btn-success">Tambah Pelanggan</a>
             </div>
         </div>
         <div class="card-body">
@@ -86,30 +86,28 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Pekerja</th>
-                        <th>Jawatan</th>
+                        <th>Nama Pelanggan</th>
                         <th>No Telefon</th>
                         <th>Email</th>
-                        <th>Status Pengguna</th>
+                        <th>Tarikh Daftar</th>
                         <th>Tindakan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($workers as $worker)
+                    @foreach($Customers as $customer)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $worker->name }}</td>
-                        <td>{{ $worker->peranan }}</td>
-                        <td>{{ $worker->phone }}</td>
-                        <td>{{ $worker->email }}</td>
-                        <td>Aktif</td>
+                        <td>{{ $customer->name }}</td>
+                        <td>{{ $customer->phone }}</td>
+                        <td>{{ $customer->email }}</td>
+                        <td></td>
                         <td>
-                            <a href="{{ route('pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">Kemaskini</a>
+                            <a href="" class="btn btn-primary btn-edit">Kemaskini</a>
                 
-                            <form action="{{ route('pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
+                            <form action="" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">Hapus</button>
+                                <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam maklumat ini?')">Hapus</button>
                             </form>
                         </td>
                     </tr>
