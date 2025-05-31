@@ -5,37 +5,56 @@ namespace App\Http\Controllers;
 use App\Models\Order; // Pastikan model Order ada
 use App\Models\AduanCadangan; // Dari inquriy default ubah ke aduancadangan
 use Illuminate\Http\Request;
+use App\Models\Tempahan;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index()
+        public function index()
     {
-        // Ambil jumlah tempahan untuk tahun 2025
-        $totalOrders = Order::whereYear('created_at', 2025)->count();
+        $totalOrders = Tempahan::whereYear('tarikh_tempahan', 2025)->count();
 
-        // Ambil jumlah jualan yang siap (status 'completed')
-        $completedSales = Order::where('status', 'completed')->whereYear('created_at', 2025)->sum('total_price');
+        $completedSales = Tempahan::whereYear('tarikh_tempahan', 2025)
+            ->where('status', 'Siap')
+            ->sum('harga_tempahan');
 
-        // Ambil jumlah tempahan dalam proses
-        $ordersInProgress = Order::where('status', 'in-progress')->count();
+        $ordersInProgress = Tempahan::whereYear('tarikh_tempahan', 2025)
+            ->where('status', 'Dalam Proses')
+            ->count();
 
-        // Ambil jumlah tempahan untuk bulan Januari
-        $monthlyOrders = Order::whereMonth('created_at', 1)->whereYear('created_at', 2025)->count();
+        $monthlyOrders = Tempahan::whereMonth('tarikh_tempahan', Carbon::now()->month)
+            ->whereYear('tarikh_tempahan', 2025)
+            ->count();
 
-        // Ambil data untuk setiap bulan (untuk carta)
         $monthlyOrdersCompleted = [];
         $monthlyOrdersInProgress = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $monthlyOrdersCompleted[] = Order::whereMonth('created_at', $i)->where('status', 'completed')->count();
-            $monthlyOrdersInProgress[] = Order::whereMonth('created_at', $i)->where('status', 'in-progress')->count();
+
+        for ($month = 1; $month <= 12; $month++) {
+            $monthlyOrdersCompleted[] = Tempahan::whereYear('tarikh_tempahan', 2025)
+                ->whereMonth('tarikh_tempahan', $month)
+                ->where('status', 'Siap')
+                ->count();
+
+            $monthlyOrdersInProgress[] = Tempahan::whereYear('tarikh_tempahan', 2025)
+                ->whereMonth('tarikh_tempahan', $month)
+                ->where('status', 'Dalam Proses')
+                ->count();
         }
 
-        // Ambil 5 aduan atau cadangan terbaru
-        $latestInquiries = AduanCadangan::orderBy('tarikh', 'desc')->take(5)->get();
+        $latestInquiries = AduanCadangan::where('status', 'Menunggu')
+        ->orderBy('tarikh', 'desc')
+        ->take(5)
+        ->get();
 
 
-        // Hantar data ke view
-        return view('admin.dashboard', compact('totalOrders', 'completedSales', 'ordersInProgress', 'monthlyOrders', 'monthlyOrdersCompleted', 'monthlyOrdersInProgress', 'latestInquiries'));
-
+        return view('admin.Dashboard', compact(
+            'totalOrders',
+            'completedSales',
+            'ordersInProgress',
+            'monthlyOrders',
+            'monthlyOrdersCompleted',
+            'monthlyOrdersInProgress',
+            'latestInquiries'
+        ));
     }
 }

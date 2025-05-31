@@ -1,3 +1,4 @@
+@if(count($tempahan) > 0)
 <table class="table">
     <thead>
         <tr>
@@ -16,7 +17,6 @@
             <td>{{ $item->tarikh_tempahan }}</td>
             <td id="status-{{ $item->id }}">{{ $item->status }}</td>
             <td>
-                <!-- Dropdown untuk mengubah status tempahan -->
                 <select class="form-control status-dropdown" data-tempahan-id="{{ $item->id }}">
                     <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>Dalam Pelaksanaan</option>
                     <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>Sudah Selesai</option>
@@ -26,3 +26,6 @@
         @endforeach
     </tbody>
 </table>
+@else
+<p>Tiada tempahan dijumpai.</p>
+@endif

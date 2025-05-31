@@ -1,0 +1,24 @@
+@if(count($tempahan) > 0)
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nama Pelanggan</th>
+            <th>Jenis Tempahan</th>
+            <th>Tarikh Tempahan</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($tempahan as $item)
+        <tr>
+            <td>{{ $item->nama_pelanggan }}</td>
+            <td>{{ $item->jenis_tempahan }}</td>
+            <td>{{ $item->tarikh_tempahan }}</td>
+            <td>{{ $item->status }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+@else
+<p>Tiada tempahan dijumpai.</p>
+@endif

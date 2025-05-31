@@ -23,6 +23,8 @@ Route::get('/KatalogUmum', [KatelogController::class, 'KatalogUmum'])->name('Kat
 Route::get('/hubungi-kami', function () {
     return view('hubungi-kami');
 })->name('hubungi.kami');
+// Untuk pengguna awam (tanpa login)
+Route::get('/semakan-pesanan', [TempahanController::class, 'semakanPesanan'])->name('semakan-pesanan');
 
 // LOGIN & LOGOUT Pengguna Berdaftar
 Route::prefix('logmasuk')->controller(AuthController::class)->group(function () {
@@ -43,8 +45,8 @@ Route::post('/hubungi-kami', [AduanCadanganController::class, 'store'])->name('a
 // Add all routes that require authentication here
 Route::prefix('admin')->middleware(['auth'])->group(function () {
 
-     // Route untuk Dashboard
-     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route untuk Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
      // MAKLUMAT SISTEM
      // Senarai Pekerja
@@ -103,11 +105,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
         Route::resource('/', TempahanController::class)->except(['index', 'create']);
     });
+
+    // Route untuk semakan pesanan di dashboard (untuk pengguna log masuk)
     Route::get('/dashboard/semakan-pesanan', [TempahanController::class, 'semakanPesananDashboard'])->name('semakan-pesanan.dashboard');
 
-    // Route untuk semakan pesanan di index (untuk pengguna tidak log masuk)
-    Route::get('/semakan-pesanan', [TempahanController::class, 'semakanPesanan'])->name('semakan-pesanan');
-
+    
     // Tambahkan route untuk mengemaskini status tempahan
     Route::patch('/tempahan/{id}/status', [TempahanController::class, 'updateStatus'])->name('tempahan.update.status');
 
