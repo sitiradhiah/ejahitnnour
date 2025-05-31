@@ -36,49 +36,11 @@
     }
 
     .status-read {
-        background-color: #28a745; /* Hijau */
+        background-color: #28a745;
     }
 
     .status-rejected {
         background-color: #dc3545;
-    }
-
-    /* Responsif: Membuatkan jadual dan elemen lain responsif */
-    @media (max-width: 768px) {
-        .table {
-            font-size: 0.9rem; /* Kecilkan saiz font untuk skrin lebih kecil */
-        }
-        .table th, .table td {
-            padding: 10px; /* Lebih ruang dalam setiap sel */
-        }
-
-        .status-badge {
-            font-size: 0.8rem; /* Kecilkan saiz tulisan status untuk ruang yang lebih efisien */
-            padding: 5px 8px; /* Pad pengurangan untuk skrin kecil */
-        }
-
-        .d-flex {
-            flex-direction: column; /* Menukar susunan button dalam kolum untuk telefon */
-        }
-
-        .card {
-            padding: 15px; /* Sesuaikan padding dalam kad supaya lebih kecil */
-        }
-
-        .modal-content {
-            width: 100%; /* Sesuaikan lebar modal pada skrin kecil */
-            margin: 0; /* Pastikan modal tidak mempunyai margin */
-        }
-
-        /* Responsif untuk form carian */
-        .form-control {
-            width: 100%; /* Lebar input 100% pada skrin kecil */
-            margin-bottom: 10px; /* Tambah jarak antara input dan butang */
-        }
-
-        .btn {
-            width: 100%; /* Butang cari juga lebar penuh */
-        }
     }
 </style>
 @endsection
@@ -94,11 +56,24 @@
         </div>
         <div class="card-body">
 
-            <!-- FORM CARIAN -->
-            <form method="GET" action="{{ route('aduan-cadangan.index') }}" class="mb-4 d-flex">
-                <input type="text" name="search" class="form-control me-2" placeholder="Cari nama, tajuk, status..." value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Cari</button>
-            </form>
+            <!-- FORM CARIAN + FILTER STATUS -->
+            <div class="d-flex mb-3">
+                <form method="GET" action="{{ route('aduan-cadangan.index') }}" class="me-2 d-flex">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Cari nama, tajuk, status..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </form>
+
+                @php
+                    $statusList = $aduans->pluck('status')->unique()->filter()->values();
+                @endphp
+
+                <select id="filterStatus" class="form-select w-auto" onchange="filterByStatus()">
+                    <option value="">Semua</option>
+                    @foreach ($statusList as $status)
+                        <option value="{{ $status }}">{{ $status }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <!-- TABLE -->
             <table class="table table-striped">
@@ -110,11 +85,11 @@
                         <th>Kategori</th>
                         <th>Tarikh</th>
                         <th>Status</th>
-                        <th>Tindakan</th> <!-- Column tindakan -->
+                        <th>Tindakan</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($aduans as $aduan)
+                <tbody id="aduan-table-body">
+                    @forelse($aduans as $aduan)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $aduan->nama_pelanggan }}</td>
@@ -122,7 +97,7 @@
                         <td>{{ $aduan->kategori }}</td>
                         <td>{{ $aduan->tarikh->format('Y-m-d') }}</td>
                         <td>
-                            <span class="status-badge 
+                            <span id="status-aduan-{{ $aduan->id }}" class="status-badge 
                                 @if($aduan->status == 'Menunggu') status-pending 
                                 @elseif($aduan->status == 'Selesai') status-resolved 
                                 @elseif($aduan->status == 'Dibaca') status-read 
@@ -132,19 +107,20 @@
                             </span>
                         </td>
                         <td class="d-flex gap-2">
-                            <form action="{{ route('aduan-cadangan.read', $aduan->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#previewModal{{ $aduan->id }}">
-                                    Lihat
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-info btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#previewModal{{ $aduan->id }}"
+                                onclick="markAsRead({{ $aduan->id }})">
+                                Lihat
+                            </button>
 
-                            <!-- Butang Padam -->
-                            <form action="{{ route('aduan-cadangan.destroy', $aduan->id) }}" method="POST" onsubmit="return confirm('Adakah anda pasti untuk padam aduan ini?')">
+                            <form id="delete-form-{{ $aduan->id }}" action="{{ route('aduan-cadangan.destroy', $aduan->id) }}" method="POST" style="display: none;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Padam</button>
                             </form>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $aduan->id }})">
+                                Padam
+                            </button>
                         </td>
                     </tr>
 
@@ -169,14 +145,87 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- End Modal -->
-
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">Tiada aduan tersedia.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
+
+            <!-- Message if filter result is empty -->
+            <div id="noResults" class="text-center text-muted mt-2" style="display:none;">
+                Tiada aduan dijumpai untuk status ini.
+            </div>
 
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // SweetAlert2 for Delete
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Anda pasti?',
+            text: "Tindakan ini akan padam aduan.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, padam!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+
+    // AJAX update status to 'Dibaca'
+    function markAsRead(id) {
+        fetch(`/admin/aduan-cadangan/${id}/read`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json',
+            }
+        }).then(response => {
+            if (response.ok) {
+                const badge = document.getElementById('status-aduan-' + id);
+                badge.classList.remove('status-pending');
+                badge.classList.add('status-read');
+                badge.innerText = 'Dibaca';
+            }
+        }).catch(error => {
+            console.error('Gagal update status:', error);
+        });
+    }
+
+    // Filter status dropdown
+    function filterByStatus() {
+        const selected = document.getElementById("filterStatus").value.toLowerCase();
+        let visibleCount = 0;
+
+        document.querySelectorAll("#aduan-table-body tr").forEach(row => {
+            const statusCell = row.querySelector("td:nth-child(6)");
+            if (!statusCell) return;
+
+            const status = statusCell.innerText.toLowerCase();
+            const show = !selected || status === selected;
+
+            row.style.display = show ? "" : "none";
+            if (show) visibleCount++;
+        });
+
+        const noResults = document.getElementById("noResults");
+        if (noResults) {
+            noResults.style.display = (visibleCount === 0) ? "block" : "none";
+        }
+    }
+</script>
 @endsection
