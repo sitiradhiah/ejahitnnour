@@ -100,11 +100,17 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::prefix('tempahan')->name('tempahan.')->group(function () {
         Route::get('/senarai', [TempahanController::class, 'senarai'])->name('senarai');
         Route::get('/baru', [TempahanController::class, 'baru'])->name('baru');
-        Route::get('/edit', [TempahanController::class, 'edit'])->name('edit');
         Route::get('/pelanggan/{id}', [TempahanController::class, 'getPelanggan'])->name('pelanggan');
-
-        Route::resource('/', TempahanController::class)->except(['index', 'create']);
+    
+        // Route edit, update, destroy — penting untuk 'Kemaskini' & 'Padam'
+        Route::get('/{id}/edit', [TempahanController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [TempahanController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TempahanController::class, 'destroy'])->name('destroy');
+    
+        // Store untuk tempahan baru
+        Route::post('/', [TempahanController::class, 'store'])->name('store');
     });
+    
 
     // Route untuk semakan pesanan di dashboard (untuk pengguna log masuk)
     Route::get('/dashboard/semakan-pesanan', [TempahanController::class, 'semakanPesananDashboard'])->name('semakan-pesanan.dashboard');
