@@ -91,6 +91,7 @@
                         <th>No Telefon</th>
                         <th>Email</th>
                         <th>Status Pengguna</th>
+                        <th>Pengesahan Admin?</th>
                         <th>Tindakan</th>
                     </tr>
                 </thead>
@@ -102,11 +103,18 @@
                         <td>{{ $worker->peranan }}</td>
                         <td>{{ $worker->phone }}</td>
                         <td>{{ $worker->email }}</td>
-                        <td>Aktif</td>
+                        <td>{{ $worker->status }}</td>
                         <td>
-                            <a href="{{ route('pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">Kemaskini</a>
-                
-                            <form action="{{ route('pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
+                            @if($worker->disahkan == 0)
+                                Sudah Disahkan
+                            @else
+                                Belum Disahkan
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('senarai-pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">Kemaskini</a>
+
+                            <form action="{{ route('senarai-pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">Hapus</button>

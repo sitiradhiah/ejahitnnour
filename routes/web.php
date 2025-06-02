@@ -51,12 +51,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
      // MAKLUMAT SISTEM
      // Senarai Pekerja
     Route::controller(WorkerController::class)->prefix('maklumat-sistem')->group(function () {
-        Route::get('/senarai-pekerja', 'index')->name('maklumat-sistem.senarai-pekerja');
-        Route::get('/pekerja/tambah', 'create')->name('pekerja.create');
-        Route::post('/pekerja/tambah', 'store')->name('pekerja.store');
-        Route::get('/pekerja/{id}/edit', 'edit')->name('pekerja.edit');
-        Route::post('/pekerja/{id}/update', 'update')->name('pekerja.update');
-        Route::delete('/pekerja/{id}', 'destroy')->name('pekerja.destroy');
+        Route::get('/senarai-pekerja', 'index')->name('senarai-pekerja.index');
+        Route::get('/senarai-pekerja/tambah', 'create')->name('senarai-pekerja.create');
+        Route::post('/senarai-pekerja/tambah', 'store')->name('senarai-pekerja.store');
+        Route::get('/senarai-pekerja/{id}/edit', 'edit')->name('senarai-pekerja.edit');
+        Route::put('/senarai-pekerja/{id}/update', 'update')->name('senarai-pekerja.update');
+        Route::delete('/senarai-pekerja/{id}', 'destroy')->name('senarai-pekerja.destroy');
     });
 
     // Maklumat Umum - Testimonial
@@ -101,21 +101,21 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/senarai', [TempahanController::class, 'senarai'])->name('senarai');
         Route::get('/baru', [TempahanController::class, 'baru'])->name('baru');
         Route::get('/pelanggan/{id}', [TempahanController::class, 'getPelanggan'])->name('pelanggan');
-    
+
         // Route edit, update, destroy — penting untuk 'Kemaskini' & 'Padam'
         Route::get('/{id}/edit', [TempahanController::class, 'edit'])->name('edit');
         Route::put('/{id}', [TempahanController::class, 'update'])->name('update');
         Route::delete('/{id}', [TempahanController::class, 'destroy'])->name('destroy');
-    
+
         // Store untuk tempahan baru
         Route::post('/', [TempahanController::class, 'store'])->name('store');
     });
-    
+
 
     // Route untuk semakan pesanan di dashboard (untuk pengguna log masuk)
     Route::get('/dashboard/semakan-pesanan', [TempahanController::class, 'semakanPesananDashboard'])->name('semakan-pesanan.dashboard');
 
-    
+
     // Tambahkan route untuk mengemaskini status tempahan
     Route::patch('/tempahan/{id}/status', [TempahanController::class, 'updateStatus'])->name('tempahan.update.status');
 
@@ -130,18 +130,18 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::prefix('aduan-cadangan')->middleware(['auth'])->group(function () {
         // Route for displaying the list of complaints and suggestions (handled by AduanCadanganController)
         Route::get('/', [AduanCadanganController::class, 'index'])->name('aduan-cadangan.index');
-        
+
         // Route for previewing a specific complaint or suggestion
         Route::get('/{id}/preview', [AduanCadanganController::class, 'preview'])->name('aduan-cadangan.preview');
-        
+
         // Route for deleting a specific complaint or suggestion
         Route::delete('/{id}', [AduanCadanganController::class, 'destroy'])->name('aduan-cadangan.destroy');
-        
+
         // Route for marking a complaint or suggestion as read (Dibaca)
         Route::post('/{id}/read', [AduanCadanganController::class, 'markAsRead'])->name('aduan-cadangan.read');
     });
-    
 
-    
+
+
 
 });

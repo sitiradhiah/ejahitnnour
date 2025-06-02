@@ -14,7 +14,7 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                <li class="sidebar-title text-white" style="font-weight: bold; font-size: 1.2em;">MENU 
+                <li class="sidebar-title text-white" style="font-weight: bold; font-size: 1.2em;">MENU
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn btn-danger  ms-2">
@@ -36,15 +36,15 @@
                         <span>Maklumat Sistem</span>
                     </a>
                     <ul class="submenu ">
-                        <li class="submenu-item {{ Request::is('maklumat-sistem/senarai-pekerja') ? 'active' : '' }}">
-                            <a href="{{ route('maklumat-sistem.senarai-pekerja') }}">Senarai Pekerja Kedai N'NOUR</a>
+                        <li class="submenu-item {{ Request::is('senarai-pekerja') ? 'active' : '' }}">
+                            <a href="{{ route('senarai-pekerja.index') }}">Senarai Pekerja Kedai N'NOUR</a>
                         </li>
                         <li class="submenu-item {{ Request::is('admin/testimonial') ? 'active' : '' }}">
                             <a href="{{ route('testimonial.index') }}">Maklumat Umum</a>
                         </li>
                     </ul>
                 </li>
-                
+
 
                 <li class="sidebar-item has-sub {{ Request::is('admin/tempahan*') ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
@@ -72,7 +72,7 @@
                                 <span>Semakan Pesanan</span>
                             </a>
                         </li>
-                        
+
                     </ul>
                 </li>
 
@@ -127,8 +127,8 @@
                         <span>Aduan & Cadangan</span>
                     </a>
                 </li>
-                
-                
+
+
 
             </ul>
         </div>
