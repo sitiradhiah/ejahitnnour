@@ -132,6 +132,22 @@
   <!-- Swiper (Slider Testimoni) JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
+  <!-- Global js -->
+   <script>
+        function toggleReadMore(id) {
+            const shortEl = document.getElementById(id + '_short');
+            const fullEl = document.getElementById(id + '_full');
+
+            if (shortEl.style.display === 'none') {
+                shortEl.style.display = 'inline';
+                fullEl.style.display = 'none';
+            } else {
+                shortEl.style.display = 'none';
+                fullEl.style.display = 'inline';
+            }
+        }
+    </script>
+
   <!-- Page Specific Scripts -->
   @yield('scripts')
 

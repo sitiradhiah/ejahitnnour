@@ -273,9 +273,9 @@ body {
 }
 
 .product-card img {
-    width: 100%;
-    height: 240px;
-    object-fit: cover;
+    width: auto;
+    height: 250px;
+    object-fit: contain;
     border-bottom: 2px solid #e0e0e0;
 }
 
@@ -367,7 +367,7 @@ body {
             <span class="dot" onclick="currentSlide(2)"></span>
         </div>
     </div>
-    
+
 
     <div class="hero-banner">
         <h2>KATALOG REKA BENTUK PAKAIAN</h2>
@@ -409,13 +409,22 @@ body {
     <div class="container">
         <div class="catalogue-container">
             @foreach($katalogs as $item)
-                <div class="product-card" onclick="openLightbox('{{ asset('storage/' . $item->gambar) }}')">
-                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}">
+                <div class="product-card">
+                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" onclick="openLightbox('{{ asset("storage/" . $item->gambar) }}')">
                     <div class="product-details">
                         <div class="product-name">{{ $item->nama }}</div>
                         <div class="product-info">Kategori: {{ $item->kategori ?? '-' }}</div>
                         <div class="product-info">Warna: {{ $item->warna ?? '-' }}</div>
                         <div class="product-info">Saiz: {{ $item->saiz ?? 'S - 2XL' }}</div>
+                        @php
+                            $desc = $item->penerangan ?? '-';
+                            $shortDesc = Str::limit($desc, 60);
+                            $descId = 'desc_' . $item->id;
+                        @endphp
+
+                        <td>
+                            {!! renderReadMore($descId, $desc, $shortDesc) !!}
+                        </td>
                     </div>
                 </div>
             @endforeach
