@@ -355,24 +355,34 @@
 
 @php
     $testimonials = \App\Models\Testimonial::all();
+    if (!isset($testimonials) || $testimonials->isEmpty()) {
+        $testimonials = collect();
+    }
 @endphp
 
 <section class="testimoni-section">
   <h2>Apa Kata Pelanggan Kami</h2>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
+    @if(isset($testimonials) && $testimonials->count())
       @foreach($testimonials as $testi)
       <div class="swiper-slide">
-        <!-- Pastikan gambar diambil dari folder public/images -->
-        @if($testi->image && file_exists(public_path('storage/images/' . $testi->image)))
-          <img src="{{ asset('storage/images/' . $testi->image) }}" alt="{{ $testi->name }}"/>
+        @if(isset($testi->image) && $testi->image && file_exists(public_path('storage/images/' . $testi->image)))
+        <img src="{{ asset('storage/images/' . $testi->image) }}" alt="{{ $testi->name }}"/>
         @else
-          <img src="{{ asset('images/default-user.png') }}" alt="Default Image"/>
+        <img src="{{ asset('images/default-user.png') }}" alt="Default Image"/>
         @endif
         <div class="testimoni-name">{{ $testi->name }}</div>
         <div class="testimoni-text">"{{ $testi->feedback }}"</div>
       </div>
       @endforeach
+    @else
+      <div class="swiper-slide">
+        <img src="{{ asset('images/default-user.png') }}" alt="Default Image"/>
+        <div class="testimoni-name">Tiada Testimoni</div>
+        <div class="testimoni-text">"Belum ada testimoni pelanggan."</div>
+      </div>
+    @endif
     </div>
   </div>
 </section>
@@ -399,7 +409,7 @@ var swiper = new Swiper(".mySwiper", {
       jQuery('#search-btn').on('click', function() {
           // Ambil nilai input carian
           var query = jQuery('#query').val();
-    
+
           // Pastikan input tidak kosong
           if(query.trim() !== '') {
               // Hantar permintaan AJAX ke route semakan-pesanan

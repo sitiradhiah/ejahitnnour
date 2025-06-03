@@ -1,6 +1,7 @@
 @extends('layouts.admin-main')
 
 @section('css')
+
 <style>
     .page-heading {
         margin-bottom: 20px;
@@ -81,49 +82,54 @@
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
+            <div style="overflow-x: auto;">
+                <table class="table table-bordered table-striped" style="min-width: 1000px;">
+                    <thead>
+                        <tr class="tindakan-bg">
+                            <th>No</th>
+                            <th>Nama Pekerja</th>
+                            <th>Jawatan</th>
+                            <th>No Telefon</th>
+                            <th>Email</th>
+                            <th>Status Pengguna</th>
+                            <th>Pengesahan Admin?</th>
+                            <th class="sticky-col sticky-right tindakan-bg">Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($workers as $worker)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $worker->name }}</td>
+                            <td>{{ $worker->peranan }}</td>
+                            <td>{{ $worker->phone }}</td>
+                            <td>{{ $worker->email }}</td>
+                            <td>{{ $worker->status }}</td>
+                            <td>
+                                @if($worker->disahkan == 0)
+                                    Sudah Disahkan
+                                @else
+                                    Belum Disahkan
+                                @endif
+                            </td>
+                            <td class="sticky-col sticky-right tindakan-bg">
+                                <a href="{{ route('senarai-pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Pekerja</th>
-                        <th>Jawatan</th>
-                        <th>No Telefon</th>
-                        <th>Email</th>
-                        <th>Status Pengguna</th>
-                        <th>Pengesahan Admin?</th>
-                        <th>Tindakan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($workers as $worker)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $worker->name }}</td>
-                        <td>{{ $worker->peranan }}</td>
-                        <td>{{ $worker->phone }}</td>
-                        <td>{{ $worker->email }}</td>
-                        <td>{{ $worker->status }}</td>
-                        <td>
-                            @if($worker->disahkan == 0)
-                                Sudah Disahkan
-                            @else
-                                Belum Disahkan
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('senarai-pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">Kemaskini</a>
-
-                            <form action="{{ route('senarai-pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                <form action="{{ route('senarai-pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

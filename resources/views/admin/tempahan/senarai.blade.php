@@ -85,7 +85,7 @@
                                             <li><a class="dropdown-item filter-status-btn" href="#" data-status="Lama">Pelanggan Lama</a></li>
                                         </ul>
                                     </div>
-                                    
+
 
                                     <a href="{{ route('tempahan.baru') }}" class="btn btn-success ms-2">
                                         <i class="bi bi-plus"></i> Tempahan Baru
@@ -115,11 +115,11 @@
                                     <td style="text-align: center;">
                                         <!-- Info Button triggers modal -->
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}">Maklumat</button>
-                                        <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm">Kemaskini</a>
+                                        <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Padam</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>

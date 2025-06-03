@@ -102,12 +102,12 @@
                         <td>{{ $customer->email }}</td>
                         <td></td>
                         <td>
-                            <a href="" class="btn btn-primary btn-edit">Kemaskini</a>
-                
+                            <a href="" class="btn btn-primary btn-edit"><i class="fa-solid fa-pen-to-square"></i></a>
+
                             <form action="" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam maklumat ini?')">Hapus</button>
+                                <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam maklumat ini?')"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>

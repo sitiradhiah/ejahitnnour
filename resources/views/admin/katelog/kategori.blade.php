@@ -77,12 +77,12 @@
                         <td>{{ $category->name }}</td>
                         <td>
                             <!-- Edit button triggering modal -->
-                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})">Kemaskini</button>
+                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})"><i class="fa-solid fa-pen-to-square"></i></button>
                             <!-- Delete button with form -->
                             <form action="{{ route('kategori.destroy', $category->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-delete">Padam</button>
+                                <button type="submit" class="btn-delete"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -131,7 +131,7 @@
                         <label for="editCategoryName" class="form-label">Nama Kategori</label>
                         <input type="text" class="form-control" id="editCategoryName" name="name" required>
                     </div>
-                    <button type="submit" class="btn-edit w-100">Kemaskini</button>
+                    <button type="submit" class="btn-edit w-100"><i class="fa-solid fa-pen-to-square"></i></button>
                 </form>
             </div>
         </div>

@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="{{ asset('admin/css/app.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin/css/images/favicon.svg') }}" type="image/x-icon">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" referrerpolicy="no-referrer" />
+
+
     <style>
          .sidebar-wrapper {
             border-right: 2px solid #ddd;
@@ -49,25 +53,48 @@
             font-weight: 800;
             text-decoration: underline;
         }
+        /* Ensure the column stays in place */
+        .sticky-col {
+            position: sticky;
+            z-index: 2;
+        }
+
+        /* Stick the last column to the right */
+        .sticky-right {
+            right: 0;
+        }
+
+        /* Optional: Keep header above body content */
+        thead th {
+            /* background: #f8f9fa !important; or any color */
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .tindakan-bg {
+            background-color:rgb(207, 193, 203) !important;
+            color:black !important;
+        }
+
     </style>
     @yield('css')
 </head>
 
 <body>
     <div id="app">
-        
-        @include('../admin/partials.sidebar-kiri') 
+
+        @include('../admin/partials.sidebar-kiri')
         <div id="main">
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
-            @yield('content') 
-            @include('../admin/partials.footer') 
+            @yield('content')
+            @include('../admin/partials.footer')
         </div>
 
-       
+
     </div>
 
     <!-- Scripts for Bootstrap Modal and other features -->
@@ -79,7 +106,7 @@
 
     <!-- Bootstrap modal JS -->
     <!-- Ensure that Bootstrap's JavaScript is included -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 

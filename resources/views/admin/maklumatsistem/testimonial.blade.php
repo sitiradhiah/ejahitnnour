@@ -84,11 +84,11 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('testimonial.edit', $item->id) }}" class="btn-edit btn-sm">Kemaskini</a>
+                            <a href="{{ route('testimonial.edit', $item->id) }}" class="btn-edit btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                             <form action="{{ route('testimonial.destroy', $item->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-delete btn-sm" onclick="return confirm('Padam testimonial ini?')">Padam</button>
+                                <button type="submit" class="btn-delete btn-sm" onclick="return confirm('Padam testimonial ini?')"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>

@@ -63,8 +63,8 @@
                     </select>
                 </div>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-sm btn-success">Muat Turun Excel</button>
-                    <button class="btn btn-sm btn-danger">Muat Turun PDF</button>
+                    <button class="btn btn-sm btn-success"><i class="fa-solid fa-download"></i> Excel</button>
+                    <button class="btn btn-sm btn-danger"><i class="fa-solid fa-download"></i> PDF</button>
                 </div>
             </div>
         </div>
@@ -87,8 +87,8 @@
                         <td>2025-01-10</td>
                         <td>Selesai</td>
                         <td>
-                            <button class="btn btn-sm btn-primary">Muat Turun</button>
-                            <button class="btn btn-sm btn-secondary">Lihat</button>
+                            <button class="btn btn-sm btn-primary"><i class="fa-solid fa-download"></i></button>
+                            <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-eye"></i></button>
                         </td>
                     </tr>
                     <tr>
@@ -97,8 +97,8 @@
                         <td>2025-01-11</td>
                         <td>Dalam Proses</td>
                         <td>
-                            <button class="btn btn-sm btn-primary">Muat Turun</button>
-                            <button class="btn btn-sm btn-secondary">Lihat</button>
+                            <button class="btn btn-sm btn-primary"><i class="fa-solid fa-download"></i></button>
+                            <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-eye"></i></button>
                         </td>
                     </tr>
                     <tr>
@@ -107,8 +107,8 @@
                         <td>2025-01-12</td>
                         <td>Batal</td>
                         <td>
-                            <button class="btn btn-sm btn-primary">Muat Turun</button>
-                            <button class="btn btn-sm btn-secondary">Lihat</button>
+                            <button class="btn btn-sm btn-primary"><i class="fa-solid fa-download"></i></button>
+                            <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-eye"></i></button>
                         </td>
                     </tr>
                 </tbody>
