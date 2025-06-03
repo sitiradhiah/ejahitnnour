@@ -5,9 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\UserUpdatedNotification;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
+    public function showRegistrationForm()
+    {
+        return view('daftarmasuk');
+    }
+
     public function register(Request $request)
     {
         // Validasi input dari borang

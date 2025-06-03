@@ -34,10 +34,18 @@ Route::prefix('logmasuk')->controller(AuthController::class)->group(function () 
 });
 
 // Route untuk Daftar Pengguna Baru
-Route::get('/daftarmasuk', function () {
-    return view('daftarmasuk'); // View untuk pendaftaran pengguna baru
+Route::controller(RegisterController::class)->prefix('daftarmasuk')->group(function () {
+    Route::get('/', 'showRegistrationForm')->name('register'); // View untuk pendaftaran pengguna baru
+    Route::post('/', 'register')->name('register.create'); // Proses pendaftaran
 });
-Route::post('/daftarmasuk', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register'); // Proses pendaftaran
+
+// Route untuk Daftar Pengguna Baru
+// Route::get('/daftarmasuk', function () {
+//     return view('daftarmasuk'); // View untuk pendaftaran pengguna baru
+// });
+
+// Route::post('/daftarmasuk', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
+// Proses pendaftaran
 
 // POST /hubungi-kami - for public form submission
 Route::post('/hubungi-kami', [AduanCadanganController::class, 'store'])->name('aduan.store');
