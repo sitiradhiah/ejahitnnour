@@ -97,10 +97,10 @@
                             <thead>
                                 <tr>
                                     <th style="text-align: center;">No</th>
-                                    <th>Nama Pelanggan</th>
-                                    <th style="text-align: center;">Jenis Tempahan</th>
                                     <th style="text-align: center;">Tarikh Tempahan</th>
-                                    <th style="text-align: center;">Status</th>
+                                    <th >Jenis Tempahan</th>
+                                    <th >Nama Pelanggan</th>
+                                    <th >Status</th>
                                     <th style="width: 15%; text-align: center;">Tindakan</th>
                                 </tr>
                             </thead>
@@ -108,10 +108,10 @@
                                 @foreach($tempahan as $index => $item)
                                 <tr>
                                     <td style="text-align: center;">{{ $index + 1 }}</td>
-                                    <td>{{ $item->nama_pelanggan }}</td>
-                                    <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
                                     <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
-                                    <td style="text-align: center;">{{ $item->status }}</td>
+                                    <td >{{ $item->jenis_tempahan }}</td>
+                                    <td >{{ $item->nama_pelanggan }}</td>
+                                    <td >{{ $item->status }}</td>
                                     <td style="text-align: center;">
                                         <!-- Info Button triggers modal -->
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}"><i class="fa-solid fa-eye"></i></button>

@@ -9,7 +9,7 @@ class TempahanController extends Controller
 {
     public function senarai()
     {
-        $tempahan = Tempahan::all();
+        $tempahan = Tempahan::orderBy('tarikh_tempahan', 'desc')->get();
         return view('admin.tempahan.senarai', compact('tempahan'));
     }
 

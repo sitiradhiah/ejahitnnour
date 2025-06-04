@@ -30,10 +30,10 @@
                                 <select class="form-control" id="existing_user" name="existing_user">
                                     <option value="" disabled selected>Pilih Pengguna</option>
                                     @foreach($tempahan as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nama_pelanggan }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->nama_pelanggan }} ({{ $item->nombor_telefon }})</option>
                                     @endforeach
                                 </select>
-                                
+
                             </div>
                             <!-- Maklumat Pelanggan -->
                             <div class="row mb-3">
@@ -139,7 +139,7 @@
 <script>
     document.getElementById('existing_user').addEventListener('change', function () {
         var selectedId = this.value;
-    
+
         // Correct the fetch URL
         fetch(`/admin/tempahan/pelanggan/${selectedId}`)
             .then(response => response.json())
