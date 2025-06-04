@@ -407,7 +407,7 @@ body {
 
 <section class="catalogue-section py-5">
     <div class="container">
-        <div class="catalogue-container">
+        <div class="catalogue-container" id="catalogue-container">
             @foreach($katalogs as $item)
                 <div class="product-card">
                     <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" onclick="openLightbox('{{ asset("storage/" . $item->gambar) }}')">
@@ -495,6 +495,17 @@ function updateSlider() {
 // Initialize the slider
 updateSlider();
 
+
+//scroll when there is search query
+document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('search')) {
+        const target = document.getElementById('catalogue-container');
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+});
 </script>
 @endsection
 
