@@ -70,7 +70,7 @@
         </div>
         <div class="card-body">
             <label class="me-2" style="font-weight: bold; color: black; text-decoration: underline;">Senarai Tempahan</label>
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -122,7 +122,7 @@
             <h4>Janaan Laporan Stok</h4>
         </div>
         <div class="card-body">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>

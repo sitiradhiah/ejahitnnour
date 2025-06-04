@@ -82,35 +82,34 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered table-bordered">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th style="text-align: center;">No</th>
                         <th>Nama Pelanggan</th>
-                        <th>No Telefon</th>
-                        <th>Email</th>
-                        <th>Tarikh Daftar</th>
-                        <th>Tindakan</th>
+                        <td>No Phone</td>
+                        <td>Email</td>
+                        <th style="width: 15%; text-align: center;">Tindakan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($Customers as $customer)
+                    @foreach($tempahan as $index => $item)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $customer->name }}</td>
-                        <td>{{ $customer->phone }}</td>
-                        <td>{{ $customer->email }}</td>
+                        <td style="text-align: center;">{{ $index + 1 }}</td>
+                        <td>{{ $item->nama_pelanggan }}</td>
+                        <td>{{ $item->nombor_telefon }}</td>
                         <td></td>
-                        <td>
-                            <a href="" class="btn btn-primary btn-edit"><i class="fa-solid fa-pen-to-square"></i></a>
-
-                            <form action="" method="POST" style="display:inline;">
+                        <!-- <td>{{ $item->email }}</td> -->
+                        <td style="text-align: center;">
+                            <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <!-- <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam maklumat ini?')"><i class="fa-solid fa-trash"></i></button>
-                            </form>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                            </form> -->
                         </td>
                     </tr>
+
                     @endforeach
                 </tbody>
             </table>

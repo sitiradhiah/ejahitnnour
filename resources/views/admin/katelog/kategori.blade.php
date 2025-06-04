@@ -62,7 +62,7 @@
             <button class="btn-add" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Tambah Kategori</button>
         </div>
         <div class="card-body">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>

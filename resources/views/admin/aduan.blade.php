@@ -76,7 +76,7 @@
             </div>
 
             <!-- TABLE -->
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -97,11 +97,11 @@
                         <td>{{ $aduan->kategori }}</td>
                         <td>{{ $aduan->tarikh->format('Y-m-d') }}</td>
                         <td>
-                            <span id="status-aduan-{{ $aduan->id }}" class="status-badge 
-                                @if($aduan->status == 'Menunggu') status-pending 
-                                @elseif($aduan->status == 'Selesai') status-resolved 
-                                @elseif($aduan->status == 'Dibaca') status-read 
-                                @else status-rejected 
+                            <span id="status-aduan-{{ $aduan->id }}" class="status-badge
+                                @if($aduan->status == 'Menunggu') status-pending
+                                @elseif($aduan->status == 'Selesai') status-resolved
+                                @elseif($aduan->status == 'Dibaca') status-read
+                                @else status-rejected
                                 @endif">
                                 {{ $aduan->status }}
                             </span>

@@ -407,27 +407,33 @@ body {
 
 <section class="catalogue-section py-5">
     <div class="container">
-        <div class="catalogue-container" id="catalogue-container">
-            @foreach($katalogs as $item)
-                <div class="product-card">
-                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" onclick="openLightbox('{{ asset("storage/" . $item->gambar) }}')">
-                    <div class="product-details">
-                        <div class="product-name">{{ $item->nama }}</div>
-                        <div class="product-info">Kategori: {{ $item->kategori ?? '-' }}</div>
-                        <div class="product-info">Warna: {{ $item->warna ?? '-' }}</div>
-                        <div class="product-info">Saiz: {{ $item->saiz ?? 'S - 2XL' }}</div>
-                        @php
-                            $desc = $item->penerangan ?? '-';
-                            $shortDesc = Str::limit($desc, 60);
-                            $descId = 'desc_' . $item->id;
-                        @endphp
-
-                        <td>
-                            {!! renderReadMore($descId, $desc, $shortDesc) !!}
-                        </td>
-                    </div>
+        <div class="catalogue-container mb-4" id="catalogue-container">
+            @if($katalogs->isEmpty())
+                <div style="grid-column: 1 / -1; text-align: center; color: #a1007d; font-size: 1.2rem; padding: 0;">
+                    Tiada produk dijumpai untuk carian atau penapis ini.
                 </div>
-            @endforeach
+            @else
+                @foreach($katalogs as $item)
+                    <div class="product-card">
+                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" onclick="openLightbox('{{ asset("storage/" . $item->gambar) }}')">
+                        <div class="product-details">
+                            <div class="product-name">{{ $item->nama }}</div>
+                            <div class="product-info">Kategori: {{ $item->kategori ?? '-' }}</div>
+                            <div class="product-info">Warna: {{ $item->warna ?? '-' }}</div>
+                            <div class="product-info">Saiz: {{ $item->saiz ?? 'S - 2XL' }}</div>
+                            @php
+                                $desc = $item->penerangan ?? '-';
+                                $shortDesc = Str::limit($desc, 60);
+                                $descId = 'desc_' . $item->id;
+                            @endphp
+
+                            <td>
+                                {!! renderReadMore($descId, $desc, $shortDesc) !!}
+                            </td>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
         </div>
     </div>
 </section>
@@ -499,7 +505,7 @@ updateSlider();
 //scroll when there is search query
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('search')) {
+    if (urlParams.has('search')|| urlParams.has('kategori') || urlParams.has('warna') || urlParams.has('saiz')) {
         const target = document.getElementById('catalogue-container');
         if (target) {
             target.scrollIntoView({ behavior: 'smooth' });

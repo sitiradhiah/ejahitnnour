@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th style="text-align: center;">No</th>
@@ -114,7 +114,7 @@
                                     <td style="text-align: center;">{{ $item->status }}</td>
                                     <td style="text-align: center;">
                                         <!-- Info Button triggers modal -->
-                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}">Maklumat</button>
+                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}"><i class="fa-solid fa-eye"></i></button>
                                         <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf

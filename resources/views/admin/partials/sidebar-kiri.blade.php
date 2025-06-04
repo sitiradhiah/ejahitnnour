@@ -40,7 +40,7 @@
                             <a href="{{ route('senarai-pekerja.index') }}">Senarai Pekerja Kedai N'NOUR</a>
                         </li>
                         <li class="submenu-item {{ Request::is('admin/testimonial') ? 'active' : '' }}">
-                            <a href="{{ route('testimonial.index') }}">Maklumat Umum</a>
+                            <a href="{{ route('testimonial.index') }}">Pengurusan Testimonial</a>
                         </li>
                     </ul>
                 </li>
