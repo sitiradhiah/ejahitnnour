@@ -42,6 +42,10 @@
                         <li class="submenu-item {{ Request::is('admin/testimonial') ? 'active' : '' }}">
                             <a href="{{ route('testimonial.index') }}">Pengurusan Testimonial</a>
                         </li>
+                        <li class="submenu-item {{ Request::is('admin/announcement') ? 'active' : '' }}">
+                            <a href="{{ route('announcement.index') }}">Pengumuman 📢
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

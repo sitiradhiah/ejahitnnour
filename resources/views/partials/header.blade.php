@@ -1,4 +1,5 @@
 <header class="header_section">
+    @include('partials.top-announce')
   <div class="container-fluid">
     <nav class="navbar navbar-expand-lg custom_nav-container">
       <a class="navbar-brand d-flex align-items-center" href="/">

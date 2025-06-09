@@ -11,6 +11,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\Auth\RegisterController;
 
 //route sebelum login
 Route::get('/', function () {
@@ -149,7 +151,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::post('/{id}/read', [AduanCadanganController::class, 'markAsRead'])->name('aduan-cadangan.read');
     });
 
-
+    Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
+    Route::post('/announcement', [AnnouncementController::class, 'update'])->name('announcement.update');
 
 
 });

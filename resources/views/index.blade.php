@@ -25,20 +25,20 @@
     border-radius: 20px;
     color: #fff;
     text-align: center;
-    max-width: 900px;
-    width: 90%;
+    max-width:80%;
+    width: 80%;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
   }
 
   .detail-box h1 {
-    font-size: 65px;
+    font-size: 35px;
     font-weight: 800;
     margin-bottom: 20px;
   }
 
   .detail-box p {
     font-size: 20px;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     line-height: 1.8;
   }
 
@@ -303,11 +303,13 @@
 
 <div class="hero_area">
   <div class="detail-box">
-    <h1>KEDAI JAHIT N'NOUR</h1>
-    <p>Selamat Datang ke Kedai Jahit N'NOUR, sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.</p>
+    <h1 class="mb-0">Selamat Datang ke Laman Web Kedai Jahit N'NOUR</h1>
+    <h3 style="font-weight: normal; font-size: 1.5rem; margin-bottom: 10px;">(Ayer Hitam, Johor)</h3>
+    <p>Kami menyediakan pelbagai perkhidmatan jahitan dan reka bentuk pakaian yang berkualiti tinggi. Dari jahitan biasa hingga tempahan khas, kami berkomitmen untuk memberikan hasil yang memuaskan kepada pelanggan kami. Untuk maklumat lanjut,
+    sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.</p>
     <div class="btn-box">
       <a href="{{ route('hubungi.kami') }}" class="btn1">Tempah Sekarang!!</a>
-      <a href="{{ route('about') }}" class="btn2">Tentang Kami</a>
+      <!-- <a href="{{ route('about') }}" class="btn2">Tentang Kami</a> -->
     </div>
     <div class="search-bar-container">
       <form id="searchForm" action="{{ route('KatalogUmum') }}" method="GET">
