@@ -70,12 +70,12 @@
                         </li> --}}
 
                          <!-- Add "Semakan Pesanan" link here -->
-                         <li class="sidebar-item {{ Request::is('admin/semakan-pesanan') ? 'active' : '' }}">
+                         <!-- <li class="sidebar-item {{ Request::is('admin/semakan-pesanan') ? 'active' : '' }}">
                             <a href="{{ route('semakan-pesanan.dashboard') }}" class='sidebar-link'>
                                 <i class="bi bi-search"></i>
                                 <span>Semakan Pesanan</span>
                             </a>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </li>

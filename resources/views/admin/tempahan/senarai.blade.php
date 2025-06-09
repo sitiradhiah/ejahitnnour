@@ -111,9 +111,13 @@
                                     <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
                                     <td >{{ $item->jenis_tempahan }}</td>
                                     <td >{{ $item->nama_pelanggan }}</td>
-                                    <td >{{ $item->status }}</td>
+                                    <td id="status-{{ $item->id }}">{{ $item->status }}</td>
                                     <td style="text-align: center;">
                                         <!-- Info Button triggers modal -->
+                                         <select class="form-control status-dropdown my-2" data-tempahan-id="{{ $item->id }}">
+                                            <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>Dalam Pelaksanaan</option>
+                                            <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>Sudah Selesai</option>
+                                        </select>
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}"><i class="fa-solid fa-eye"></i></button>
                                         <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
@@ -204,6 +208,27 @@
             applyFilters();
         });
     });
+</script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script>
+  $(document).ready(function() {
+      $(document).on('change', '.status-dropdown', function() {
+          var status = $(this).val();
+          var tempahanId = $(this).data('tempahan-id');
+
+          $.ajax({
+              url: '{{ route("tempahan.update.status", ":id") }}'.replace(':id', tempahanId),
+              method: 'PATCH',
+              data: { status: status, _token: '{{ csrf_token() }}' },
+              success: function(response) {
+                  $('#status-' + tempahanId).text(response.status);
+              },
+              error: function() {
+                  alert('Ralat semasa mengemaskini status.');
+              }
+          });
+      });
+  });
 </script>
 @endsection
 
