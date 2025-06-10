@@ -79,7 +79,35 @@
             background-color:rgb(207, 193, 203) !important;
             color:black !important;
         }
+        /* custom dropdown */
+            /* Reusable dropdown style */
+            .dropdown-status {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                padding-right: 2rem; /* space for chevron */
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                width: 100%;
+            }
 
+            /* Chevron icon position inside the wrapper */
+            .dropdown-wrapper {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+            }
+
+            .dropdown-wrapper .dropdown-icon {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                pointer-events: none;
+                color: #666;
+            }
+        /* end custom */
     </style>
     @yield('css')
 </head>
