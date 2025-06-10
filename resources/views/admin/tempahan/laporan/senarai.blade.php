@@ -164,10 +164,84 @@
                             <span>{{ $item->status }}</span>
                         </td>
                         <td style="text-align: center; width: 10%;">
-                            <button class="btn btn-sm btn-primary" onclick="window.open('{{ route('tempahan.laporan.pdf', $item->id) }}', '_blank')">
+                            <button class="btn btn-sm btn-primary" onclick="exportRowToPDF({{ $item->id }})">
                                 <i class="fa-solid fa-download"></i>
                             </button>
-                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}"><i class="fa-solid fa-eye"></i></button>
+                            <script>
+                                function exportRowToPDF(id) {
+                                    // Find the row by id (using Laravel's $item->id as a data attribute)
+                                    var row = document.querySelector('tr td button[onclick*="exportRowToPDF(' + id + ')"]').closest('tr');
+                                    // Get all data from the row (excluding the last cell with buttons)
+                                    var cells = Array.from(row.querySelectorAll('td')).slice(0, -1);
+                                    // Get table headers
+                                    var headers = Array.from(row.closest('table').querySelectorAll('thead th')).slice(0, -1);
+
+                                    // Prepare data for PDF
+                                    var rowData = cells.map(cell => cell.innerText);
+                                    var headerData = headers.map(th => th.innerText);
+
+                                    // Add extra info if needed (not displayed in table)
+                                    // Example: you can fetch more info via AJAX if required
+
+                                    // Generate PDF
+                                    const { jsPDF } = window.jspdf;
+                                    var doc = new jsPDF();
+
+                                    doc.setFontSize(16);
+                                    doc.text('Senarai Tempahan ID=' + id, doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
+
+                                    // Prepare table for PDF
+                                    doc.autoTable({
+                                        head: [headerData],
+                                        body: [rowData],
+                                        startY: 25,
+                                        styles: { fontSize: 12 },
+                                        headStyles: { fillColor: [0, 123, 255] },
+                                        theme: 'striped'
+                                    });
+
+                                    doc.save('senarai_tempahan_id_' + id + '.pdf');
+                                }
+                            </script>
+                            <!-- View Button triggers modal -->
+                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="viewModal-{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalLabel-{{ $item->id }}" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="viewModalLabel-{{ $item->id }}">Maklumat Tempahan</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <table class="table table-borderless mb-0">
+                                        <tr>
+                                            <th style="width: 40%;">Tarikh Tempahan</th>
+                                            <td>{{ $item->tarikh_tempahan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Jenis Tempahan</th>
+                                            <td>{{ $item->jenis_tempahan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nama Pelanggan</th>
+                                            <td>{{ $item->nama_pelanggan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td>{{ $item->status }}</td>
+                                        </tr>
+                                    </table>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                         </td>
                     </tr>
 
