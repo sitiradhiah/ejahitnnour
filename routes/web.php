@@ -125,6 +125,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     // ******LAPORAN TEMPAHAN******
     Route::prefix('tempahan')->controller(TempahanLaporanController::class)->name('tempahan.laporan.')->group(function () {
         Route::get('/laporan-tempahan', 'index')->name('senarai');
+        Route::post('/laporan-tempahan', 'filter')->name('filter');
         Route::get('/laporan-tempahan/{id}', 'show')->name('pdf');
     });
 

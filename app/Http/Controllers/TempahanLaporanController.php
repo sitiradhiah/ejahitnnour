@@ -21,4 +21,24 @@ class TempahanLaporanController extends Controller
 
          return view('admin.tempahan.laporan.pdf'); // use your view file here
     }
+
+    public function filter(Request $request)
+    {
+        $query = \App\Models\Tempahan::query();
+
+        if ($request->tarikh_dari) {
+            $query->whereDate('tarikh_tempahan', '>=', $request->tarikh_dari);
+        }
+
+        if ($request->tarikh_hingga) {
+            $query->whereDate('tarikh_tempahan', '<=', $request->tarikh_hingga);
+        }
+
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        return response()->json($query->get());
+    }
+
 }
