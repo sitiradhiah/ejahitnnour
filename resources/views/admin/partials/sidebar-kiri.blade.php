@@ -111,18 +111,10 @@
                 </li> --}}
 
                 <li class="sidebar-item {{ Request::is('janaan-laporan*') ? 'active' : '' }}">
-                    <a href="{{ route('janaan-laporan.index') }}" class="sidebar-link">
+                    <a href="{{ route('tempahan.laporan.senarai') }}" class="sidebar-link">
                         <i class="bi bi-stack"></i>
                         <span>Janaan Laporan</span>
                     </a>
-                    {{-- <ul class="submenu ">
-                        <li class="submenu-item {{ Request::is('janaan-laporan/tempahan') ? 'active' : '' }}">
-                            <a href="">Tempahan</a>
-                        </li>
-                        <li class="submenu-item {{ Request::is('janaan-laporan/stok') ? 'active' : '' }}">
-                            <a href="#">Stok</a>
-                        </li>
-                    </ul> --}}
                 </li>
 
                 <li class="sidebar-item {{ Request::is('aduan-cadangan*') ? 'active' : '' }}">

@@ -107,17 +107,27 @@
                             <tbody>
                                 @foreach($tempahan as $index => $item)
                                 <tr>
-                                    <td style="text-align: center;">{{ $index + 1 }}</td>
-                                    <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
+                                    <td style="text-align: center; width: 1%;">{{ $index + 1 }}</td>
+                                    <td style="text-align: center; width: 10%;">{{ $item->tarikh_tempahan }}</td>
                                     <td >{{ $item->jenis_tempahan }}</td>
                                     <td >{{ $item->nama_pelanggan }}</td>
-                                    <td id="status-{{ $item->id }}">{{ $item->status }}</td>
-                                    <td style="text-align: center;">
-                                        <!-- Info Button triggers modal -->
-                                         <select class="form-control status-dropdown my-2" data-tempahan-id="{{ $item->id }}">
-                                            <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>Dalam Pelaksanaan</option>
-                                            <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>Sudah Selesai</option>
-                                        </select>
+                                    <!-- <td id="status-{{ $item->id }}">{{ $item->status }}</td> -->
+                                   <td style="text-align: center; width: 15%;">
+                                        <div class="dropdown-wrapper my-2">
+                                            <select class="form-control dropdown-status status-dropdown" data-tempahan-id="{{ $item->id }}">
+                                                <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>
+                                                    Dalam Pelaksanaan
+                                                </option>
+                                                <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>
+                                                    Sudah Selesai
+                                                </option>
+                                            </select>
+                                            <span class="dropdown-icon">
+                                                <i class="fa-solid fa-chevron-down"></i>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center; width: 10%;">
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}"><i class="fa-solid fa-eye"></i></button>
                                         <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">

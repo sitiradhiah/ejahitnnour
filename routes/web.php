@@ -13,6 +13,7 @@ use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\TempahanLaporanController;
 
 //route sebelum login
 Route::get('/', function () {
@@ -121,6 +122,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::post('/', [TempahanController::class, 'store'])->name('store');
     });
 
+    // ******LAPORAN TEMPAHAN******
+    Route::prefix('tempahan')->controller(TempahanLaporanController::class)->name('tempahan.laporan.')->group(function () {
+        Route::get('/laporan-tempahan', 'index')->name('senarai');
+        Route::get('/laporan-tempahan/{id}', 'show')->name('pdf');
+    });
 
     // Route untuk semakan pesanan di dashboard (untuk pengguna log masuk)
     Route::get('/dashboard/semakan-pesanan', [TempahanController::class, 'semakanPesananDashboard'])->name('semakan-pesanan.dashboard');
@@ -128,14 +134,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // Tambahkan route untuk mengemaskini status tempahan
     Route::patch('/tempahan/{id}/status', [TempahanController::class, 'updateStatus'])->name('tempahan.update.status');
-
-
-    // Lain-lain route
-    Route::prefix('janaan-laporan')->middleware(['auth'])->group(function () {
-        Route::get('/', function () {
-            return view('admin.penjanaan');
-        })->name('janaan-laporan.index');
-    });
 
     Route::prefix('aduan-cadangan')->middleware(['auth'])->group(function () {
         // Route for displaying the list of complaints and suggestions (handled by AduanCadanganController)
