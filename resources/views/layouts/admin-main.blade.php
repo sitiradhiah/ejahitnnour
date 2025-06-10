@@ -26,6 +26,10 @@
          .sidebar-wrapper {
             border-right: 2px solid #ddd;
             background: linear-gradient(to right,  rgb(180, 10, 118), rgba(125, 10, 87, 0.995));
+            width:260px;
+         }
+         #main {
+            margin-left: 263px;
          }
         .sidebar-wrapper .menu .sidebar-link{
             color: #fff;

@@ -99,6 +99,6 @@ class WorkerController extends Controller
         $worker->delete();
 
         // Redirect ke senarai pekerja dengan mesej kejayaan
-        return redirect()->route('pekerja.index')->with('success', 'Pekerja berjaya dipadam.');
+        return redirect()->route('senarai-pekerja.index')->with('success', 'Pekerja berjaya dipadam.');
     }
 }
