@@ -16,6 +16,6 @@
                 <label class="form-check-label" for="activeCheck">Paparkan Pengumuman ?</label>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-1 mb-2">Kemaskini</button>
+            <button type="submit" class="btn btn-sm btn-primary mt-1 mb-2">Kemaskini</button>
         </form>
  </div>

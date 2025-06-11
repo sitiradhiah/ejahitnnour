@@ -47,8 +47,8 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        <button type="submit" name="test_email" value="1" class="btn btn-secondary">
+        <button type="submit" class="btn btn-sm btn-primary">Kemaskini</button>
+        <button type="submit" name="test_email" value="1" class="btn btn-sm btn-success">
             Uji Hantar Emel
         </button>
     </form>
