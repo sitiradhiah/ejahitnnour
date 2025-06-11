@@ -42,108 +42,131 @@
 <div class="container">
     <!-- Laporan Tempahan -->
     <div class="card shadow p-3">
-        <div class="card-header">
-            <label class="me-2" style="font-weight: bold; color: black; text-decoration: underline;">Tapisan</label>
-            <div class="d-flex align-items-center gap-2">
-                <div class="d-flex flex-column">
+       <div class="card-header">
+            <label class="me-2 fw-bold text-dark text-decoration-underline">Tapisan</label>
+            <div class="row g-2 align-items-end">
+                <!-- Tarikh Dari -->
+                <div class="col-4 col-md-auto">
                     <label for="filter-date-from" class="form-label mb-1">Tarikh Dari:</label>
-                    <input type="date" id="filter-date-from" class="form-control form-control-sm" style="font-size: 0.9em; padding: 2px 8px; height: 30px;">
+                    <input type="date" id="filter-date-from" class="form-control form-control-sm">
                 </div>
-                <div class="d-flex flex-column">
+
+                <!-- Tarikh Hingga -->
+                <div class="col-4 col-md-auto">
                     <label for="filter-date-to" class="form-label mb-1">Tarikh Hingga:</label>
-                    <input type="date" id="filter-date-to" class="form-control form-control-sm" style="font-size: 0.9em; padding: 2px 8px; height: 30px;">
+                    <input type="date" id="filter-date-to" class="form-control form-control-sm">
                 </div>
-                <div class="d-flex flex-column">
+
+                <!-- Status -->
+                <div class="col-4 col-md-auto">
                     <label for="filter-status" class="form-label mb-1">Status:</label>
-                    <select id="filter-status" class="form-control form-control-sm" style="font-size: 0.9em; padding: 2px 8px; height: 30px;">
+                    <select id="filter-status" class="form-control form-control-sm">
                         <option value="">Semua</option>
                         <option value="Sudah Selesai">Selesai</option>
                         <option value="Dalam Pelaksanaan">Dalam Pelaksanaan</option>
                     </select>
                 </div>
-                <button id="btn-apply-filter" class="btn btn-sm btn-primary mt-4">
-                    <i class="fa fa-filter"></i> Tapis Senarai
-                </button>
-                <div class="d-flex gap-2 ms-auto mt-4" style="margin-left: auto;">
-                    <button class="btn btn-sm btn-success" id="btn-export-excel"><i class="fa-solid fa-download"></i> Senarai Excel</button>
-                    <button class="btn btn-sm btn-danger" id="btn-export-pdf"><i class="fa-solid fa-download"></i> Senarai PDF</button>
+
+                <!-- Tapis -->
+                <div class="col-12 col-md-auto">
+                    <button id="btn-apply-filter" class="btn btn-sm btn-primary w-100">
+                        <i class="fa fa-filter"></i> Tapis
+                    </button>
                 </div>
+
+                <!-- Excel -->
+                <div class="col-6 col-md-auto">
+                    <button class="btn btn-sm btn-success w-100" id="btn-export-excel">
+                        <i class="fa-solid fa-download"></i> Excel
+                    </button>
+                </div>
+
+                <!-- PDF -->
+                <div class="col-6 col-md-auto">
+                    <button class="btn btn-sm btn-danger w-100" id="btn-export-pdf">
+                        <i class="fa-solid fa-download"></i> PDF
+                    </button>
+                </div>
+
             </div>
         </div>
+
         <div class="card-body">
             <label class="me-2" style="font-weight: bold; color: black; text-decoration: underline;">Senarai Tempahan</label>
-             <table class="table table-striped table-bordered" id="table-tempahan">
-                <thead>
-                    <tr>
-                        <th style="text-align: center;">No</th>
-                        <th style="text-align: center;">Tarikh Tempahan</th>
-                        <th >Jenis Tempahan</th>
-                        <th >Nama Pelanggan</th>
-                        <th >Status</th>
-                        <th style="width: 15%; text-align: center;">Tindakan</th>
-                    </tr>
-                </thead>
-                <tbody id="tempahan-body">
-                    @foreach($tempahan as $index => $item)
-                    <tr>
-                        <td style="text-align: center; width: 1%;">{{ $index + 1 }}</td>
-                        <td style="text-align: center; width: 15%;">{{ $item->tarikh_tempahan }}</td>
-                        <td >{{ $item->jenis_tempahan }}</td>
-                        <td >{{ $item->nama_pelanggan }}</td>
-                        <!-- <td id="status-{{ $item->id }}">{{ $item->status }}</td> -->
-                        <td style="text-align: center; width: 15%;">
-                            <span>{{ $item->status }}</span>
-                        </td>
-                        <td style="text-align: center; width: 10%;">
-                            <button class="btn btn-sm btn-primary" onclick="exportRowToPDF({{ $item->id }})">
-                                <i class="fa-solid fa-download"></i>
-                            </button>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="table-tempahan">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">No</th>
+                            <th style="text-align: center;">Tarikh Tempahan</th>
+                            <th >Jenis Tempahan</th>
+                            <th >Nama Pelanggan</th>
+                            <th >Status</th>
+                            <th style="width: 15%; text-align: center;">Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tempahan-body">
+                        @foreach($tempahan as $index => $item)
+                        <tr>
+                            <td style="text-align: center; width: 1%;">{{ $index + 1 }}</td>
+                            <td style="text-align: center; width: 15%;">{{ $item->tarikh_tempahan }}</td>
+                            <td >{{ $item->jenis_tempahan }}</td>
+                            <td >{{ $item->nama_pelanggan }}</td>
+                            <!-- <td id="status-{{ $item->id }}">{{ $item->status }}</td> -->
+                            <td style="text-align: center; width: 15%;">
+                                <span>{{ $item->status }}</span>
+                            </td>
+                            <td style="text-align: center; width: 10%;">
+                                <button class="btn btn-sm btn-primary" onclick="exportRowToPDF({{ $item->id }})">
+                                    <i class="fa-solid fa-download"></i>
+                                </button>
 
-                            <!-- View Button triggers modal -->
-                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
+                                <!-- View Button triggers modal -->
+                                <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="viewModal-{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalLabel-{{ $item->id }}" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="viewModalLabel-{{ $item->id }}">Maklumat Tempahan</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <table class="table table-borderless mb-0">
-                                        <tr>
-                                            <th style="width: 40%;">Tarikh Tempahan</th>
-                                            <td>{{ $item->tarikh_tempahan }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Jenis Tempahan</th>
-                                            <td>{{ $item->jenis_tempahan }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Nama Pelanggan</th>
-                                            <td>{{ $item->nama_pelanggan }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Status</th>
-                                            <td>{{ $item->status }}</td>
-                                        </tr>
-                                    </table>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                  </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="viewModal-{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalLabel-{{ $item->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="viewModalLabel-{{ $item->id }}">Maklumat Tempahan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-borderless mb-0">
+                                            <tr>
+                                                <th style="width: 40%;">Tarikh Tempahan</th>
+                                                <td>{{ $item->tarikh_tempahan }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Jenis Tempahan</th>
+                                                <td>{{ $item->jenis_tempahan }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Nama Pelanggan</th>
+                                                <td>{{ $item->nama_pelanggan }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>{{ $item->status }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    </div>
+                                    </div>
                                 </div>
-                              </div>
-                            </div>
-                        </td>
-                    </tr>
+                                </div>
+                            </td>
+                        </tr>
 
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
