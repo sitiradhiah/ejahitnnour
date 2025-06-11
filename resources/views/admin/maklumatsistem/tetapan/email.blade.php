@@ -48,5 +48,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="submit" name="test_email" value="1" class="btn btn-secondary">
+            Uji Hantar Emel
+        </button>
     </form>
  </div>

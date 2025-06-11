@@ -37,6 +37,37 @@ class EmailSettingController extends Controller
             'MAIL_ENCRYPTION' => $request->MAIL_ENCRYPTION,
         ]);
 
+        if ($request->has('test_email')) {
+            // Set config runtime dari input user
+            config([
+                'mail.mailers.smtp.host' => $request->MAIL_HOST,
+                'mail.mailers.smtp.port' => $request->MAIL_PORT,
+                'mail.mailers.smtp.username' => $request->MAIL_USERNAME,
+                'mail.mailers.smtp.password' => $request->MAIL_PASSWORD,
+                'mail.mailers.smtp.encryption' => $request->MAIL_ENCRYPTION,
+                'mail.default' => 'smtp',
+                'mail.from.address' => $request->MAIL_USERNAME,
+                'mail.from.name' => 'Ujian Emel Sistem',
+            ]);
+
+            try {
+                \Mail::raw('Ini adalah emel ujian dari sistem.', function ($message) use ($request) {
+                    $message->to($request->MAIL_USERNAME)
+                            ->subject('Ujian Penghantar Emel ');
+                });
+
+                return redirect()->back()->with([
+                    'success' => 'Emel ujian berjaya dihantar ke ' . $request->MAIL_USERNAME,
+                    'active_tab' => 'email'
+                ]);
+            } catch (\Exception $e) {
+                return redirect()->back()->with([
+                    'error' => 'Gagal menghantar emel ujian: ' . $e->getMessage(),
+                    'active_tab' => 'email'
+                ]);
+            }
+        }
+
         Artisan::call('config:clear');
 
         if (file_exists(base_path('.env'))) {
