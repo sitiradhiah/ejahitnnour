@@ -33,7 +33,7 @@
 
         <div class="form-group mb-2">
             <label>MAIL PASSWORD</label>
-            <input type="text" name="MAIL_PASSWORD" value="{{ old('MAIL_PASSWORD', $mail_password) }}" class="form-control @error('MAIL_PASSWORD') is-invalid @enderror">
+            <input type="password" name="MAIL_PASSWORD" value="{{ old('MAIL_PASSWORD', $mail_password) }}" class="form-control @error('MAIL_PASSWORD') is-invalid @enderror">
             @error('MAIL_PASSWORD')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
