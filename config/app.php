@@ -83,7 +83,8 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ms', // Set to 'ms' for Malay language
+    // 'locale' => env('APP_LOCALE', 'ms'),
 
     /*
     |--------------------------------------------------------------------------

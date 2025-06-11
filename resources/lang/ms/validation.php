@@ -1,0 +1,77 @@
+<?php
+
+return [
+
+    'accepted' => ':attribute mesti diterima.',
+    'active_url' => ':attribute bukan URL yang sah.',
+    'after' => ':attribute mesti tarikh selepas :date.',
+    'after_or_equal' => ':attribute mesti tarikh selepas atau sama dengan :date.',
+    'alpha' => ':attribute hanya boleh mengandungi huruf.',
+    'alpha_dash' => ':attribute hanya boleh mengandungi huruf, nombor, dan sengkang.',
+    'alpha_num' => ':attribute hanya boleh mengandungi huruf dan nombor.',
+    'array' => ':attribute mesti dalam bentuk senarai.',
+    'before' => ':attribute mesti tarikh sebelum :date.',
+    'before_or_equal' => ':attribute mesti tarikh sebelum atau sama dengan :date.',
+    'between' => [
+        'numeric' => ':attribute mesti antara :min dan :max.',
+        'file' => ':attribute mesti antara :min dan :max kilobait.',
+        'string' => ':attribute mesti antara :min dan :max aksara.',
+        'array' => ':attribute mesti mempunyai antara :min dan :max item.',
+    ],
+    'boolean' => 'Medan :attribute mesti ya atau tidak.',
+    'confirmed' => 'Pengesahan :attribute tidak sepadan.',
+    'date' => ':attribute bukan tarikh yang sah.',
+    'date_equals' => ':attribute mesti sama dengan :date.',
+    'date_format' => ':attribute tidak sepadan dengan format :format.',
+    'different' => ':attribute dan :other mesti berbeza.',
+    'digits' => ':attribute mesti :digits digit.',
+    'digits_between' => ':attribute mesti antara :min dan :max digit.',
+    'email' => ':attribute mesti alamat emel yang sah.',
+    'exists' => ':attribute tidak sah.',
+    'file' => ':attribute mesti fail.',
+    'filled' => 'Medan :attribute mesti diisi.',
+    'image' => ':attribute mesti imej.',
+    'in' => 'Pilihan :attribute tidak sah.',
+    'integer' => ':attribute mesti nombor bulat.',
+    'ip' => ':attribute mesti alamat IP yang sah.',
+    'json' => ':attribute mesti rentetan JSON yang sah.',
+    'max' => [
+        'numeric' => ':attribute tidak boleh melebihi :max.',
+        'file' => ':attribute tidak boleh melebihi :max kilobait.',
+        'string' => ':attribute tidak boleh melebihi :max aksara.',
+        'array' => ':attribute tidak boleh mempunyai lebih daripada :max item.',
+    ],
+    'min' => [
+        'numeric' => ':attribute mesti sekurang-kurangnya :min.',
+        'file' => ':attribute mesti sekurang-kurangnya :min kilobait.',
+        'string' => ':attribute mesti sekurang-kurangnya :min aksara.',
+        'array' => ':attribute mesti sekurang-kurangnya :min item.',
+    ],
+    'not_in' => 'Pilihan :attribute tidak sah.',
+    'numeric' => ':attribute mesti nombor.',
+    'required' => ':attribute wajib diisi.',
+    'required_if' => ':attribute wajib diisi apabila :other ialah :value.',
+    'same' => ':attribute dan :other mesti sepadan.',
+    'size' => [
+        'numeric' => ':attribute mesti :size.',
+        'file' => ':attribute mesti :size kilobait.',
+        'string' => ':attribute mesti :size aksara.',
+        'array' => ':attribute mesti mengandungi :size item.',
+    ],
+    'string' => ':attribute mesti teks.',
+    'timezone' => ':attribute mesti zon waktu yang sah.',
+    'unique' => ':attribute telah digunakan.',
+    'url' => ':attribute format tidak sah.',
+
+    // Nama mesra untuk medan input
+    'attributes' => [
+        'name' => 'nama',
+        'email' => 'emel',
+        'password' => 'kata laluan',
+        'password_confirmation' => 'pengesahan kata laluan',
+        'title' => 'tajuk',
+        'description' => 'keterangan',
+        // Tambah lagi ikut keperluan
+    ],
+
+];

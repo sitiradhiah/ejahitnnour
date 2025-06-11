@@ -14,6 +14,22 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TempahanLaporanController;
+use App\Http\Controllers\EmailSettingController;
+
+use Illuminate\Support\Facades\Mail;
+// Route untuk menghantar email ujian
+    // Pastikan anda telah mengkonfigurasi mail di .env
+    Route::get('/test-email', function () {
+        try {
+            Mail::raw('Ini adalah ujian penghantaran email dari Laman Web Rasmi Kedai Jahit N\'NOUR.', function ($message) {
+                $message->to('sitiradhiahmegat@gmail.com') // Gantikan dengan alamat email penerima
+                        ->subject('Ujian Email Laravel');
+            });
+            return 'Email telah dihantar!';
+        } catch (\Exception $e) {
+            return 'Gagal menghantar email: ' . $e->getMessage();
+        }
+    });
 
 //route sebelum login
 Route::get('/', function () {
@@ -150,8 +166,21 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::post('/{id}/read', [AduanCadanganController::class, 'markAsRead'])->name('aduan-cadangan.read');
     });
 
-    Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
-    Route::post('/announcement', [AnnouncementController::class, 'update'])->name('announcement.update');
+    Route::get('/tetapan', [App\Http\Controllers\TetapanController::class, 'index'])->name('tetapan.index');
+
+    Route::prefix('tetapan')->name('tetapan.')->group(function () {
+        // Kedai (shop info) routes
+        // Route::get('/maklumat-kedai', [KedaiController::class, 'index'])->name('kedai.index');
+        // Route::post('/maklumat-kedai', [KedaiController::class, 'update'])->name('kedai.update');
+
+        // Announcement routes
+        Route::get('/announcement', [AnnouncementController::class, 'index'])->name('announcement.index');
+        Route::post('/announcement', [AnnouncementController::class, 'update'])->name('announcement.update');
+
+        // Email settings routes
+         Route::get('/email', [EmailSettingController::class, 'index'])->name('email.index');
+        Route::post('/email', [EmailSettingController::class, 'update'])->name('email.update');
+    });
 
 
 });

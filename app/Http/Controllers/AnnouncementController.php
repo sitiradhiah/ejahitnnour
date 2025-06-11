@@ -7,26 +7,32 @@ use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
-    public function index()
-    {
-        $announcement = Announcement::first();
-        return view('admin.announcement', compact('announcement'));
-    }
+    // public function index()
+    // {
+    //     $announcement = Announcement::first();
+    //     return view('admin.maklumatsistem.tetapan.index-tetapan', compact('announcement'));
+    // }
 
     public function update(Request $request)
     {
          $request->validate([
-            'message' => 'required|string|max:255',
+            'message' => 'required|string|max:1000',
         ]);
 
-        $announcement = Announcement::first() ?? new Announcement();
+        $announcement = Announcement::first(); // or create new if not exist
+        if (!$announcement) {
+            $announcement = new Announcement();
+        }
+
         $announcement->message = $request->message;
         $announcement->is_active = $request->has('is_active');
         $announcement->save();
 
-        cache()->forget('announcement'); // clear cached data
+        return redirect()->back()
+            ->with('success', 'Pengumuman telah berjaya di kemasini')
+            ->with('active_tab', $request->input('active_tab'))
+            ->withErrors($request->getSession()->get('errors'));
 
-        return redirect()->back()->with('success', 'Pengumuman Dikemaskini.');
     }
 
 }
