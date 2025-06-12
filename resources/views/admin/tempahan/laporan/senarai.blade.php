@@ -1,4 +1,5 @@
 @extends('layouts.admin-main')
+@section('title', 'Laporan Tempahan')
 
 @section('css')
 <style>
