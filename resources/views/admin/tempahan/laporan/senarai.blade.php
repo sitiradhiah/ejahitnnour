@@ -43,7 +43,10 @@
 <div class="container">
     <!-- Laporan Tempahan -->
     <div class="card shadow p-3">
-       <div class="card-header">
+    <div class="card-header">
+        <div class="mb-2" style="font-size: 0.85rem; color: #555;">
+            <em>NOTA: Butang <strong>Muat Turun Invois</strong> hanya untuk tempahan yang telah selesai sahaja. </em>
+        </div>
             <label class="me-2 fw-bold text-dark text-decoration-underline">Tapisan</label>
             <div class="row g-2 align-items-end">
                 <!-- Tarikh Dari -->
@@ -78,14 +81,14 @@
                 <!-- Excel -->
                 <div class="col-6 col-md-auto">
                     <button class="btn btn-sm btn-success w-100" id="btn-export-excel">
-                        <i class="fa-solid fa-download"></i> Excel
+                        <i class="fa-solid fa-download"></i> Senarai Excel
                     </button>
                 </div>
 
                 <!-- PDF -->
                 <div class="col-6 col-md-auto">
                     <button class="btn btn-sm btn-danger w-100" id="btn-export-pdf">
-                        <i class="fa-solid fa-download"></i> PDF
+                        <i class="fa-solid fa-download"></i> Senarai PDF
                     </button>
                 </div>
 
@@ -120,46 +123,16 @@
                             <td style="text-align: center; width: 10%; padding: 0.2rem;">
                                 {{ $item->harga_tempahan }}
                             </td>
-                            <td style="text-align: center; width: 10%; padding: 0.2rem;">
-                                <button class="btn btn-sm btn-primary" onclick="exportRowToPDF({{ $item->id }})">
-                                    <i class="fa-solid fa-download"></i>
-                                </button>
+                            <td style="text-align: center; width: 10%;">
+                                @if($item->status === 'Sudah Selesai')
+                                    <button class="btn btn-sm btn-primary" onclick="exportRowToPDF({{ $item->id }})">
+                                        <i class="fa-solid fa-download"></i> Invois
+                                    </button>
+                                @endif
                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
-                                <div class="modal fade" id="viewModal-{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalLabel-{{ $item->id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="viewModalLabel-{{ $item->id }}">Maklumat Tempahan</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <table class="table table-borderless mb-0" style="font-size: 0.95rem;">
-                                                    <tr>
-                                                        <th style="width: 40%;">Tarikh Tempahan</th>
-                                                        <td>{{ $item->tarikh_tempahan }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Jenis Tempahan</th>
-                                                        <td>{{ $item->jenis_tempahan }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Nama Pelanggan</th>
-                                                        <td>{{ $item->nama_pelanggan }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Status</th>
-                                                        <td>{{ $item->status }}</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                 @include('admin.tempahan.laporan.modal-view')
                             </td>
                         </tr>
                         @endforeach

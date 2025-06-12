@@ -4,12 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tempahan;
+use Illuminate\Support\Facades\DB;
 
 class TempahanLaporanController extends Controller
 {
     public function index()
     {
-        $tempahan = Tempahan::orderBy('tarikh_tempahan', 'desc')->get();
+        $tempahan = Tempahan::query()
+            ->leftJoin('invoicetempahan', 'tempahans.id', '=', 'invoicetempahan.idtempahan')
+            ->select(
+                'tempahans.*',
+                'invoicetempahan.tarikh as invoice_tarikh',
+                'invoicetempahan.catatan',
+                'invoicetempahan.hargaPerTempahan'
+            )
+            ->orderBy('tempahans.tarikh_tempahan', 'desc')
+            ->get();
+
         return view('admin.tempahan.laporan.senarai', compact('tempahan'));
     }
 
