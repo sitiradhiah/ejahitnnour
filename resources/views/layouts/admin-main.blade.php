@@ -82,10 +82,10 @@
         /* custom dropdown */
             /* Reusable dropdown style */
             .dropdown-status {
+                font-size: 0.9rem;
                 appearance: none;
                 -webkit-appearance: none;
                 -moz-appearance: none;
-                padding-right: 2rem; /* space for chevron */
                 white-space: normal;
                 word-break: break-word;
                 overflow-wrap: break-word;
@@ -108,6 +108,16 @@
                 color: #666;
             }
         /* end custom */
+    </style>
+
+    <style>
+        .table th, .table td {
+            padding: 0.35rem !important;
+            /* font-size: 0.92rem !important; */
+        }
+        .table {
+            font-size: 0.9rem !important;
+        }
     </style>
     @yield('css')
 </head>

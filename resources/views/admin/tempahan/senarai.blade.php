@@ -100,6 +100,7 @@
                                     <th style="text-align: center;">Tarikh Tempahan</th>
                                     <th >Jenis Tempahan</th>
                                     <th >Nama Pelanggan</th>
+                                    <th style="text-align: center;">Harga (RM)</th>
                                     <th >Status</th>
                                     <th style="width: 15%; text-align: center;">Tindakan</th>
                                 </tr>
@@ -111,7 +112,9 @@
                                     <td style="text-align: center; width: 10%;">{{ $item->tarikh_tempahan }}</td>
                                     <td >{{ $item->jenis_tempahan }}</td>
                                     <td >{{ $item->nama_pelanggan }}</td>
-                                    <!-- <td id="status-{{ $item->id }}">{{ $item->status }}</td> -->
+                                    <th style="text-align: center;">
+                                        {{ number_format($item->harga_tempahan, 2) }}
+                                    </th>
                                    <td style="text-align: center; width: 15%;">
                                         <div class="dropdown-wrapper my-2">
                                             <select class="form-control dropdown-status status-dropdown" data-tempahan-id="{{ $item->id }}">

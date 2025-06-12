@@ -63,7 +63,7 @@
                     <label for="filter-status" class="form-label mb-1">Status:</label>
                     <select id="filter-status" class="form-control form-control-sm">
                         <option value="">Semua</option>
-                        <option value="Sudah Selesai">Selesai</option>
+                        <option value="Sudah Selesai">Sudah Selesai</option>
                         <option value="Dalam Pelaksanaan">Dalam Pelaksanaan</option>
                     </select>
                 </div>
@@ -95,75 +95,73 @@
         <div class="card-body">
             <label class="me-2" style="font-weight: bold; color: black; text-decoration: underline;">Senarai Tempahan</label>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered" id="table-tempahan">
+                <table class="table table-striped table-bordered table-sm w-100" id="table-tempahan" >
                     <thead>
                         <tr>
-                            <th style="text-align: center;">No</th>
-                            <th style="text-align: center;">Tarikh Tempahan</th>
-                            <th >Jenis Tempahan</th>
-                            <th >Nama Pelanggan</th>
-                            <th >Status</th>
-                            <th style="width: 15%; text-align: center;">Tindakan</th>
+                            <th style="text-align: center; padding: 0.2rem;">No</th>
+                            <th style="text-align: center; padding: 0.2rem;">Tarikh Tempahan</th>
+                            <th style="padding: 0.2rem;">Jenis Tempahan</th>
+                            <th style="padding: 0.2rem;">Nama Pelanggan</th>
+                            <th style="padding: 0.2rem;">Status</th>
+                            <th style="text-align: center; padding: 0.2rem;">Harga (RM)</th>
+                            <th style="width: 15%; text-align: center; padding: 0.2rem;">Tindakan</th>
                         </tr>
                     </thead>
                     <tbody id="tempahan-body">
                         @foreach($tempahan as $index => $item)
                         <tr>
-                            <td style="text-align: center; width: 1%;">{{ $index + 1 }}</td>
-                            <td style="text-align: center; width: 15%;">{{ $item->tarikh_tempahan }}</td>
-                            <td >{{ $item->jenis_tempahan }}</td>
-                            <td >{{ $item->nama_pelanggan }}</td>
-                            <!-- <td id="status-{{ $item->id }}">{{ $item->status }}</td> -->
-                            <td style="text-align: center; width: 15%;">
+                            <td style="text-align: center; width: 1%; padding: 0.2rem;">{{ $index + 1 }}</td>
+                            <td style="text-align: center; width: 15%; padding: 0.2rem;">{{ $item->tarikh_tempahan }}</td>
+                            <td style="padding: 0.2rem;">{{ $item->jenis_tempahan }}</td>
+                            <td style="padding: 0.2rem;">{{ $item->nama_pelanggan }}</td>
+                            <td style="text-align: center; width: 15%; padding: 0.2rem;">
                                 <span>{{ $item->status }}</span>
                             </td>
-                            <td style="text-align: center; width: 10%;">
+                            <td style="text-align: center; width: 10%; padding: 0.2rem;">
+                                {{ $item->harga_tempahan }}
+                            </td>
+                            <td style="text-align: center; width: 10%; padding: 0.2rem;">
                                 <button class="btn btn-sm btn-primary" onclick="exportRowToPDF({{ $item->id }})">
                                     <i class="fa-solid fa-download"></i>
                                 </button>
-
-                                <!-- View Button triggers modal -->
                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
-
-                                <!-- Modal -->
                                 <div class="modal fade" id="viewModal-{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalLabel-{{ $item->id }}" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="viewModalLabel-{{ $item->id }}">Maklumat Tempahan</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="viewModalLabel-{{ $item->id }}">Maklumat Tempahan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-borderless mb-0" style="font-size: 0.95rem;">
+                                                    <tr>
+                                                        <th style="width: 40%;">Tarikh Tempahan</th>
+                                                        <td>{{ $item->tarikh_tempahan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Jenis Tempahan</th>
+                                                        <td>{{ $item->jenis_tempahan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Nama Pelanggan</th>
+                                                        <td>{{ $item->nama_pelanggan }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Status</th>
+                                                        <td>{{ $item->status }}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="modal-body">
-                                        <table class="table table-borderless mb-0">
-                                            <tr>
-                                                <th style="width: 40%;">Tarikh Tempahan</th>
-                                                <td>{{ $item->tarikh_tempahan }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Jenis Tempahan</th>
-                                                <td>{{ $item->jenis_tempahan }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Nama Pelanggan</th>
-                                                <td>{{ $item->nama_pelanggan }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Status</th>
-                                                <td>{{ $item->status }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                    </div>
-                                </div>
                                 </div>
                             </td>
                         </tr>
-
                         @endforeach
                     </tbody>
                 </table>
