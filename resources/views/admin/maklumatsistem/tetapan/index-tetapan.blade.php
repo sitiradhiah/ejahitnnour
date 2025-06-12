@@ -27,14 +27,14 @@
     @endif
 
     @php
-        $activeTab = session('active_tab') ?? old('active_tab', 'maklumat-kedai');
+        $activeTab = session('active_tab') ?? old('active_tab', 'announcement');
     @endphp
     <ul class="nav nav-tabs mb-3" id="tetapanTab" role="tablist">
-        <li class="nav-item" role="presentation">
+        <!-- <li class="nav-item" role="presentation">
             <button class="nav-link {{ $activeTab === 'maklumat-kedai' ? 'active' : '' }}" id="maklumat-kedai-tab" data-bs-toggle="tab" data-bs-target="#maklumat-kedai" type="button" role="tab" aria-controls="maklumat-kedai" aria-selected="false">
                 Maklumat Kedai
             </button>
-        </li>
+        </li> -->
         <li class="nav-item" role="presentation">
             <button class="nav-link {{ $activeTab === 'announcement' ? 'active' : '' }}" id="announcement-tab" data-bs-toggle="tab" data-bs-target="#announcement" type="button" role="tab" aria-controls="announcement" aria-selected="true">
                 Pengumuman
@@ -47,9 +47,9 @@
         </li>
     </ul>
     <div class="tab-content" id="tetapanTabContent">
-        <div class="tab-pane fade {{ $activeTab === 'maklumat-kedai' ? 'show active' : '' }}" id="maklumat-kedai" role="tabpanel" aria-labelledby="maklumat-kedai-tab">
-            @include('admin.maklumatsistem.tetapan.maklumat-kedai')
-        </div>
+        <!-- <div class="tab-pane fade {{ $activeTab === 'maklumat-kedai' ? 'show active' : '' }}" id="maklumat-kedai" role="tabpanel" aria-labelledby="maklumat-kedai-tab">
+            include('admin.maklumatsistem.tetapan.maklumat-kedai')
+        </div> -->
         <div class="tab-pane fade {{ $activeTab === 'announcement' ? 'show active' : '' }}" id="announcement" role="tabpanel" aria-labelledby="announcement-tab">
             @include('admin.maklumatsistem.tetapan.announcement')
         </div>
