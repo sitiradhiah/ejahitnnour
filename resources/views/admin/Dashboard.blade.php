@@ -27,69 +27,64 @@
 <div class="page-content">
     <section class="row">
         <div class="col-12 col-lg-9">
-            <div class="row">
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card shadow">
+           <div class="row g-3">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="card shadow mb-0">
                         <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon purple">
-                                        <i class="iconly-boldShow"></i>
-                                    </div>
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon purple me-3">
+                                    <i class="fas fa-receipt fa-lg"></i>
                                 </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Jumlah Tempahan 2025</h6>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Jumlah Tempahan 2025</h6>
                                     <h6 class="font-extrabold mb-0">{{ $totalOrders }}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card shadow">
+
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="card shadow mb-0">
                         <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="iconly-boldProfile"></i>
-                                    </div>
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon blue me-3">
+                                    <i class="fas fa-cash-register fa-lg"></i>
                                 </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Jumlah Jualan 2025 (Siap)</h6>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Jumlah Jualan 2025 (Siap)</h6>
                                     <h6 class="font-extrabold mb-0">RM{{ number_format($completedSales, 2) }}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3 col-md-6">
+
+                <div class="col-12 col-md-6 col-lg-6">
                     <div class="card shadow">
                         <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon green">
-                                        <i class="iconly-boldAdd-User"></i>
-                                    </div>
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon green me-3">
+                                    <i class="fas fa-spinner fa-lg"></i>
                                 </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tempahan Dalam Proses</h6>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Tempahan Dalam Proses</h6>
                                     <h6 class="font-extrabold mb-0">{{ $ordersInProgress }}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3 col-md-6">
+
+                <div class="col-12 col-md-6 col-lg-6">
                     <div class="card shadow">
                         <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon green">
-                                        <i class="iconly-boldAdd-User"></i>
-                                    </div>
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon teal me-3">
+                                    <i class="fas fa-calendar-alt fa-lg"></i>
                                 </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tempahan Bulan ini (Januari)</h6>
+                                <div>
+                                    <h6 class="text-muted font-semibold mb-1">Tempahan Bulan Ini ({{ \Carbon\Carbon::now()->translatedFormat('F') }})</h6>
                                     <h6 class="font-extrabold mb-0">{{ $monthlyOrders }}</h6>
                                 </div>
                             </div>
@@ -142,7 +137,7 @@
                                                             <span class="badge bg-primary ms-2">Baru</span>
                                                         @endif
                                                     </p>
-                                                    
+
                                                 </div>
                                             </td>
                                             <td class="col-auto">
