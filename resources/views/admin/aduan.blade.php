@@ -111,7 +111,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#previewModal{{ $aduan->id }}"
                                 onclick="markAsRead({{ $aduan->id }})">
-                                Lihat
+                                <i class="fa-solid fa-eye"></i>
                             </button>
 
                             <form id="delete-form-{{ $aduan->id }}" action="{{ route('aduan-cadangan.destroy', $aduan->id) }}" method="POST" style="display: none;">
@@ -119,7 +119,7 @@
                                 @method('DELETE')
                             </form>
                             <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $aduan->id }})">
-                                Padam
+                                <i class="fa-solid fa-trash"></i>
                             </button>
                         </td>
                     </tr>
