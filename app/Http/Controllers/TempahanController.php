@@ -18,7 +18,14 @@ class TempahanController extends Controller
     public function praTempahanSubmit(Request $request)
     {
         // dd($request->all());
-
+         $request->validate([
+            'nama_pelanggan'    => 'required|string|max:255',
+            'nombor_telefon'    => 'required|string|max:20',
+            'email'             => 'required|email|max:255',
+            'alamat'            => 'nullable|string|max:255',
+            'jenis_Kategori'    => 'required|string|max:255',
+            'catatan_tambahan'  => 'nullable|string|max:1000',
+        ]);
 
         // Semak jika nombor_telefon sudah wujud dalam jadual users
         $user = User::where('phone', $request->nombor_telefon)->first();
