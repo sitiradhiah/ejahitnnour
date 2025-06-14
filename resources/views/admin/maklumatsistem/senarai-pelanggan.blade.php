@@ -54,9 +54,9 @@
         background-color: #c82333;
     }
 
-    .table-striped tbody tr:nth-of-type(odd) {
+    /* .table-striped tbody tr:nth-of-type(odd) {
         background-color: #f8f9fa;
-    }
+    } */
 </style>
 @endsection
 
@@ -77,13 +77,13 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <table class="table table-striped table-bordered table-bordered">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th style="text-align: center;">No</th>
-                        <th>Nama Pelanggan</th>
-                        <td>No Phone</td>
-                        <td>Email</td>
+                        <th >Nama Pelanggan</th>
+                        <th>No Phone</th>
+                        <th>Email</th>
                         <th style="width: 15%; text-align: center;">Tindakan</th>
                     </tr>
                 </thead>
