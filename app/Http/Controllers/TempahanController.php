@@ -33,6 +33,14 @@ class TempahanController extends Controller
             'peranan' => 'pelanggan', // Set peranan sebagai pelanggan
             'password' => bcrypt('defaultpassword'),
             ]);
+
+            $user->peranan = 'pelanggan';
+            $user->save();
+        }
+        else {
+            // Jika pengguna sudah wujud, kemas kini nama dan peranan
+            $user->peranan = 'pelanggan'; // Pastikan peranan pelanggan
+            $user->save();
         }
 
         Tempahan::create([
