@@ -88,24 +88,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($tempahan as $index => $item)
+                    @foreach($pelanggan as $index => $item)
                     <tr>
                         <td style="text-align: center;">{{ $index + 1 }}</td>
-                        <td>{{ $item->nama_pelanggan }}</td>
-                        <td>{{ $item->nombor_telefon }}</td>
-                        <td></td>
-                        <!-- <td>{{ $item->email }}</td> -->
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->phone ?? '-' }}</td>
+                        <td>{{ $item->email ?? '-' }}</td>
                         <td style="text-align: center;">
                             <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <!-- <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
-                            </form> -->
                         </td>
                     </tr>
-
                     @endforeach
+
                 </tbody>
             </table>
         </div>

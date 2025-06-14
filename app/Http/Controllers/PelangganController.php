@@ -17,8 +17,16 @@ class PelangganController extends Controller
         // // Pastikan data pekerja dihantar ke view
         // return view('admin.maklumatsistem.senarai-pelanggan', compact('Customers'));
 
-        $tempahan = Tempahan::all()->unique('nombor_telefon')->values();
-        return view('admin.maklumatsistem.senarai-pelanggan', compact('tempahan'));
+        // Ambil hanya pengguna yang berperanan 'pelanggan'
+        $pelanggan = User::where('peranan', 'pelanggan')->get();
+
+        // Hantar ke view
+        return view('admin.maklumatsistem.senarai-pelanggan', compact('pelanggan'));
+
+        // $tempahan = Tempahan::all()->unique('nombor_telefon')->values();
+        // return view('admin.maklumatsistem.senarai-pelanggan', compact('tempahan'));
+
+
     }
 
     public function edit()
