@@ -3,15 +3,9 @@
 
 @section('css')
 <style>
-    .page-heading {
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
     .card {
         margin-bottom: 20px;
     }
-
     .btn-generate {
         background-color: #007bff;
         color: white;
@@ -43,10 +37,10 @@
 <div class="container">
     <!-- Laporan Tempahan -->
     <div class="card shadow p-3">
-    <div class="card-header">
-        <div class="mb-2" style="font-size: 0.85rem; color: #555;">
-            <em>NOTA: Butang <strong>Muat Turun Invois</strong> hanya untuk tempahan yang telah selesai sahaja. </em>
-        </div>
+        <div class="card-header">
+            <div class="mb-2" style="font-size: 0.85rem; color: #555;">
+                <em>NOTA: Butang <strong>Muat Turun Invois</strong> hanya untuk tempahan yang telah selesai sahaja. </em>
+            </div>
             <label class="me-2 fw-bold text-dark text-decoration-underline">Tapisan</label>
             <div class="row g-2 align-items-end">
                 <!-- Tarikh Dari -->
@@ -91,7 +85,6 @@
                         <i class="fa-solid fa-download"></i> Senarai PDF
                     </button>
                 </div>
-
             </div>
         </div>
 

@@ -2,11 +2,6 @@
 
 @section('css')
 <style>
-    .page-heading {
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
     .btn-add, .btn-edit, .btn-delete {
         font-weight: bold;
         padding: 5px 10px;

@@ -1,12 +1,7 @@
 @extends('layouts.admin-main')
 
 @section('css')
-<style>
-    .page-heading {
-        margin-bottom: 20px;
-        text-align: center;
-    }
-</style>
+
 @endsection
 
 @section('content')

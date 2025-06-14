@@ -111,6 +111,13 @@
     </style>
 
     <style>
+        .page-heading {
+            margin-bottom: 20px !important;
+            text-align: center !important;
+            h3 {
+                text-transform: uppercase !important;
+            }
+        }
         .table th, .table td {
             padding: 0.35rem !important;
             /* font-size: 0.92rem !important; */
