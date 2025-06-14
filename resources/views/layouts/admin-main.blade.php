@@ -181,6 +181,44 @@ use Illuminate\Support\Facades\Auth;
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     @yield('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const wrappers = document.querySelectorAll('.scroll-wrapper');
+
+        wrappers.forEach(wrapper => {
+            const topScroll = wrapper.querySelector('.scroll-sync-top');
+            const bottomScroll = wrapper.querySelector('.scroll-sync-bottom');
+            const table = bottomScroll.querySelector('table');
+            if (!table) return;
+
+            const dummyDiv = document.createElement('div');
+            dummyDiv.style.width = table.scrollWidth + 'px';
+            dummyDiv.style.height = '1px';
+            topScroll.appendChild(dummyDiv);
+
+            topScroll.classList.add('scroll-sync-container');
+            bottomScroll.classList.add('scroll-sync-container');
+
+            topScroll.onscroll = () => bottomScroll.scrollLeft = topScroll.scrollLeft;
+            bottomScroll.onscroll = () => topScroll.scrollLeft = bottomScroll.scrollLeft;
+        });
+    });
+</script>
+
+<style>
+.scroll-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+.scroll-sync-container {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.scroll-sync-top {
+    margin-bottom: 4px;
+}
+</style>
+
 </body>
 
 </html>

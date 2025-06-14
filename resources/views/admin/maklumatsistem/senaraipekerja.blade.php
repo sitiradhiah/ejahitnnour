@@ -77,10 +77,11 @@
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
-            <div style="overflow-x: auto;">
+            <x-scrollable-table>
                 <table class="table table-bordered table-striped" style="min-width: 1000px;">
-                    <thead>
-                        <tr class="tindakan-bg">
+                    <thead style="background-color: #343a40; color: #fff;">
+                        <tr>
+                        <!-- <tr class="tindakan-bg"> -->
                             <th>No</th>
                             <th>Nama Pekerja</th>
                             <th>Jawatan</th>
@@ -88,7 +89,8 @@
                             <th>Email</th>
                             <th>Status Pengguna</th>
                             <th>Pengesahan Admin?</th>
-                            <th class="sticky-col sticky-right tindakan-bg">Tindakan</th>
+                            <th>Tindakan</th>
+                            <!-- <th class="sticky-col sticky-right tindakan-bg">Tindakan</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -107,7 +109,8 @@
                                     Belum Disahkan
                                 @endif
                             </td>
-                            <td class="sticky-col sticky-right tindakan-bg">
+                            <td>
+                            <!-- <td class="sticky-col sticky-right tindakan-bg"> -->
                                 <a href="{{ route('senarai-pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
@@ -124,7 +127,7 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            </x-scrollable-table>
         </div>
     </div>
 </div>
