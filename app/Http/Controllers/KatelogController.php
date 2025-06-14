@@ -24,6 +24,8 @@ class KatelogController extends Controller
         $kategori = $request->input('kategori', 'all');
         $warna = $request->input('warna');
         $saiz = $request->input('saiz');
+         $produk = $request->input('produk');
+            $searchDesc = $request->input('searchDesc');
 
         $query = Katelog::query();
 
@@ -41,6 +43,14 @@ class KatelogController extends Controller
 
         if ($saiz && $saiz !== 'all') {
             $query->where('saiz', $saiz);
+        }
+
+        if ($produk && $produk !== '') {
+        $query->where('nama', $produk);
+        }
+
+        if ($searchDesc && $searchDesc !== '') {
+            $query->where('penerangan', 'like', '%' . $searchDesc . '%');
         }
 
         $katalogs = $query->get();

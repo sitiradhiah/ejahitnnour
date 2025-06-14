@@ -393,14 +393,22 @@ body {
                 @endforeach
             </select>
 
-            <select name="saiz" onchange="this.form.submit()">
-                <option value="">Semua Saiz</option>
-                @foreach($saizList as $s)
-                    <option value="{{ $s }}" {{ request('saiz') == $s ? 'selected' : '' }}>
-                        {{ $s }}
+            <select name="produk" onchange="this.form.submit()">
+                <option value="">Semua Produk</option>
+                @foreach($katalogs->unique('nama') as $item)
+                    <option value="{{ $item->nama }}" {{ request('produk') == $item->nama ? 'selected' : '' }}>
+                        {{ $item->nama }}
                     </option>
                 @endforeach
             </select>
+
+            <input type="text"
+                name="searchDesc"
+                placeholder="Cari dalam penerangan..."
+                value="{{ request('searchDesc') }}"
+                style="padding: 12px 20px; border-radius: 10px; border: 1px solid #c2185b; font-size: 1rem;" />
+
+
         </form>
     </div>
 </section>
