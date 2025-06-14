@@ -107,16 +107,16 @@
             <form action="{{ route('pra-tempahan.submit') }}" method="POST" class="tempahan-form" style="max-width: 500px; margin: 0 auto; text-align: left;">
                 @csrf
                 <div class="mb-3">
-                    <label for="nama_pelanggan" class="form-label">Nama Anda <span style="color: red">***</span></label>
+                    <label for="nama_pelanggan" class="form-label">Nama Anda <span style="color: yellow">***</span></label>
                     <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" required>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="nombor_telefon" class="form-label">No. Telefon <span style="color: red">***</span></label>
+                        <label for="nombor_telefon" class="form-label">No. Telefon <span style="color: yellow">***</span></label>
                         <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" placeholder="Contoh: 0123456789" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="email" class="form-label">Emel <span style="color: red">***</span></label>
+                        <label for="email" class="form-label">Emel <span style="color: yellow">***</span></label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                 </div>
