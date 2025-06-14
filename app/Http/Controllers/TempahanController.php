@@ -28,7 +28,9 @@ class TempahanController extends Controller
             'name' => $request->nama_pelanggan,
             'email' => $request->email, // Pastikan field email dihantar dari form
             'phone' => $request->nombor_telefon,
-            'alamat' => $request->alamat,
+            'status' => 'tidak aktif',
+            'level' => '3',
+            'peranan' => 'pelanggan', // Set peranan sebagai pelanggan
             'password' => bcrypt('defaultpassword'),
             ]);
         }

@@ -24,7 +24,8 @@ class User extends Authenticatable
         'phone',
         'disahkan',
         'status',
-        'peranan'
+        'peranan',
+        'level',
     ];
 
     /**

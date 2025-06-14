@@ -122,13 +122,13 @@
                 </div>
                 <div class="mb-3">
                     <label for="alamat" class="form-label">Alamat</label>
-                    <textarea class="form-control" id="alamat" name="alamat" rows="2" required></textarea>
+                    <textarea class="form-control" id="alamat" name="alamat" rows="2"></textarea>
                 </div>
                 <div class="mb-3">
                     <div class="alert alert-info" style="font-size: 0.95rem;">
                         <strong>Nota:</strong> Sila lihat <a href="{{ route('KatalogUmum') }}" target="_blank">katalog</a> terlebih dahulu untuk contoh design sebelum membuat pilihan kategori dan design.
                     </div>
-                    <label for="jenis_Kategori" class="form-label">Jenis Kategori</label>
+                    <label for="jenis_Kategori" class="form-label">Jenis Kategori <span style="color: yellow">***</span></label>
                     @php
                         $kategoriList = \App\Models\Katelog::distinct()->pluck('kategori');
                     @endphp
@@ -137,12 +137,13 @@
                         @foreach($kategoriList as $kategori)
                             <option value="{{ $kategori }}">{{ $kategori }}</option>
                         @endforeach
+                        <option value="Lain-lain">Lain-lain</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="jenis_Kategori" class="form-label">Nama Design</label>
 
-                    <select class="form-control" id="nama_design" name="nama_design" required disabled>
+                    <select class="form-control" id="nama_design" name="nama_design" disabled>
                         <option value="">-- Pilih Kategori Dahulu --</option>
                         {{-- Options akan diisi secara dinamik melalui JavaScript --}}
                     </select>
@@ -226,7 +227,7 @@ var swiper = new Swiper(".mySwiper", {
 
         kategoriSelect.addEventListener('change', function() {
             const kategori = this.value;
-            designSelect.innerHTML = '<option value="">-- Pilih Design --</option>'; // Reset
+            designSelect.innerHTML = '<option value="">-- Pilih Design --</option><option value="Lain-lain">Lain-lain</option>'; // Reset
 
             if (kategori) {
                 designSelect.disabled = false;
