@@ -161,15 +161,15 @@
             <div class="card shadow">
                 <div class="card-body py-4 px-5">
                     <div class="d-flex align-items-center">
-                        <div class="avatar avatar-xl">
+                        <!-- <div class="avatar avatar-xl">
                             <img src="{{ asset('admin/images/faces/1.jpg')}}" alt="Face 1">
-                        </div>
+                        </div> -->
                         <div class="ms-3 name">
-                            <h5 class="font-bold">WakkTailor</h5>
-                            <h6 class="text-muted mb-0">@waktailor</h6>
+                            <h5 class="font-bold">{{ Auth::user()->name }}</h5>
+                            <h6 class="text-muted mb-0">{{ Auth::user()->email }}</h6>
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-danger">
+                                <button type="submit" class="btn btn-sm btn-danger mt-2">
                                     Log Out
                                 </button>
                             </form>
@@ -185,17 +185,22 @@
                 </div>
                 <div class="card-content pb-4">
                     <div class="recent-message d-flex px-4 py-3">
-                        <div class="avatar avatar-lg">
+                        <!-- <div class="avatar avatar-lg">
                             <img src="{{ asset('admin/images/faces/4.jpg') }}">
-                        </div>
-                        <div class="name ms-4">
-                            <h5 class="mb-1">Pekerja1</h5>
-                        </div>
+                        </div> -->
+                        @php
+                            $workers = \App\Models\User::where('peranan', 'pekerja')->get();
+                        @endphp
+                        <ul class="ms-4 mb-2 ps-0" style="list-style-type: disc;">
+                            @foreach($workers as $worker)
+                                <li class="mb-1">{{ $worker->name }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                     <!-- Pekerja2 dan Pekerja3, tambahkan jika perlu -->
-                    <div class="px-4">
+                    <!-- <div class="px-4">
                         <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Pemberitahuan</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

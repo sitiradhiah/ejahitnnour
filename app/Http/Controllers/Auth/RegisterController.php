@@ -32,6 +32,19 @@ class RegisterController extends Controller
             'status' => 'tidak aktif',  // Status pekerja baru adalah 'pending' sehingga disahkan oleh admin
         ]);
 
+        $adminEmails = User::where('peranan', 'pentadbir')->pluck('email')->toArray();
+
+        // dd($adminEmails);
+        if (!empty($adminEmails)) {
+            \Mail::raw(
+            "Pendaftaran pengguna baru telah diterima: {$request->name} ({$request->email}). Sila semak sistem untuk maklumat lanjut.",
+            function ($message) use ($adminEmails) {
+                $message->to($adminEmails)
+                ->subject('Notifikasi Pra-Tempahan Baru');
+            }
+            );
+        }
+
         // Redirect kepada halaman log masuk dengan mesej
         return redirect()->route('logmasuk')->with('success', 'Pendaftaran berjaya. Sila tunggu pengesahan admin.');
     }
