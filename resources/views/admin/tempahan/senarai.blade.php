@@ -76,6 +76,11 @@
                             <i class="fa fa-filter"></i> Tapis
                         </button>
                     </div>
+                    <div class="col-12 col-md-auto">
+                        <a href="{{ route('tempahan.baru') }}" class="btn btn-success btn-sm w-100">
+                            <i class="fa fa-plus"></i> Borang Tempahan Baru
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>
