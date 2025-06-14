@@ -6,6 +6,7 @@ use App\Models\Katelog;
 use Illuminate\Http\Request;
 use App\Models\Tempahan;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class TempahanController extends Controller
 {
@@ -48,7 +49,6 @@ class TempahanController extends Controller
             $user->peranan = 'pelanggan'; // Pastikan peranan pelanggan
             $user->save();
         }
-
         Tempahan::create([
             'nama_pelanggan' => $request->nama_pelanggan,
             'nombor_telefon' => $request->nombor_telefon,
@@ -59,6 +59,29 @@ class TempahanController extends Controller
             'status' => 'Pra-tempahan',
             'idPelanggan' => $user->id, // Jika ada foreign key user_id pada tempahan
         ]);
+
+        // Hantar notifikasi email ringkas kepada pengguna
+        // \Mail::raw(
+        //     "Terima kasih kerana membuat pra-tempahan, {$request->nama_pelanggan}. Kami akan hubungi anda untuk pengesahan.",
+        //     function ($message) use ($request) {
+        //     $message->to($request->email)
+        //         ->subject('Pengesahan Pra-Tempahan');
+        //     }
+        // );
+
+        // Hantar notifikasi kepada pentadbir
+        $adminEmails = User::where('peranan', 'pentadbir')->pluck('email')->toArray();
+
+        // dd($adminEmails);
+        if (!empty($adminEmails)) {
+            \Mail::raw(
+            "Pra-tempahan baru telah diterima daripada {$request->nama_pelanggan} ({$request->nombor_telefon}). Sila semak sistem untuk maklumat lanjut.",
+            function ($message) use ($adminEmails) {
+                $message->to($adminEmails)
+                ->subject('Notifikasi Pra-Tempahan Baru');
+            }
+            );
+        }
 
         return redirect()->back()->with('success', 'Pra-tempahan berjaya dihantar. Sila tunggu pengesahan / panggilan dari pihak kami.');
     }
