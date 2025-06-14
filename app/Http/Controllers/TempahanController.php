@@ -7,10 +7,36 @@ use App\Models\Tempahan;
 
 class TempahanController extends Controller
 {
-    public function senarai()
+    public function senarai(Request $request)
     {
-        $tempahan = Tempahan::orderBy('tarikh_tempahan', 'desc')->get();
-        return view('admin.tempahan.senarai', compact('tempahan'));
+        $query = Tempahan::query();
+
+        // Tapisan berdasarkan jenis tempahan
+        if ($request->filled('jenis_tempahan')) {
+            $query->where('jenis_tempahan', $request->jenis_tempahan);
+        }
+
+        // Tapisan berdasarkan status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Optional: kalau ada search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_pelanggan', 'like', '%' . $request->search . '%')
+                //   ->orWhere('jenis_tempahan', 'like', '%' . $request->search . '%')
+                //   ->orWhere('status', 'like', '%' . $request->search . '%')
+                  ->orWhere('nombor_telefon', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $tempahan = $query->latest()->paginate(10)->withQueryString(); // Pastikan withQueryString supaya filter kekal
+
+        // Untuk populate pilihan dropdown jika perlu
+        $jenisList = Tempahan::select('jenis_tempahan')->distinct()->pluck('jenis_tempahan');
+        $statusList = Tempahan::select('status')->distinct()->pluck('status');
+        return view('admin.tempahan.senarai',  compact('tempahan', 'jenisList', 'statusList'));
     }
 
     public function baru()
