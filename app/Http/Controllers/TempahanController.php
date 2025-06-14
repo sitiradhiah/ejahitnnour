@@ -30,7 +30,6 @@ class TempahanController extends Controller
             'phone' => $request->nombor_telefon,
             'status' => 'tidak aktif',
             'level' => '3',
-            'peranan' => 'pelanggan', // Set peranan sebagai pelanggan
             'password' => bcrypt('defaultpassword'),
             ]);
 
