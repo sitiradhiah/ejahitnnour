@@ -85,6 +85,7 @@ Route::prefix('admin')->middleware(['auth', 'checkUserStatus'])->group(function 
         Route::get('/senarai-pekerja', 'index')->name('senarai-pekerja.index');
         Route::get('/senarai-pekerja/tambah', 'create')->name('senarai-pekerja.create');
         Route::post('/senarai-pekerja/tambah', 'store')->name('senarai-pekerja.store');
+        Route::patch('/senarai-pekerja/{id}/toggle-disahkan', [WorkerController::class, 'toggleDisahkan'])->name('toggleDisahkan');
         Route::get('/senarai-pekerja/{id}/edit', 'edit')->name('senarai-pekerja.edit');
         Route::put('/senarai-pekerja/{id}/update', 'update')->name('senarai-pekerja.update');
         Route::delete('/senarai-pekerja/{id}', 'destroy')->name('senarai-pekerja.destroy');

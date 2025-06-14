@@ -71,82 +71,85 @@
             </div>
 
             <!-- TABLE -->
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nama Pelanggan</th>
-                        <th>Tajuk</th>
-                        <th>Kategori</th>
-                        <th>Tarikh</th>
-                        <th>Status</th>
-                        <th>Tindakan</th>
-                    </tr>
-                </thead>
-                <tbody id="aduan-table-body">
-                    @forelse($aduans as $aduan)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $aduan->nama_pelanggan }}</td>
-                        <td>{{ $aduan->tajuk }}</td>
-                        <td>{{ $aduan->kategori }}</td>
-                        <td>{{ $aduan->tarikh->format('Y-m-d') }}</td>
-                        <td>
-                            <span id="status-aduan-{{ $aduan->id }}" class="status-badge
-                                @if($aduan->status == 'Menunggu') status-pending
-                                @elseif($aduan->status == 'Selesai') status-resolved
-                                @elseif($aduan->status == 'Dibaca') status-read
-                                @else status-rejected
-                                @endif">
-                                {{ $aduan->status }}
-                            </span>
-                        </td>
-                        <td class="d-flex gap-2">
-                            <button type="button" class="btn btn-info btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#previewModal{{ $aduan->id }}"
-                                onclick="markAsRead({{ $aduan->id }})">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
 
-                            <form id="delete-form-{{ $aduan->id }}" action="{{ route('aduan-cadangan.destroy', $aduan->id) }}" method="POST" style="display: none;">
-                                @csrf
-                                @method('DELETE')
-                            </form>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $aduan->id }})">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
+            <x-scrollable-table>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Pelanggan</th>
+                            <th>Tajuk</th>
+                            <th>Kategori</th>
+                            <th>Tarikh</th>
+                            <th>Status</th>
+                            <th>Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="aduan-table-body">
+                        @forelse($aduans as $aduan)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $aduan->nama_pelanggan }}</td>
+                            <td>{{ $aduan->tajuk }}</td>
+                            <td>{{ $aduan->kategori }}</td>
+                            <td>{{ $aduan->tarikh->format('Y-m-d') }}</td>
+                            <td>
+                                <span id="status-aduan-{{ $aduan->id }}" class="status-badge
+                                    @if($aduan->status == 'Menunggu') status-pending
+                                    @elseif($aduan->status == 'Selesai') status-resolved
+                                    @elseif($aduan->status == 'Dibaca') status-read
+                                    @else status-rejected
+                                    @endif">
+                                    {{ $aduan->status }}
+                                </span>
+                            </td>
+                            <td class="d-flex gap-2">
+                                <button type="button" class="btn btn-info btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#previewModal{{ $aduan->id }}"
+                                    onclick="markAsRead({{ $aduan->id }})">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
 
-                    <!-- Modal Preview -->
-                    <div class="modal fade" id="previewModal{{ $aduan->id }}" tabindex="-1" aria-labelledby="previewModalLabel{{ $aduan->id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="previewModalLabel{{ $aduan->id }}">Preview Mesej</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p><strong>Nama:</strong> {{ $aduan->nama_pelanggan }}</p>
-                                    <p><strong>Email:</strong> {{ $aduan->email ?? '-' }}</p>
-                                    <p><strong>No Telefon:</strong> {{ $aduan->no_telefon ?? '-' }}</p>
-                                    <p><strong>Tarikh:</strong> {{ $aduan->tarikh->format('d-m-Y') }}</p>
-                                    <p><strong>Status:</strong> {{ $aduan->status }}</p>
-                                    <hr>
-                                    <p><strong>Mesej:</strong></p>
-                                    <p>{{ $aduan->message }}</p>
+                                <form id="delete-form-{{ $aduan->id }}" action="{{ route('aduan-cadangan.destroy', $aduan->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $aduan->id }})">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Modal Preview -->
+                        <div class="modal fade" id="previewModal{{ $aduan->id }}" tabindex="-1" aria-labelledby="previewModalLabel{{ $aduan->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="previewModalLabel{{ $aduan->id }}">Preview Mesej</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Nama:</strong> {{ $aduan->nama_pelanggan }}</p>
+                                        <p><strong>Email:</strong> {{ $aduan->email ?? '-' }}</p>
+                                        <p><strong>No Telefon:</strong> {{ $aduan->no_telefon ?? '-' }}</p>
+                                        <p><strong>Tarikh:</strong> {{ $aduan->tarikh->format('d-m-Y') }}</p>
+                                        <p><strong>Status:</strong> {{ $aduan->status }}</p>
+                                        <hr>
+                                        <p><strong>Mesej:</strong></p>
+                                        <p>{{ $aduan->message }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @empty
-                    <tr>
-                        <td colspan="7" class="text-center text-muted">Tiada aduan tersedia.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Tiada aduan tersedia.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </x-scrollable-table>
 
             <!-- Message if filter result is empty -->
             <div id="noResults" class="text-center text-muted mt-2" style="display:none;">

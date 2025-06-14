@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User; // Pastikan model User digunakan
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class WorkerController extends Controller
 {
@@ -87,6 +88,38 @@ class WorkerController extends Controller
 
         // Redirect ke senarai pekerja dengan mesej kejayaan
         return redirect()->route('senarai-pekerja.index')->with('success', 'Pekerja berjaya dikemas kini.');
+    }
+
+    public function toggleDisahkan($id)
+    {
+        // Halang pengguna daripada menukar status sendiri
+        if (auth()->id() == $id) {
+            return back()->with('error', 'Anda tidak boleh menukar status pengesahan sendiri.');
+        }
+
+        $user = User::findOrFail($id);
+        $user->disahkan = !$user->disahkan;
+        // Jika disahkan menjadi true, tukar status kepada 'aktif'
+        if ($user->disahkan) {
+            $user->status = 'aktif';
+        } else {
+            $user->status = 'tidak aktif';
+        }
+        $user->save();
+
+        // Hantar emel kepada pengguna selepas status disahkan ditukar
+        \Mail::raw(
+            "Maklumat ini adalah auto-dijana oleh sistem sebagai pemberitahuan bahawa akaun anda, {$user->name} ({$user->phone}), telah " .
+            ($user->disahkan ? 'disahkan.' : 'tidak lagi disahkan.') .
+            " Status semasa: " . ($user->status ?? 'Tidak diketahui') . ".",
+            function ($message) use ($user) {
+                $message->to($user->email)
+                        ->subject("Notifikasi Pengesahan Akaun Pengguna Sistem Kedai Jahit N'Nour");
+            }
+        );
+
+
+        return back()->with('message', 'Status pengesahan pengguna telah dikemas kini.');
     }
 
     // Proses memadam pekerja

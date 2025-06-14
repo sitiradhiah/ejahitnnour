@@ -74,9 +74,6 @@
             </div>
         </div>
         <div class="card-body">
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
             <x-scrollable-table>
                 <table class="table table-bordered table-striped" style="min-width: 1000px;">
                     <thead style="background-color: #343a40; color: #fff;">
@@ -103,11 +100,13 @@
                             <td>{{ $worker->email }}</td>
                             <td>{{ $worker->status }}</td>
                             <td>
-                                @if($worker->disahkan == 0)
-                                    Sudah Disahkan
-                                @else
-                                    Belum Disahkan
-                                @endif
+                                <form action="{{ route('toggleDisahkan', $worker->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-sm {{ $worker->disahkan ? 'btn-success' : 'btn-danger' }}">
+                                        {{ $worker->disahkan ? '✓ Disahkan' : '✗ Belum' }}
+                                    </button>
+                                </form>
                             </td>
                             <td>
                             <!-- <td class="sticky-col sticky-right tindakan-bg"> -->

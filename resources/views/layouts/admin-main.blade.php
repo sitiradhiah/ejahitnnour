@@ -132,6 +132,10 @@ use Illuminate\Support\Facades\Auth;
         .table {
             font-size: 0.9rem !important;
         }
+        .table thead th {
+            background-color: #343a40 !important;
+            color: #fff !important;
+        }
     </style>
     @yield('css')
 </head>
@@ -156,6 +160,17 @@ use Illuminate\Support\Facades\Auth;
             @endif
         </div>
         @include('../admin/partials.sidebar-kiri')
+
+        @if(session('message'))
+            <div class="alert alert-success m-1 text-end">{{ session('message') }}</div>
+        @endif
+        @if(session('success'))
+            <div class="alert alert-success m-1 text-end">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger m-1 text-end">{{ session('error') }}</div>
+        @endif
+
         <div id="main">
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
