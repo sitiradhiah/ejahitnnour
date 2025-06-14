@@ -29,11 +29,11 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'status' => 'pending',  // Status pekerja baru adalah 'pending' sehingga disahkan oleh admin
+            'status' => 'tidak aktif',  // Status pekerja baru adalah 'pending' sehingga disahkan oleh admin
         ]);
 
         // Redirect kepada halaman log masuk dengan mesej
-        return redirect()->route('login')->with('success', 'Pendaftaran berjaya. Sila tunggu pengesahan admin.');
+        return redirect()->route('logmasuk')->with('success', 'Pendaftaran berjaya. Sila tunggu pengesahan admin.');
     }
 }
 

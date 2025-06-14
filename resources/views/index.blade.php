@@ -213,34 +213,6 @@ var swiper = new Swiper(".mySwiper", {
     }
 </script>
 
-<!-- // Dinamikkan pilihan reka bentuk berdasarkan kategori yang dipilih -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const kategoriSelect = document.getElementById('jenis_Kategori');
-        const designSelect = document.getElementById('nama_design');
-
-        kategoriSelect.addEventListener('change', function() {
-            const kategori = this.value;
-            designSelect.innerHTML = '<option value="">-- Pilih Design --</option>'; // Reset
-
-            if (kategori) {
-                fetch(`/get-designs-by-kategori?kategori=${encodeURIComponent(kategori)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (Array.isArray(data)) {
-                            data.forEach(function(design) {
-                                const option = document.createElement('option');
-                                option.value = design;
-                                option.textContent = design;
-                                designSelect.appendChild(option);
-                            });
-                        }
-                    });
-            }
-        });
-    });
-</script>
-
 <script>
     // Tambah pada script dinamik kategori-design
     document.addEventListener('DOMContentLoaded', function() {
