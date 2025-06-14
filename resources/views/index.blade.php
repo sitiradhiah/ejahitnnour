@@ -97,9 +97,59 @@
 <div id="second-section">
     <div class="container py-5 d-flex justify-content-center align-items-center flex-column" style="text-align: center;">
         <div class="detail-box">
-            <h1 class="mb-0">Borang Pra-Temujanji / Pra-Tempahan</h1>
+            <h1>Borang Pra-Temujanji / Pra-Tempahan</h1>
             <!-- Tambah borang maklumat peribadi tempahan dari pelanggan -->
-            <button type="button" onclick="showFirstSection()">Kembali</button>
+            <form action="{{ route('pra-tempahan.submit') }}" method="POST" class="tempahan-form" style="max-width: 500px; margin: 0 auto; text-align: left;">
+                @csrf
+                <div class="mb-3">
+                    <label for="nama_pelanggan" class="form-label">Nama Penuh</label>
+                    <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" required>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="nombor_telefon" class="form-label">No. Telefon</label>
+                        <input type="tel" class="form-control" id="nombor_telefon" name="nombor_telefon" required pattern="[0-9]{10,12}" placeholder="Contoh: 0123456789">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="emel" class="form-label">Emel</label>
+                        <input type="email" class="form-control" id="emel" name="emel" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="alamat" class="form-label">Alamat</label>
+                    <textarea class="form-control" id="alamat" name="alamat" rows="2" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <div class="alert alert-info" style="font-size: 0.95rem;">
+                        <strong>Nota:</strong> Sila lihat <a href="{{ route('KatalogUmum') }}" target="_blank">katalog</a> terlebih dahulu untuk contoh design sebelum membuat pilihan kategori dan design.
+                    </div>
+                    <label for="jenis_Kategori" class="form-label">Jenis Kategori</label>
+                    @php
+                        $kategoriList = \App\Models\Katelog::distinct()->pluck('kategori');
+                    @endphp
+                    <select class="form-control" id="jenis_Kategori" name="jenis_Kategori" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($kategoriList as $kategori)
+                            <option value="{{ $kategori }}">{{ $kategori }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="jenis_Kategori" class="form-label">Nama Design</label>
+
+                    <select class="form-control" id="nama_design" name="nama_design" required disabled>
+                        <option value="">-- Pilih Kategori Dahulu --</option>
+                        {{-- Options akan diisi secara dinamik melalui JavaScript --}}
+                    </select>
+
+                </div>
+                <div class="mb-3">
+                    <label for="catatan" class="form-label">Catatan (Jika Ada)</label>
+                    <textarea class="form-control" id="catatan" name="catatan" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn1" style="background-color: #007bff; color: #fff;">Hantar Pra-Tempahan</button>
+                <button type="button" class="btn1" style="background-color: #17a2b8; color: #fff;" onclick="showFirstSection()">Kembali</button>
+            </form>
         </div>
     </div>
 </div>
@@ -163,4 +213,63 @@ var swiper = new Swiper(".mySwiper", {
     }
 </script>
 
+<!-- // Dinamikkan pilihan reka bentuk berdasarkan kategori yang dipilih -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const kategoriSelect = document.getElementById('jenis_Kategori');
+        const designSelect = document.getElementById('nama_design');
+
+        kategoriSelect.addEventListener('change', function() {
+            const kategori = this.value;
+            designSelect.innerHTML = '<option value="">-- Pilih Design --</option>'; // Reset
+
+            if (kategori) {
+                fetch(`/get-designs-by-kategori?kategori=${encodeURIComponent(kategori)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                            data.forEach(function(design) {
+                                const option = document.createElement('option');
+                                option.value = design;
+                                option.textContent = design;
+                                designSelect.appendChild(option);
+                            });
+                        }
+                    });
+            }
+        });
+    });
+</script>
+
+<script>
+    // Tambah pada script dinamik kategori-design
+    document.addEventListener('DOMContentLoaded', function() {
+        const kategoriSelect = document.getElementById('jenis_Kategori');
+        const designSelect = document.getElementById('nama_design');
+
+        kategoriSelect.addEventListener('change', function() {
+            const kategori = this.value;
+            designSelect.innerHTML = '<option value="">-- Pilih Design --</option>'; // Reset
+
+            if (kategori) {
+                designSelect.disabled = false;
+                fetch(`/get-designs-by-kategori?kategori=${encodeURIComponent(kategori)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                            data.forEach(function(design) {
+                                const option = document.createElement('option');
+                                option.value = design;
+                                option.textContent = design;
+                                designSelect.appendChild(option);
+                            });
+                        }
+                    });
+            } else {
+                designSelect.disabled = true;
+                designSelect.innerHTML = '<option value="">-- Pilih Kategori Dahulu --</option>';
+            }
+        });
+    });
+</script>
 @endsection

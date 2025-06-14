@@ -35,6 +35,10 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/', function () {
     return view('index');
 });
+Route::post('/pra-tempahan/submit', [TempahanController::class, 'praTempahanSubmit'])->name('pra-tempahan.submit');
+Route::get('/get-designs-by-kategori', [TempahanController::class, 'getDesignsByKategori']);
+
+
 Route::get('/tentangkami', function () {
     return view('about');
 })->name('about');
