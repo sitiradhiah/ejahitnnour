@@ -122,6 +122,20 @@
                 <strong>{{ session('error') }}</strong>
             </div>
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger mb-0 text-center">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if (session('email_error'))
+            <div class="alert alert-warning mb-0 text-center">
+                {{ session('email_error') }}
+            </div>
+        @endif
       @include('partials.header')
 
     </header>

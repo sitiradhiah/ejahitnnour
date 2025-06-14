@@ -14,6 +14,7 @@ class Tempahan extends Model
         'nombor_telefon',
         'alamat',
         'jenis_tempahan',
+        'nama_design',
         'tarikh_tempahan',
         'chest_size',
         'waist_size',

@@ -1,49 +1,31 @@
 @extends('layouts.admin-main')
+@section('title', 'Senarai Tempahan')
 
 @section('css')
 <style>
-    /* Custom modal styling */
-    .modal-content {
-        border-radius: 8px;
-        border: 2px solid #007bff;
+    .card {
+        margin-bottom: 20px;
     }
-
-    .modal-header {
+    .btn-generate {
         background-color: #007bff;
-        color: #fff;
-    }
-
-    .modal-body {
-        font-size: 16px;
-    }
-
-    .modal-footer {
-        border-top: none;
-    }
-
-    .modal-title {
+        color: white;
         font-weight: bold;
-    }
-
-    .btn-filter-status {
-        background-color: #CC6600; /* oren gelap */
-        color: white;
         border: none;
-        font-weight: 500;
-        transition: background-color 0.2s ease-in-out;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
     }
 
-    .btn-filter-status:hover,
-    .btn-filter-status:focus,
-    .btn-filter-status:active,
-    .show > .btn-filter-status.dropdown-toggle {
-        background-color: #FF8C00; /* oren terang */
-        color: white;
+    .btn-generate:hover {
+        background-color: #0056b3;
     }
 
-    .dropdown-menu .dropdown-item:hover {
-        background-color: #ffe5cc;
-        color: #000;
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table {
+        margin-bottom: 0;
     }
 </style>
 @endsection
@@ -53,31 +35,27 @@
     <h3>Tempahan Jahitan</h3>
 </div>
 <div class="container">
-    <!-- Senarai Tempahan -->
+    <div id="alert-container" class="alert alert-success d-none mt-3" role="alert"></div>
+
     <div class="card shadow p-3">
         <div class="card-header">
-            <!-- <div class="mb-2" style="font-size: 0.85rem; color: #555;">
-                <em>NOTA: Butang <strong>Tindakan</strong> hanya digunakan jika tempahan aktif. </em>
-            </div> -->
-
             <label class="me-2 fw-bold text-dark text-decoration-underline">Tapisan</label>
-
             <form method="GET" action="{{ route('tempahan.senarai') }}">
                 <div class="row g-2 align-items-end">
-                    <!-- Jenis Tempahan -->
                     <div class="col-12 col-md-auto me-2">
-                        <label for="jenis_tempahan" class="form-label mb-1">Jenis Tempahan:</label>
+                        <label for="jenis_tempahan" class="form-label mb-1">Jenis Tempahan (Kategori):</label>
                         <select name="jenis_tempahan" id="jenis_tempahan" class="form-select form-select-sm">
                             <option value="">--Semua--</option>
-                            @foreach($jenisList as $jenis)
-                                <option value="{{ $jenis }}" {{ request('jenis_tempahan') == $jenis ? 'selected' : '' }}>
-                                    {{ $jenis }}
-                                </option>
+                            @php $jenisOptions = \DB::table('tempahans')->distinct()->pluck('jenis_tempahan'); @endphp
+                            @foreach($jenisOptions as $jenis)
+                                @if(!is_null($jenis))
+                                    <option value="{{ $jenis }}" {{ request('jenis_tempahan') == $jenis ? 'selected' : '' }}>
+                                        {{ $jenis }}
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
-
-                    <!-- Status -->
                     <div class="col-12 col-md-auto me-2">
                         <label for="status" class="form-label mb-1">Status:</label>
                         <select name="status" id="status" class="form-select form-select-sm">
@@ -93,60 +71,57 @@
                         <label for="search" class="form-label mb-1">Carian Nama / No Tel:</label>
                         <input type="text" name="search" id="search" value="{{ request('search') }}" class="form-control form-control-sm" placeholder="Masukkan Cari...">
                     </div>
-
-                    <!-- Butang Tapisan -->
                     <div class="col-12 col-md-auto">
                         <button type="submit" class="btn btn-sm btn-primary w-100">
                             <i class="fa fa-filter"></i> Tapis
                         </button>
                     </div>
-
-
                 </div>
             </form>
         </div>
-         <div class="card-body">
-            <label class="me-2" style="font-weight: bold; color: black; text-decoration: underline;">Senarai Tempahan</label>
+        <div class="card-body">
+            <label class="me-2 fw-bold text-dark text-decoration-underline">Senarai Tempahan</label>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered paginated-table" data-per-page="10" data-pagination-id="pagination-tempahan">
                     <thead>
                         <tr>
                             <th style="text-align: center;">No</th>
                             <th style="text-align: center;">Tarikh Tempahan</th>
-                            <th >Jenis Tempahan</th>
-                            <th >Nama Pelanggan</th>
+                            <th>Jenis Tempahan (Kategori)</th>
+                            <th>Nama Reka Bentuk</th>
+                            <th>Nama Pelanggan</th>
                             <th style="text-align: center;">Harga (RM)</th>
-                            <th >Tukar Status ?</th>
+                            <th>Tukar Status ?</th>
                             <th style="width: 15%; text-align: center;">Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($tempahan as $index => $item)
                         <tr>
-                            <td style="text-align: center; width: 1%;">{{ $index + 1 }}</td>
-                            <td style="text-align: center; width: 10%;">{{ $item->tarikh_tempahan }}</td>
-                            <td >{{ $item->jenis_tempahan }}</td>
-                            <td >{{ $item->nama_pelanggan }}</td>
-                            <th style="text-align: center;">
-                                {{ number_format($item->harga_tempahan, 2) }}
-                            </th>
-                            <td style="text-align: center; width: 15%;">
-                                <div class="dropdown-wrapper my-2">
-                                    <select class="form-control dropdown-status status-dropdown" data-tempahan-id="{{ $item->id }}">
-                                        <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>
-                                            Dalam Pelaksanaan
-                                        </option>
-                                        <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>
-                                            Sudah Selesai
-                                        </option>
-                                    </select>
-                                    <span class="dropdown-icon">
-                                        <i class="fa-solid fa-chevron-down"></i>
-                                    </span>
-                                </div>
+                            <td style="text-align: center;">{{ $index + 1 }}</td>
+                            <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
+                            <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
+                            <td style="text-align: center;">{{ $item->nama_design }}</td>
+                            <td>{{ $item->nama_pelanggan }}</td>
+                            <td style="text-align: center;">{{ number_format($item->harga_tempahan, 2) }}</td>
+                            <td style="text-align: center;">
+                                <select class="form-control status-dropdown" data-tempahan-id="{{ $item->id }}">
+                                    <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>Dalam Pelaksanaan</option>
+                                    <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>Sudah Selesai</option>
+                                    <option value="Pra-tempahan" {{ $item->status == 'Pra-tempahan' ? 'selected' : '' }}>Pra-Tempahan</option>
+                                </select>
+                                <span id="status-{{ $item->id }}" style="display:none;">{{ $item->status }}</span>
                             </td>
-                            <td style="text-align: center; width: 10%;">
-                                <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal{{ $item->id }}"><i class="fa-solid fa-eye"></i></button>
+                            <td style="text-align: center;">
+                                <button class="btn btn-info btn-sm btn-view"
+                                        data-id="{{ $item->id }}"
+                                        data-nama_pelanggan="{{ $item->nama_pelanggan }}"
+                                        data-tarikh_tempahan="{{ $item->tarikh_tempahan }}"
+                                        data-jenis_tempahan="{{ $item->jenis_tempahan }}"
+                                        data-status="{{ $item->status }}"
+                                        data-harga_tempahan="{{ number_format($item->harga_tempahan, 2) }}">
+                                    <i class="fa fa-eye"></i>
+                                </button>
                                 <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                     @csrf
@@ -155,48 +130,86 @@
                                 </form>
                             </td>
                         </tr>
-
-                        <!-- Modal for Info -->
-                        <div class="modal fade" id="infoModal{{ $item->id }}" tabindex="-1" aria-labelledby="infoModalLabel{{ $item->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="infoModalLabel{{ $item->id }}">Detail Tempahan: {{ $item->nama_pelanggan }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p><strong>Nama Pelanggan:</strong> {{ $item->nama_pelanggan }}</p>
-                                        <p><strong>Jenis Tempahan:</strong> {{ $item->jenis_tempahan }}</p>
-                                        <p><strong>Tarikh Tempahan:</strong> {{ $item->tarikh_tempahan }}</p>
-                                        <p><strong>Alamat:</strong> {{ $item->alamat }}</p>
-                                        <p><strong>Nombor Telefon:</strong> {{ $item->nombor_telefon }}</p>
-                                        <p><strong>Ukuran Dada:</strong> {{ $item->chest_size }} cm</p>
-                                        <p><strong>Ukuran Pinggang:</strong> {{ $item->waist_size }} cm</p>
-                                        <p><strong>Lebar Bahu:</strong> {{ $item->shoulder_width }} cm</p>
-                                        <p><strong>Panjang Lengan:</strong> {{ $item->sleeve_length }} cm</p>
-                                        <p><strong>Jenis Kain:</strong> {{ $item->jenis_kain }}</p>
-                                        <p><strong>Warna Kain:</strong> {{ $item->warna_kain }}</p>
-                                        <p><strong>Saiz:</strong> {{ $item->size }}</p>
-                                        <p><strong>Harga Tempahan:</strong> RM {{ $item->harga_tempahan }}</p>
-                                        <p><strong>Catatan Tambahan:</strong> {{ $item->additional_notes }}</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         @endforeach
                     </tbody>
                 </table>
+                <ul class="pagination justify-content-center mt-3" id="pagination-tempahan"></ul>
             </div>
-         </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ SINGLE REUSABLE MODAL -->
+<div class="modal fade" id="dynamicViewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Maklumat Tempahan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="mb-2 text-center">Maklumat Pelanggan</h6>
+                <table class="table table-striped table-bordered mb-0" style="font-size: 0.95rem;">
+                    <tr>
+                        <th style="width: 40%;">Nama Pelanggan</th>
+                        <td id="modal-nama_pelanggan"></td>
+                    </tr>
+                </table>
+
+                <h6 class="mb-2 text-center">Maklumat Tempahan</h6>
+                <table class="table table-striped table-bordered mb-3" style="font-size: 0.95rem;">
+                    <tr>
+                        <th style="width: 40%;">Tarikh Tempahan</th>
+                        <td id="modal-tarikh_tempahan"></td>
+                    </tr>
+                    <tr>
+                        <th>Jenis Tempahan</th>
+                        <td id="modal-jenis_tempahan"></td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td id="modal-status"></td>
+                    </tr>
+                    <tr>
+                        <th>Harga (RM)</th>
+                        <td id="modal-harga_tempahan"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div id="statusToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toast-message">
+                Status tempahan berjaya dikemaskini.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
     </div>
 </div>
 
 @endsection
 
 @section('scripts')
+<script>
+$(document).ready(function() {
+    $('.btn-view').click(function() {
+        $('#modal-nama_pelanggan').text($(this).data('nama_pelanggan'));
+        $('#modal-tarikh_tempahan').text($(this).data('tarikh_tempahan'));
+        $('#modal-jenis_tempahan').text($(this).data('jenis_tempahan'));
+        $('#modal-status').text($(this).data('status'));
+        $('#modal-harga_tempahan').text($(this).data('harga_tempahan'));
+        $('#dynamicViewModal').modal('show');
+    });
+});
+</script>
 <script>
     let currentFilterJenis = 'All';
     let currentFilterStatus = 'All';
@@ -248,14 +261,22 @@
               method: 'PATCH',
               data: { status: status, _token: '{{ csrf_token() }}' },
               success: function(response) {
+                    if (response.success) {
+                        $('#alert-container')
+                            .removeClass('d-none')
+                            .text(response.success);
+
+                        setTimeout(function() {
+                            $('#alert-container').addClass('d-none').text('');
+                        }, 100000);
+                    }
                   $('#status-' + tempahanId).text(response.status);
               },
               error: function() {
                   alert('Ralat semasa mengemaskini status.');
               }
           });
-      });
-  });
+    });
+});
 </script>
 @endsection
-

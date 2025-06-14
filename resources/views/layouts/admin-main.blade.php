@@ -196,6 +196,57 @@ use Illuminate\Support\Facades\Auth;
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     @yield('scripts')
+    <!-- Global Table Pagination JS -->
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function paginateTable(table) {
+            const perPage = parseInt(table.getAttribute('data-per-page')) || 10;
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const total = rows.length;
+            const totalPages = Math.ceil(total / perPage);
+            const paginationId = table.getAttribute('data-pagination-id');
+            const paginationContainer = document.getElementById(paginationId);
+
+            if (!paginationContainer) return;
+
+            function showPage(page) {
+                const start = (page - 1) * perPage;
+                const end = start + perPage;
+                rows.forEach((row, i) => {
+                    row.style.display = (i >= start && i < end) ? '' : 'none';
+                });
+            }
+
+            function renderPagination() {
+                paginationContainer.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    const li = document.createElement('li');
+                    li.className = 'page-item' + (i === 1 ? ' active' : '');
+                    const a = document.createElement('a');
+                    a.className = 'page-link';
+                    a.href = '#';
+                    a.textContent = i;
+                    a.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        paginationContainer.querySelectorAll('.page-item').forEach(item => item.classList.remove('active'));
+                        li.classList.add('active');
+                        showPage(i);
+                    });
+                    li.appendChild(a);
+                    paginationContainer.appendChild(li);
+                }
+            }
+
+            if (totalPages > 1) renderPagination();
+            showPage(1);
+        }
+
+        document.querySelectorAll('.paginated-table').forEach(paginateTable);
+    });
+    </script>
+
+
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const wrappers = document.querySelectorAll('.scroll-wrapper');

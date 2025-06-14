@@ -25,6 +25,7 @@ class TempahanController extends Controller
             'email'             => 'required|email|max:255',
             'alamat'            => 'nullable|string|max:255',
             'jenis_Kategori'    => 'required|string|max:255',
+            'nama_design'       => 'nullable|string|max:255',
             'catatan_tambahan'  => 'nullable|string|max:1000',
         ]);
 
@@ -54,6 +55,7 @@ class TempahanController extends Controller
             'nombor_telefon' => $request->nombor_telefon,
             'alamat' => $request->alamat, // optional
             'jenis_tempahan' => $request->jenis_Kategori, //kategori tempahan
+            'nama_design' => $request->nama_design, //kategori tempahan
             'tarikh_tempahan' => now(),
             'additional_notes' => $request->catatan_tambahan, // optional
             'status' => 'Pra-tempahan',
@@ -74,16 +76,26 @@ class TempahanController extends Controller
 
         // dd($adminEmails);
         if (!empty($adminEmails)) {
-            \Mail::raw(
-            "Pra-tempahan baru telah diterima daripada {$request->nama_pelanggan} ({$request->nombor_telefon}). Sila semak sistem untuk maklumat lanjut.",
-            function ($message) use ($adminEmails) {
-                $message->to($adminEmails)
-                ->subject('Notifikasi Pra-Tempahan Baru');
+            $emailError = null;
+            try {
+                \Mail::raw(
+                    "Pra-tempahan baru telah diterima daripada {$request->nama_pelanggan} ({$request->nombor_telefon}). Sila semak sistem untuk maklumat lanjut.",
+                    function ($message) use ($adminEmails) {
+                        $message->to($adminEmails)
+                            ->subject('Notifikasi Pra-Tempahan Baru');
+                    }
+                );
+
+            } catch (\Exception $e) {
+                // $emailError = 'Pra-tempahan berjaya dihantar, tetapi notifikasi email gagal dihantar: ';
+                // $e->getMessage();
             }
-            );
         }
 
-        return redirect()->back()->with('success', 'Pra-tempahan berjaya dihantar. Sila tunggu pengesahan / panggilan dari pihak kami.');
+        return redirect()->back()->with([
+            'success' => 'Pra-tempahan berjaya dihantar. Sila tunggu pengesahan / panggilan dari pihak kami.',
+            'email_error' => $emailError
+        ]);
     }
 
     public function getDesignsByKategori(Request $request)
@@ -94,39 +106,34 @@ class TempahanController extends Controller
         return response()->json($designs);
     }
 
-
     // ✅ Untuk admin yang log masuk
     public function senarai(Request $request)
     {
         $query = Tempahan::query();
 
-        // Tapisan berdasarkan jenis tempahan
         if ($request->filled('jenis_tempahan')) {
             $query->where('jenis_tempahan', $request->jenis_tempahan);
         }
 
-        // Tapisan berdasarkan status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        // Optional: kalau ada search
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('nama_pelanggan', 'like', '%' . $request->search . '%')
-                //   ->orWhere('jenis_tempahan', 'like', '%' . $request->search . '%')
-                //   ->orWhere('status', 'like', '%' . $request->search . '%')
-                  ->orWhere('nombor_telefon', 'like', '%' . $request->search . '%');
+                ->orWhere('nombor_telefon', 'like', '%' . $request->search . '%');
             });
         }
 
-        $tempahan = $query->latest()->paginate(10)->withQueryString(); // Pastikan withQueryString supaya filter kekal
+        $tempahan = $query->latest()->get(); // No paginate()
 
-        // Untuk populate pilihan dropdown jika perlu
         $jenisList = Tempahan::select('jenis_tempahan')->distinct()->pluck('jenis_tempahan');
         $statusList = Tempahan::select('status')->distinct()->pluck('status');
-        return view('admin.tempahan.senarai',  compact('tempahan', 'jenisList', 'statusList'));
+
+        return view('admin.tempahan.senarai', compact('tempahan', 'jenisList', 'statusList'));
     }
+
 
     public function baru()
     {
@@ -286,7 +293,7 @@ class TempahanController extends Controller
         $tempahan = Tempahan::findOrFail($id);
 
         $request->validate([
-            'status' => 'required|string|in:Dalam Pelaksanaan,Sudah Selesai',
+            'status' => 'required|string',
         ]);
 
         $tempahan->status = $request->status;

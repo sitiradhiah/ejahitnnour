@@ -62,7 +62,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nama Produk</th>
+                        <th>Nama Reka Bentuk</th>
                         <th>Nama Kategori</th>
                         <th>Warna</th>
                         <th>Saiz</th>

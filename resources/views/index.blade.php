@@ -107,7 +107,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="nombor_telefon" class="form-label">No. Telefon <span style="color: yellow">***</span></label>
-                        <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" placeholder="Contoh: 0123456789" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" placeholder="" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="email" class="form-label">Emel <span style="color: yellow">***</span></label>
