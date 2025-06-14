@@ -131,7 +131,23 @@
 
 <body>
     <div id="app">
-
+        <!-- Header displaying user name and email -->
+        <div class="container-fluid py-3 px-4" style="background: linear-gradient(to left,  rgb(180, 10, 118), rgba(125, 10, 87, 0.995)); border-bottom: 1px solid #ddd;">
+            @if(Auth::check())
+                <div class="d-flex justify-content-end align-items-center" style="color: #fff;">
+                    <span class="me-3">
+                        <strong style="color: #fff;">{{ Auth::user()->name }}</strong>
+                        <small class="text-muted" style="color: #fff !important;">({{ Auth::user()->email }})</small>
+                    </span>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-light" style="color: #b40a76; font-weight: bold;">
+                            <i class="fa fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            @endif
+        </div>
         @include('../admin/partials.sidebar-kiri')
         <div id="main">
             <header class="mb-3">
@@ -142,8 +158,6 @@
             @yield('content')
             @include('../admin/partials.footer')
         </div>
-
-
     </div>
 
     <!-- Scripts for Bootstrap Modal and other features -->
