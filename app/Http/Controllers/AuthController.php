@@ -9,10 +9,6 @@ class AuthController extends Controller
 {
     public function logmasuk()
     {
-        #kalau dah login akan redirect ke dashboard
-        if (Auth::check()) {
-            return redirect()->intended('admin/dashboard');
-        }
         return view('logmasuk'); // login view kalau belum log  masuk
     }
 
@@ -26,12 +22,24 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
 
+            if (Auth::user()->disahkan == 0) {
+                Auth::logout();
+                return redirect()->route('logmasuk')->with('message', 'Akaun anda belum disahkan. Sila hubungi pentadbir.');
+            }
+
+            // Check if user is active
+            if (Auth::user()->status !== 'aktif') {
+                Auth::logout();
+                return redirect()->route('logmasuk')->with('message', 'Status anda tidak aktif. Sila hubungi pentadbir.');
+            }
+
             return redirect()->intended('admin/dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Maklumat yang di masukkan tidak sah.',
-        ])->onlyInput('email');
+        // Redirect back to logmasuk with error message
+        return redirect()->route('logmasuk')->withErrors([
+            'email' => 'Maklumat yang dimasukkan tidak sah.',
+        ])->withInput($request->only('email'));
     }
 
     public function logout(Request $request)

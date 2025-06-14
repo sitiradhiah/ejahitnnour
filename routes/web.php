@@ -74,7 +74,7 @@ Route::controller(RegisterController::class)->prefix('daftarmasuk')->group(funct
 Route::post('/hubungi-kami', [AduanCadanganController::class, 'store'])->name('aduan.store');
 
 // Add all routes that require authentication here
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'checkUserStatus'])->group(function () {
 
     // Route untuk Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

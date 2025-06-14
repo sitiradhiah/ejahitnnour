@@ -14,12 +14,6 @@
             <h3 style="font-weight: normal; font-size: 1.5rem; margin-bottom: 10px;">(Ayer Hitam, Johor)</h3>
             <p>Kami menyediakan pelbagai perkhidmatan jahitan dan reka bentuk pakaian yang berkualiti tinggi. Dari jahitan biasa hingga tempahan khas, kami berkomitmen untuk memberikan hasil yang memuaskan kepada pelanggan kami. Untuk maklumat lanjut,
             sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.</p>
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="btn-box">
                 <button type="button" class="btn1" onclick="showSecondSection()">Tempah Sekarang!!</button>
             </div>

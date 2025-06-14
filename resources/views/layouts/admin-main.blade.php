@@ -1,3 +1,10 @@
+@php
+use Illuminate\Support\Facades\Auth;
+    if (Auth::check() && (Auth::user()->status !== 'aktif' || Auth::user()->disahkan != 1)) {
+        header('Location: ' . url('/'));
+        exit();
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 

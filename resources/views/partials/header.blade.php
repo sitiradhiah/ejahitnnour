@@ -27,7 +27,7 @@
           </li>
         </ul>
         <div class="ms-lg-3">
-          @if(Auth::check())
+          @if(Auth::check() && Auth::user()->status === 'true')
             <a href="{{ route('dashboard') }}" class="btn btn-primary rounded-pill px-4 fw-bold">Dashboard</a>
           @else
             <a href="{{ route('logmasuk') }}" class="btn btn-primary rounded-pill px-4 fw-bold">Log Masuk</a>
@@ -50,7 +50,8 @@
         <li class="nav-item"><a class="nav-link" href="/KatalogUmum">Katalog</a></li>
         <li class="nav-item"><a class="nav-link" href="/hubungi-kami">Hubungi Kami</a></li>
         <li class="nav-item mt-3">
-          @if(Auth::check())
+
+          @if(Auth::check() && Auth::user()->status === 'aktif')
             <a href="{{ route('dashboard') }}" class="btn btn-primary w-100 rounded-pill">Dashboard</a>
           @else
             <a href="{{ route('logmasuk') }}" class="btn btn-primary w-100 rounded-pill">Log Masuk</a>

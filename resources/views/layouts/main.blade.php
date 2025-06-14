@@ -107,7 +107,23 @@
   <div class="wrapper">
     <!-- Header -->
     <header>
+        @if (session('success'))
+            <div class="alert alert-success mb-0 text-center">
+                <strong>{{ session('success') }}</strong>
+            </div>
+        @endif
+        @if (session('message'))
+            <div class="alert alert-warning mb-0 text-center">
+                <strong>{{ session('message') }}</strong>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger mb-0 text-center">
+                <strong>{{ session('error') }}</strong>
+            </div>
+        @endif
       @include('partials.header')
+
     </header>
 
     <!-- Main Content -->
