@@ -180,22 +180,28 @@
 
             <!-- Pekerja -->
             <div class="card shadow">
-                <div class="card-header">
-                    <h4>Pekerja</h4>
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Pekerja</h4>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0" id="workers-pagination"></ul>
+                        </nav>
+                    </div>
+                    @php
+                        $workers = \App\Models\User::where('peranan', 'pekerja')->get();
+                    @endphp
                 </div>
                 <div class="card-content pb-4">
                     <div class="recent-message d-flex px-4 py-3">
-                        <!-- <div class="avatar avatar-lg">
-                            <img src="{{ asset('admin/images/faces/4.jpg') }}">
-                        </div> -->
-                        @php
-                            $workers = \App\Models\User::where('peranan', 'pekerja')->get();
-                        @endphp
-                        <ul class="ms-4 mb-2 ps-0" style="list-style-type: disc;">
+                        <ul class="paginated-list" data-pagination-id="workers-pagination" data-per-page="5">
                             @foreach($workers as $worker)
-                                <li class="mb-1">{{ $worker->name }}</li>
+                                <li>{{ $worker->name }}</li>
                             @endforeach
                         </ul>
+
+                        <ul class="pagination" id="workers-pagination"></ul>
+
+
                     </div>
                     <!-- Pekerja2 dan Pekerja3, tambahkan jika perlu -->
                     <!-- <div class="px-4">
@@ -219,6 +225,58 @@
 @endsection
 
 @section('scripts')
+<!-- Global JS Pagination List -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    function paginateList(listElement) {
+        const perPage = parseInt(listElement.getAttribute('data-per-page')) || 5;
+        const items = listElement.querySelectorAll('li');
+        const totalItems = items.length;
+        const totalPages = Math.ceil(totalItems / perPage);
+        const paginationId = listElement.getAttribute('data-pagination-id');
+        const paginationContainer = document.getElementById(paginationId);
+
+        if (!paginationContainer) return;
+
+        function showPage(page) {
+            const start = (page - 1) * perPage;
+            const end = start + perPage;
+            items.forEach((item, index) => {
+                item.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+        }
+
+        function renderPagination() {
+            paginationContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = 'page-item' + (i === 1 ? ' active' : '');
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = '#';
+                a.textContent = i;
+                a.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    paginationContainer.querySelectorAll('.page-item').forEach(item => item.classList.remove('active'));
+                    li.classList.add('active');
+                    showPage(i);
+                });
+                li.appendChild(a);
+                paginationContainer.appendChild(li);
+            }
+        }
+
+        if (totalPages > 1) {
+            renderPagination();
+        }
+
+        showPage(1);
+    }
+
+    // Automatically apply pagination to all .paginated-list
+    document.querySelectorAll('.paginated-list').forEach(paginateList);
+});
+</script>
 <script>
     var options = {
         series: [{
