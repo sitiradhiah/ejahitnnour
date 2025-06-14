@@ -24,5 +24,8 @@ class Tempahan extends Model
         'size',
         'harga_tempahan',
         'additional_notes',
+        'status', // Tambah status untuk menandakan sama ada tempahan telah disahkan atau tidak
+        'idPelanggan',
+        'idPekerja',
     ];
 }

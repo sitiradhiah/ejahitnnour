@@ -14,6 +14,11 @@
             <h3 style="font-weight: normal; font-size: 1.5rem; margin-bottom: 10px;">(Ayer Hitam, Johor)</h3>
             <p>Kami menyediakan pelbagai perkhidmatan jahitan dan reka bentuk pakaian yang berkualiti tinggi. Dari jahitan biasa hingga tempahan khas, kami berkomitmen untuk memberikan hasil yang memuaskan kepada pelanggan kami. Untuk maklumat lanjut,
             sila lihat reka bentuk tempahan dan perkhidmatan yang di tawarkan.</p>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <div class="btn-box">
                 <button type="button" class="btn1" onclick="showSecondSection()">Tempah Sekarang!!</button>
@@ -102,17 +107,17 @@
             <form action="{{ route('pra-tempahan.submit') }}" method="POST" class="tempahan-form" style="max-width: 500px; margin: 0 auto; text-align: left;">
                 @csrf
                 <div class="mb-3">
-                    <label for="nama_pelanggan" class="form-label">Nama Penuh</label>
+                    <label for="nama_pelanggan" class="form-label">Nama Anda <span style="color: red">***</span></label>
                     <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" required>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="nombor_telefon" class="form-label">No. Telefon</label>
-                        <input type="tel" class="form-control" id="nombor_telefon" name="nombor_telefon" required pattern="[0-9]{10,12}" placeholder="Contoh: 0123456789">
+                        <label for="nombor_telefon" class="form-label">No. Telefon <span style="color: red">***</span></label>
+                        <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" placeholder="Contoh: 0123456789" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="emel" class="form-label">Emel</label>
-                        <input type="email" class="form-control" id="emel" name="emel" required>
+                        <label for="email" class="form-label">Emel <span style="color: red">***</span></label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                 </div>
                 <div class="mb-3">

@@ -17,12 +17,8 @@ class TempahanController extends Controller
     // ✅ Untuk pengguna awam (tanpa login)
     public function praTempahanSubmit(Request $request)
     {
-        // $request->validate([
-        //     'nama_pelanggan' => 'required|string|max:255',
-        //     'nombor_telefon' => 'required|string|max:15',
-        //     'jenis_tempahan' => 'required|string|max:255',
-        //     'tarikh_tempahan' => 'required|date',
-        // ]);
+        // dd($request->all());
+
 
         // Semak jika nombor_telefon sudah wujud dalam jadual users
         $user = User::where('phone', $request->nombor_telefon)->first();
@@ -41,14 +37,14 @@ class TempahanController extends Controller
             'nama_pelanggan' => $request->nama_pelanggan,
             'nombor_telefon' => $request->nombor_telefon,
             'alamat' => $request->alamat, // optional
-            'jenis_tempahan' => $request->jenis_tempahan, //kategori tempahan
+            'jenis_tempahan' => $request->jenis_Kategori, //kategori tempahan
             'tarikh_tempahan' => now(),
             'additional_notes' => $request->catatan_tambahan, // optional
             'status' => 'Pra-tempahan',
             'idPelanggan' => $user->id, // Jika ada foreign key user_id pada tempahan
         ]);
 
-        return redirect()->back()->with('success', 'Pra-tempahan berjaya dihantar.');
+        return redirect()->back()->with('success', 'Pra-tempahan berjaya dihantar. Sila tunggu pengesahan / panggilan dari pihak kami.');
     }
 
     public function getDesignsByKategori(Request $request)
