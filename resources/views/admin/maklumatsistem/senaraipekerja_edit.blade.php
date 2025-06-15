@@ -66,13 +66,13 @@
 
 @section('content')
 <div class="page-heading">
-    <h3>Senarai Pekerja</h3>
+    <h3>Kemaskini Pekerja atau Pentadbir</h3>
 </div>
 <div class="container">
     <div class="card shadow p-3">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">Senarai Pekerja</h4>
+                <h4 class="mb-0">Kemaskini Pekerja atau Pentadbir</h4>
             </div>
         </div>
         <div class="card-body">

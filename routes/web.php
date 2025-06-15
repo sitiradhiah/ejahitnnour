@@ -105,9 +105,9 @@ Route::prefix('admin')->middleware(['auth', 'checkUserStatus'])->group(function 
         Route::get('senarai-pelanggan', 'index')->name('pelanggan.index');
         // Route::get('pelanggan/tambah', 'create')->name('pelanggan.create');
         // Route::post('pelanggan/tambah', 'store')->name('pelanggan.store');
-        // Route::get('pelanggan/{id}/edit', 'edit')->name('pelanggan.edit');
-        // Route::post('pelanggan/{id}/update', 'update')->name('pelanggan.update');
-        // Route::delete('pelanggan/{id}', 'destroy')->name('pelanggan.destroy');
+        Route::get('senarai-pelangga/{id}/edit', 'edit')->name('pelanggan.edit');
+        Route::put('senarai-pelangga/{id}/update', 'update')->name('pelanggan.update');
+        Route::delete('senarai-pelanggan/{id}', 'destroy')->name('pelanggan.destroy');
         // Route untuk mengemaskini status pelanggan
     });
 
