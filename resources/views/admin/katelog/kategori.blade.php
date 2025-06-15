@@ -55,7 +55,7 @@
     <div class="card shadow p-3">
         <div class="card-header d-flex justify-content-between">
             <h4>Senarai Kategori Pakaian</h4>
-            <button class="btn-add" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Tambah Kategori</button>
+            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Tambah Kategori</button>
         </div>
         <div class="card-body">
             <table class="table table-striped table-bordered">
@@ -73,7 +73,7 @@
                         <td>{{ $category->name }}</td>
                         <td>
                             <!-- Edit button triggering modal -->
-                            <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})"><i class="fa-solid fa-pen-to-square"></i></button>
                             <!-- Delete button with form -->
                             <form action="{{ route('kategori.destroy', $category->id) }}" method="POST" style="display:inline;">
                                 @csrf

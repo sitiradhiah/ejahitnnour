@@ -134,8 +134,8 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('senarai-pekerja.index') }}" class="btn btn-secondary">Kembali</a>
+                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                <a href="{{ route('senarai-pekerja.index') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
             </form>
             @else
                 <div class="alert alert-warning">Pekerja tidak dijumpai.</div>

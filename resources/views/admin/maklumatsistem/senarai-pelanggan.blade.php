@@ -69,7 +69,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">Senarai Pelanggan</h4>
-                <a href="#" class="btn btn-success">Tambah Pelanggan</a>
+                <a href="#" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Pelanggan</a>
             </div>
         </div>
         <div class="card-body">

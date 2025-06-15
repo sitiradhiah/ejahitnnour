@@ -14,7 +14,7 @@
         <hr>
         <h5><strong>Isi Mesej:</strong></h5>
         <p>{{ $aduan->message }}</p>
-        <a href="{{ route('aduan-cadangan.index') }}" class="btn btn-secondary mt-3">Kembali ke Senarai</a>
+        <a href="{{ route('aduan-cadangan.index') }}" class="btn btn-sm btn-secondary mt-3">Kembali ke Senarai</a>
     </div>
 </div>
 @endsection

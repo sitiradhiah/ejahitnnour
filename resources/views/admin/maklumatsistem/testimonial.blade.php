@@ -50,7 +50,7 @@
     <div class="card shadow p-3">
         <div class="card-header d-flex justify-content-between">
             <h4>Senarai Testimonial</h4>
-            <button class="btn-add" data-bs-toggle="modal" data-bs-target="#addTestimonialModal">Tambah Testimonial</button>
+            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addTestimonialModal"><i class="fa fa-plus"></i> Tambah Testimonial</button>
         </div>
         <div class="card-body">
             @if (session('success'))

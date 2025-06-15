@@ -125,7 +125,7 @@
                             </td>
                             <td>
                             <!-- <td class="sticky-col sticky-right tindakan-bg"> -->
-                                <a href="{{ route('senarai-pekerja.edit', $worker->id) }}" class="btn btn-primary btn-edit">
+                                <a href="{{ route('senarai-pekerja.edit', $worker->id) }}" class="btn btn-sm btn-primary">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
 
@@ -133,7 +133,7 @@
                                     <form action="{{ route('senarai-pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>

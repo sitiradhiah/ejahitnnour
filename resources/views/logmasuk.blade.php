@@ -29,8 +29,8 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Emel') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" 
-                                    class="form-control" 
+                                <input id="email" type="email"
+                                    class="form-control"
                                     name="email" value="{{ old('email') }}" autocomplete="email" autofocus required placeholder="Emel">
                             </div>
                         </div>
@@ -57,18 +57,18 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-sm btn-primary">
                                     {{ __('Log Masuk') }}
                                 </button>
-                        
+
                                 @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <a class="btn btn-sm btn-link" href="{{ route('password.request') }}">
                                     {{ __('Lupa Kata Laluan?') }}
                                 </a>
                                 @endif
-                        
+
                                 <!-- Button Daftar Pekerja Baru -->
-                                <a class="btn btn-link" href="{{ route('register') }}">
+                                <a class="btn btn-sm btn-link" href="{{ route('register') }}">
                                     {{ __('Daftar Pekerja Baru') }}
                                 </a>
                             </div>

@@ -17,7 +17,7 @@
                     <div class="card shadow p-3">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Borang Tempahan Baru</h4>
-                            <a href="{{ route('tempahan.senarai') }}" class="btn btn-secondary ms-2">
+                            <a href="{{ route('tempahan.senarai') }}" class="btn btn-sm btn-secondary ms-2">
                                 <i class="bi bi-arrow-left"></i> Kembali
                             </a>
                         </div>

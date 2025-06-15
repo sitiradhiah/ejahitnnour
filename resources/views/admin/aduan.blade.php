@@ -55,7 +55,7 @@
             <div class="d-flex mb-3">
                 <form method="GET" action="{{ route('aduan-cadangan.index') }}" class="me-2 d-flex">
                     <input type="text" name="search" class="form-control me-2" placeholder="Cari nama, tajuk, status..." value="{{ request('search') }}">
-                    <button type="submit" class="btn btn-primary">Cari</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Cari</button>
                 </form>
 
                 @php
