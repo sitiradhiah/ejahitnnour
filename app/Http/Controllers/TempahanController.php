@@ -50,7 +50,8 @@ class TempahanController extends Controller
             $user->peranan = 'pelanggan'; // Pastikan peranan pelanggan
             $user->save();
         }
-        Tempahan::create([
+        // Simpan pra-tempahan
+        $tempahan = Tempahan::create([
             'nama_pelanggan' => $request->nama_pelanggan,
             'nombor_telefon' => $request->nombor_telefon,
             'alamat' => $request->alamat, // optional
@@ -60,6 +61,17 @@ class TempahanController extends Controller
             'additional_notes' => $request->catatan_tambahan, // optional
             'status' => 'Pra-tempahan',
             'idPelanggan' => $user->id, // Jika ada foreign key user_id pada tempahan
+        ]);
+
+        // Masukkan ke dalam jadual invoicetempahan
+        \DB::table('invoicetempahan')->insert([
+            'idTempahan' => $tempahan->id,
+            'tarikh' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'hargaPerTempahan' => 0, // Harga boleh diubah kemudian
+            'catatan' => 'Pra-tempahan dibuat oleh ' . $request->nama_pelanggan,
+            // Tambah field lain jika perlu
         ]);
 
         // Hantar notifikasi email ringkas kepada pengguna
@@ -159,7 +171,7 @@ class TempahanController extends Controller
             'catatan_tambahan' => 'nullable|string',
         ]);
 
-        Tempahan::create([
+         $tempahan = Tempahan::create([
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat' => $request->alamat,
             'nombor_telefon' => $request->nombor_telefon,
@@ -174,6 +186,18 @@ class TempahanController extends Controller
             'size' => $request->saiz,
             'harga_tempahan' => $request->harga_tempahan,
             'additional_notes' => $request->catatan_tambahan,
+            'idPekerja' => auth()->id(),
+        ]);
+
+        // Masukkan ke dalam jadual invoicetempahan
+        \DB::table('invoicetempahan')->insert([
+            'idTempahan' => $tempahan->id,
+            'tarikh' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'hargaPerTempahan' => $request->harga_tempahan, // Harga boleh diubah kemudian
+            'catatan' => 'Pra-tempahan dibuat oleh ' . $request->nama_pelanggan,
+            // Tambah field lain jika perlu
         ]);
 
         return redirect()->route('tempahan.senarai')->with('success', 'Tempahan berjaya ditambah.');
@@ -212,7 +236,17 @@ class TempahanController extends Controller
             'size' => $request->saiz,
             'harga_tempahan' => $request->harga_tempahan,
             'additional_notes' => $request->catatan_tambahan,
+            'idPekerja' => auth()->id(),
         ]);
+
+        // Kemas kini invoicetempahan di mana idTempahan = $id
+        \DB::table('invoicetempahan')
+            ->where('idTempahan', $id)
+            ->update([
+            'hargaPerTempahan' => $request->harga_tempahan,
+            'catatan' => 'Tempahan dikemaskini oleh ' . $request->nama_pelanggan,
+            'updated_at' => now(),
+            ]);
 
         return redirect()->route('tempahan.senarai')->with('success', 'Tempahan berjaya dikemaskini.');
     }

@@ -10,6 +10,8 @@ class TempahanLaporanController extends Controller
 {
     public function index()
     {
+        $currentYear = now()->year;
+
         $tempahan = Tempahan::query()
             ->leftJoin('invoicetempahan', 'tempahans.id', '=', 'invoicetempahan.idtempahan')
             ->select(
@@ -18,11 +20,21 @@ class TempahanLaporanController extends Controller
                 'invoicetempahan.catatan',
                 'invoicetempahan.hargaPerTempahan'
             )
+            ->where('tempahans.status', '!=', 'pra-tempahan')
             ->orderBy('tempahans.tarikh_tempahan', 'desc')
             ->get();
 
-        return view('admin.tempahan.laporan.senarai', compact('tempahan'));
+        // Total harga for current year only, excluding 'pra-tempahan'
+        $totalHarga = DB::table('tempahans')
+            ->join('invoicetempahan', 'tempahans.id', '=', 'invoicetempahan.idtempahan')
+            ->whereYear('tempahans.tarikh_tempahan', $currentYear)
+            ->where('tempahans.status', '!=', 'pra-tempahan')
+            ->sum('invoicetempahan.hargaPerTempahan');
+
+        return view('admin.tempahan.laporan.senarai', compact('tempahan', 'totalHarga'));
     }
+
+
 
     public function show($id)
     {
@@ -35,21 +47,36 @@ class TempahanLaporanController extends Controller
 
     public function filter(Request $request)
     {
-        $query = \App\Models\Tempahan::query();
+        $query = Tempahan::query()
+            ->leftJoin('invoicetempahan', 'tempahans.id', '=', 'invoicetempahan.idtempahan')
+            ->select(
+                'tempahans.*',
+                'invoicetempahan.tarikh as invoice_tarikh',
+                'invoicetempahan.catatan',
+                'invoicetempahan.hargaPerTempahan'
+            );
 
         if ($request->tarikh_dari) {
-            $query->whereDate('tarikh_tempahan', '>=', $request->tarikh_dari);
+            $query->whereDate('tempahans.tarikh_tempahan', '>=', $request->tarikh_dari);
         }
 
         if ($request->tarikh_hingga) {
-            $query->whereDate('tarikh_tempahan', '<=', $request->tarikh_hingga);
+            $query->whereDate('tempahans.tarikh_tempahan', '<=', $request->tarikh_hingga);
         }
 
         if ($request->status) {
-            $query->where('status', $request->status);
+            $query->where('tempahans.status', $request->status);
         }
 
-        return response()->json($query->get());
+        $filteredData = $query->get();
+
+        $totalHarga = $filteredData->sum('hargaPerTempahan');
+
+        return response()->json([
+            'data' => $filteredData,
+            'totalHarga' => number_format($totalHarga, 2)
+        ]);
     }
+
 
 }
