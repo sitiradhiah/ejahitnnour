@@ -63,7 +63,7 @@
 
 @section('content')
 <div class="page-heading">
-    <h3>Senarai Pekerja</h3>
+    <h3>Senarai Pekerja dan Pentadbir</h3>
 </div>
 <div class="container">
     <div class="card shadow p-3">
@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-md-3 text-end align-self-end">
                     <a href="{{ route('senarai-pekerja.create') }}" class="btn btn-sm btn-success">
-                        <i class="fa fa-plus"></i> Tambah Pekerja
+                        <i class="fa fa-plus"></i> Tambah Pengguna Baru
                     </a>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                         <tr>
                         <!-- <tr class="tindakan-bg"> -->
                             <th>No</th>
-                            <th>Nama Pekerja</th>
+                            <th>Nama Pengguna</th>
                             <th>Jawatan</th>
                             <th>No Telefon</th>
                             <th>Email</th>
@@ -110,7 +110,16 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $worker->name }}</td>
-                            <td>{{ $worker->peranan }}</td>
+                            <td>
+                                @php
+                                    $role = ucfirst(strtolower($worker->peranan));
+                                @endphp
+                                @if(strtolower($worker->peranan) === 'pentadbir')
+                                    <strong>{{ $role }}</strong>
+                                @else
+                                    {{ $role }}
+                                @endif
+                            </td>
                             <td>{{ $worker->phone }}</td>
                             <td>{{ $worker->email }}</td>
                             <td>{{ $worker->status }}</td>

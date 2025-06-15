@@ -50,7 +50,7 @@ class WorkerController extends Controller
         ]);
 
         // Redirect ke halaman senarai pekerja dengan mesej kejayaan
-        return redirect()->route('pekerja.index')->with('success', 'Pekerja berjaya ditambah.');
+        return redirect()->route('senarai-pekerja.index')->with('success', 'Pekerja berjaya ditambah.');
     }
 
     // Halaman untuk mengedit pekerja

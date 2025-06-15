@@ -173,6 +173,15 @@ use Illuminate\Support\Facades\Auth;
         @if(session('error'))
             <div class="alert alert-danger m-1 text-end">{{ session('error') }}</div>
         @endif
+        @if($errors->any())
+            <div class="alert alert-danger m-1 text-end">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            </div>
+        @endif
 
         <div id="main">
             <header class="mb-3">
