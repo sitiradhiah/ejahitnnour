@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
 {
@@ -22,41 +23,36 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
             $user = Auth::user();
+
             if ($user->peranan === 'pelanggan') {
                 Auth::logout();
                 return redirect()->route('logmasuk')->with('message', 'Anda tidak mempunyai kebenaran untuk log masuk ke dalam sistem.');
             }
 
-            // Step 2: Check if user is inactive or not verified
             if ($user->status === 'tidak aktif' || $user->disahkan != 1) {
                 Auth::logout();
                 return redirect()->route('logmasuk')->with('message', 'Akaun anda belum disahkan atau anda tidak aktif sebagai pengguna sistem.');
             }
 
-            // if (Auth::user()->disahkan == 0) {
-            //     Auth::logout();
-            //     return redirect()->route('logmasuk')->with('message', 'Akaun anda belum disahkan. Sila hubungi pentadbir.');
-            // }
-
-            // Check if user is active
-            // if (Auth::user()->status !== 'aktif') {
-            //     Auth::logout();
-            //     return redirect()->route('logmasuk')->with('message', 'Status anda tidak aktif. Sila hubungi pentadbir.');
-            // }
+            // ✅ Set version tracking after successful login
+            $version = now()->timestamp;
+            session(['peranan_version' => $version]);
+            Cache::put('peranan_version_' . $user->id, $version);
 
             return redirect()->intended('admin/dashboard');
         }
 
-        // Redirect back to logmasuk with error message
         return redirect()->route('logmasuk')->withErrors([
             'email' => 'Maklumat yang dimasukkan tidak sah.',
         ])->withInput($request->only('email'));
     }
 
+
     public function logout(Request $request)
     {
         Auth::logout();
 
+        $request->session()->forget('peranan_version');
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User; // Pastikan model User digunakan
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class WorkerController extends Controller
 {
@@ -33,6 +34,8 @@ class WorkerController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users', // Pastikan email tidak berulang
             'password' => 'required|string|min:8|confirmed', // Pastikan kata laluan panjang dan disahkan
+            'phone' => 'nullable|string|max:15', // Nombor telefon tidak wajib, maksimum 15 aksara
+            'peranan' => 'required|in:pekerja,pentadbir', // Peranan wajib dan mesti sama ada 'pekerja' atau 'pentadbir'
         ]);
 
         // Menyimpan pekerja baru
@@ -40,7 +43,10 @@ class WorkerController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password), // Enkripsi kata laluan
-            'peranan' => 'pekerja', // Tetapkan peranan pekerja
+            'peranan' => $request->peranan, // Tetapkan peranan pekerja
+            'phone' => $request->phone ?? null,
+            'status' => 'tidak aktif',
+            'disahkan' => 0,
         ]);
 
         // Redirect ke halaman senarai pekerja dengan mesej kejayaan
@@ -103,8 +109,13 @@ class WorkerController extends Controller
             'peranan' => $request->peranan,
         ]);
 
+        // Jika peranan berubah, paksa logout pada permintaan seterusnya
+        if ($worker->wasChanged('peranan')) {
+            \Cache::put('peranan_version_' . $worker->id, now()->timestamp);
+        }
+
         // Redirect ke senarai pekerja dengan mesej kejayaan
-        return redirect()->route('senarai-pekerja.index')->with('success', 'Pekerja berjaya dikemas kini.');
+        return redirect()->route('senarai-pekerja.index')->with('success', 'Pengguna berdaftar berjaya dikemas kini.');
     }
 
     public function toggleDisahkan($id)

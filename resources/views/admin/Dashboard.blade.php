@@ -44,6 +44,7 @@
                     </div>
                 </div>
 
+                @if(Auth::check() && Auth::user()->peranan === 'pentadbir')
                 <div class="col-12 col-md-6 col-lg-6">
                     <div class="card shadow mb-0">
                         <div class="card-body px-3 py-4-5">
@@ -59,9 +60,10 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <div class="col-12 col-md-6 col-lg-6">
-                    <div class="card shadow">
+                    <div class="card shadow mb-0">
                         <div class="card-body px-3 py-4-5">
                             <div class="d-flex align-items-center">
                                 <div class="stats-icon green me-3">
@@ -77,7 +79,7 @@
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-6">
-                    <div class="card shadow">
+                    <div class="card shadow mb-0">
                         <div class="card-body px-3 py-4-5">
                             <div class="d-flex align-items-center">
                                 <div class="stats-icon teal me-3">
@@ -94,7 +96,7 @@
             </div>
 
             <!-- Statistik Tempahan -->
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-12">
                     <div class="card shadow">
                         <div class="card-header">
@@ -107,6 +109,7 @@
                 </div>
             </div>
 
+            @if(Auth::check() && Auth::user()->peranan === 'pentadbir')
             <!-- Pertanyaan Terkini -->
             <div class="row">
                 <div class="col-12 col-xl-12">
@@ -153,6 +156,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
         <!-- Sidebar -->

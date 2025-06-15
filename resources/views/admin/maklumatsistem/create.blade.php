@@ -17,8 +17,20 @@
                     <input type="text" name="name" id="name" class="form-control" required>
                 </div>
                 <div class="form-group">
+                    <label for="role">Peranan</label>
+                    <select name="role" id="role" class="form-control" required>
+                        <option value="">-- Pilih Peranan --</option>
+                        <option value="pekerja">Pekerja</option>
+                        <option value="pentadbir">Pentadbir</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">No. Telefon</label>
+                    <input type="text" name="phone" id="phone" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Kata Laluan</label>

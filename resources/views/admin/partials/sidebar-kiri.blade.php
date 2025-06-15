@@ -44,6 +44,7 @@
                     </a>
                 </li>
 
+                 @if(Auth::check() && Auth::user()->peranan === 'pentadbir')
                 <li class="sidebar-item has-sub {{ request()->routeIs('senarai-pekerja.index', 'testimonial.index', 'tetapan.index') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-stack"></i>
@@ -61,6 +62,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
 
                 <li class="sidebar-item has-sub {{ request()->routeIs('tempahan.senarai', 'tempahan.baru', 'pelanggan.index') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
@@ -80,6 +82,7 @@
                     </ul>
                 </li>
 
+                 @if(Auth::check() && Auth::user()->peranan === 'pentadbir')
                 <li class="sidebar-item has-sub {{ request()->routeIs('katelog.senarai', 'kategori.index') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-grid-1x2-fill"></i>
@@ -94,7 +97,9 @@
                         </li>
                     </ul>
                 </li>
+                @endif
 
+                @if(Auth::check() && Auth::user()->peranan === 'pentadbir')
                 <li class="sidebar-item {{ request()->routeIs('tempahan.laporan.senarai') ? 'active' : '' }}">
                     <a href="{{ route('tempahan.laporan.senarai') }}" class="sidebar-link">
                         <i class="bi bi-stack"></i>
@@ -102,12 +107,14 @@
                     </a>
                 </li>
 
+
                 <li class="sidebar-item {{ request()->routeIs('aduan-cadangan.index') ? 'active' : '' }}">
                     <a href="{{ route('aduan-cadangan.index') }}" class="sidebar-link">
                         <i class="bi bi-chat-dots"></i>
                         <span>Aduan & Cadangan</span>
                     </a>
                 </li>
+                @endif
             </ul>
         </div>
 

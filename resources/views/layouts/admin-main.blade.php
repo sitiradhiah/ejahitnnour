@@ -147,6 +147,9 @@ use Illuminate\Support\Facades\Auth;
             @if(Auth::check())
                 <div class="d-flex justify-content-end align-items-center" style="color: #fff;">
                     <span class="me-3">
+                        <strong style="color: #fff; text-transform: Capitalize;">
+                            Nama {{ Auth::user()->peranan }} :
+                        </strong>
                         <strong style="color: #fff;">{{ Auth::user()->name }}</strong>
                         <small class="text-muted" style="color: #fff !important;">({{ Auth::user()->email }})</small>
                     </span>
