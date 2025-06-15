@@ -150,29 +150,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
 <script>
+    // EXPORT EXCEL
     document.getElementById('btn-export-excel').addEventListener('click', function () {
-        // Get table
         var table = document.querySelector('.table-striped');
         var rows = Array.from(table.rows);
         var csv = [];
         var today = new Date();
         var currentDate = today.toLocaleDateString('ms-MY');
 
+        // Add Title & Summary
+        csv.push('"Kedai Jahit N\'Nour"');
         csv.push('"Laporan ini dijana pada tarikh: ' + currentDate + '"');
         csv.push('"Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}"');
         csv.push('');
 
-        rows.forEach(function(row, rowIndex) {
+        rows.forEach(function(row) {
             var cols = Array.from(row.cells);
-            // Exclude last column (Tindakan)
-            if (cols.length > 0) {
-                // Remove last cell
-                cols = cols.slice(0, -1);
-            }
-            var rowData = cols.map(function(cell) {
-                // Escape double quotes
-                return '"' + cell.innerText.replace(/"/g, '""') + '"';
-            });
+            if (cols.length > 0) cols = cols.slice(0, -1); // Exclude last column
+            var rowData = cols.map(cell => '"' + cell.innerText.replace(/"/g, '""') + '"');
             csv.push(rowData.join(','));
         });
 
@@ -189,33 +184,33 @@
         window.URL.revokeObjectURL(url);
     });
 
+    // EXPORT PDF (FULL LIST)
     document.getElementById('btn-export-pdf').addEventListener('click', function () {
         const { jsPDF } = window.jspdf;
-        var doc = new jsPDF();
-
-        // Title
-        doc.setFontSize(16);
-        doc.text('Senarai Tempahan', doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
-
-        // Current Date & Summary
+        const doc = new jsPDF();
         const today = new Date();
-        const currentDate = today.toLocaleDateString('ms-MY'); // Format for Malaysia
+        const currentDate = today.toLocaleDateString('ms-MY');
+
+        // Title & Header
+        doc.setTextColor(204, 0, 102);
+        doc.setFontSize(18);
+        doc.setFont(undefined, 'bold');
+        doc.text("Kedai Jahit N'Nour", doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
 
         doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont(undefined, 'normal');
         doc.text('Laporan ini dijana pada tarikh: ' + currentDate, 14, 25);
         doc.text('Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}', 14, 32);
 
-        // Get table data
+        // Table Data
         var table = document.querySelector('.table-striped');
         var rows = Array.from(table.querySelectorAll('tbody tr'));
-        var headers = Array.from(table.querySelectorAll('thead th'));
-        // Remove last header (Tindakan)
-        var headerData = headers.slice(0, -1).map(th => th.innerText);
+        var headers = Array.from(table.querySelectorAll('thead th')).slice(0, -1);
+        var headerData = headers.map(th => th.innerText);
 
         var bodyData = rows.map(function(row) {
-            var cells = Array.from(row.querySelectorAll('td'));
-            // Remove last cell (Tindakan)
-            cells = cells.slice(0, -1);
+            var cells = Array.from(row.querySelectorAll('td')).slice(0, -1);
             return cells.map(cell => cell.innerText);
         });
 
@@ -231,46 +226,43 @@
         doc.save('senarai_tempahan.pdf');
     });
 
-    // <!-- export single row -->
+    // EXPORT SINGLE ROW TO INVOICE
     function exportRowToPDF(id) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        // Get row
         const row = document.querySelector('tr td button[onclick*="exportRowToPDF(' + id + ')"]').closest('tr');
         const cells = Array.from(row.querySelectorAll('td')).slice(0, -1);
 
-        // Extract individual values
         const tarikh = cells[1].innerText;
         const jenisTempahan = cells[2].innerText;
         const namaPelanggan = cells[3].innerText;
         const status = cells[4].innerText;
         const harga = cells[5].innerText;
 
-        // Generate invoice code
         const now = new Date();
         const timestamp = now.toISOString().replace(/[-:TZ.]/g, '').slice(0, 14);
         const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
         const invoiceCode = `INV-${timestamp}-${randomStr}`;
 
-        // Company Name (Bold, Bigger, Colored)
-        doc.setTextColor(204, 0, 102); // Dark pink
+        // Header - Company Name
+        doc.setTextColor(204, 0, 102);
         doc.setFontSize(18);
         doc.setFont(undefined, 'bold');
         doc.text("Kedai Jahit N'Nour", 14, 18);
 
-        // Invoice Info (Right aligned)
-        doc.setTextColor(0, 0, 0);
+        // Right Header Info
         doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
         doc.setFont(undefined, 'normal');
         doc.text(`Kod Invois: ${invoiceCode}`, 150, 18, { align: "right" });
         doc.text(`Tarikh: ${now.toLocaleDateString('ms-MY')}`, 150, 24, { align: "right" });
 
-        // Spacer
+        // Line separator
         doc.setLineWidth(0.5);
         doc.line(14, 28, 196, 28);
 
-        // Table with Details
+        // Invoice Table
         doc.autoTable({
             startY: 32,
             head: [['Butiran', 'Maklumat']],
@@ -290,10 +282,10 @@
             }
         });
 
-        // Save the PDF
         doc.save(`invois_tempahan_${id}.pdf`);
     }
 </script>
+
 
 <!-- Filter / tapisan  -->
 <script>

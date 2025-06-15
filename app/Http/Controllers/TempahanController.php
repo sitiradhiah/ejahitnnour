@@ -151,7 +151,9 @@ class TempahanController extends Controller
     public function baru()
     {
         $tempahan = Tempahan::all();
-        return view('admin.tempahan.borang-tempahan', compact('tempahan'));
+        $users = User::all();
+        $katelogs = Katelog::all();
+        return view('admin.tempahan.borang-tempahan', compact('tempahan', 'users', 'katelogs'));
     }
 
     public function store(Request $request)
@@ -166,7 +168,7 @@ class TempahanController extends Controller
             'panjang_lengan' => 'nullable|integer',
             'jenis_kain' => 'nullable|string',
             'warna_kain' => 'nullable|string',
-            'saiz' => 'nullable|string',
+            // 'saiz' => 'nullable|string',
             'harga_tempahan' => 'nullable|numeric',
             'catatan_tambahan' => 'nullable|string',
         ]);
@@ -183,7 +185,7 @@ class TempahanController extends Controller
             'sleeve_length' => $request->panjang_lengan,
             'jenis_kain' => $request->jenis_kain,
             'warna_kain' => $request->warna_kain,
-            'size' => $request->saiz,
+            // 'size' => $request->saiz,
             'harga_tempahan' => $request->harga_tempahan,
             'additional_notes' => $request->catatan_tambahan,
             'idPekerja' => auth()->id(),
@@ -215,7 +217,7 @@ class TempahanController extends Controller
             'panjang_lengan' => 'nullable|integer',
             'jenis_kain' => 'nullable|string',
             'warna_kain' => 'nullable|string',
-            'saiz' => 'nullable|string',
+            // 'saiz' => 'nullable|string',
             'harga_tempahan' => 'nullable|numeric',
             'catatan_tambahan' => 'nullable|string',
         ]);
@@ -233,7 +235,7 @@ class TempahanController extends Controller
             'sleeve_length' => $request->panjang_lengan,
             'jenis_kain' => $request->jenis_kain,
             'warna_kain' => $request->warna_kain,
-            'size' => $request->saiz,
+            // 'size' => $request->saiz,
             'harga_tempahan' => $request->harga_tempahan,
             'additional_notes' => $request->catatan_tambahan,
             'idPekerja' => auth()->id(),
