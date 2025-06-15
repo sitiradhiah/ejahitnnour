@@ -136,6 +136,9 @@ use Illuminate\Support\Facades\Auth;
             background-color: #343a40 !important;
             color: #fff !important;
         }
+        .card, .card-header {
+            background: whitesmoke;
+        }
     </style>
     @yield('css')
 </head>

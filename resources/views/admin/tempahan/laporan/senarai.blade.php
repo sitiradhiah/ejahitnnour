@@ -86,6 +86,27 @@
                     </button>
                 </div>
             </div>
+            <div class="mt-2">
+                <span id="total-harga-selesai" class="fw-bold text-success">
+                    Jumlah Harga (Sudah Selesai):
+                    RM
+                    <span id="total-harga-value">
+                        {{ number_format($tempahan->where('status', 'Sudah Selesai')->sum('harga_tempahan'), 2) }}
+                    </span>
+                </span>
+            </div>
+            <script>
+            // Update total harga_tempahan for "Sudah Selesai" after filter
+            function updateTotalHargaSelesai(data) {
+                let total = 0;
+                data.forEach(item => {
+                    if (item.status === 'Sudah Selesai') {
+                        total += parseFloat(item.harga_tempahan);
+                    }
+                });
+                document.getElementById('total-harga-value').innerText = total.toLocaleString('ms-MY', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            }
+            </script>
         </div>
 
         <div class="card-body">
