@@ -87,6 +87,7 @@ class TempahanController extends Controller
                 );
 
             } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Pra-tempahan berjaya di kemaskini tetapi gagal menghantar emel notifikasi.');
                 // $emailError = 'Pra-tempahan berjaya dihantar, tetapi notifikasi email gagal dihantar: ';
                 // $e->getMessage();
             }

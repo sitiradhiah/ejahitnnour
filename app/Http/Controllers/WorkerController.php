@@ -108,16 +108,21 @@ class WorkerController extends Controller
         $user->save();
 
         // Hantar emel kepada pengguna selepas status disahkan ditukar
-        \Mail::raw(
+        try {
+            Mail::raw(
             "Maklumat ini adalah auto-dijana oleh sistem sebagai pemberitahuan bahawa akaun anda, {$user->name} ({$user->phone}), telah " .
-            ($user->disahkan ? 'disahkan.' : 'tidak lagi disahkan.') .
-            " Status semasa: " . ($user->status ?? 'Tidak diketahui') . ".",
+            ($user->disahkan ? 'disahkan.' : 'dibuang pengesahannya.') .
+            " Status semasa adalah " . ($user->status ?? 'Tidak diketahui') . ".",
             function ($message) use ($user) {
                 $message->to($user->email)
-                        ->subject("Notifikasi Pengesahan Akaun Pengguna Sistem Kedai Jahit N'Nour");
+                    ->subject("Notifikasi Pengesahan Akaun Pengguna Sistem Kedai Jahit N'Nour");
             }
-        );
-
+            );
+        } catch (\Exception $e) {
+            // Log error jika perlu, atau berikan mesej ralat
+            // Log::error('Mail error: ' . $e->getMessage());
+            return back()->with('error', 'Berjaya di kemaskini tetapi gagal menghantar emel notifikasi.');
+        }
 
         return back()->with('message', 'Status pengesahan pengguna telah dikemas kini.');
     }

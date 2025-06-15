@@ -36,13 +36,19 @@ class RegisterController extends Controller
 
         // dd($adminEmails);
         if (!empty($adminEmails)) {
-            \Mail::raw(
-            "Pendaftaran pengguna baru telah diterima: {$request->name} ({$request->email}). Sila semak sistem untuk maklumat lanjut.",
-            function ($message) use ($adminEmails) {
-                $message->to($adminEmails)
-                ->subject('Notifikasi Pra-Tempahan Baru');
+            try {
+                \Mail::raw(
+                    "Pendaftaran pengguna baru telah diterima: {$request->name} ({$request->email}). Sila semak sistem untuk maklumat lanjut.",
+                    function ($message) use ($adminEmails) {
+                        $message->to($adminEmails)
+                            ->subject('Notifikasi Pra-Tempahan Baru');
+                    }
+                );
+            } catch (\Exception $e) {
+                // Log error or handle it as needed
+                // \Log::error('Gagal menghantar emel notifikasi admin: ' . $e->getMessage());
+                return back()->with('error', 'Maklumat berjaya di hantar tetapi gagal menghantar emel notifikasi.');
             }
-            );
         }
 
         // Redirect kepada halaman log masuk dengan mesej

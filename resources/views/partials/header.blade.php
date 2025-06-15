@@ -27,10 +27,10 @@
           </li>
         </ul>
         <div class="ms-lg-3">
-          @if(Auth::check() && Auth::user()->status === 'true')
-            <a href="{{ route('dashboard') }}" class="btn btn-primary rounded-pill px-4 fw-bold">Dashboard</a>
-          @else
+          @if(!Auth::check() || (Auth::check() && Auth::user()->status !== null && Auth::user()->status !== 'aktif'))
             <a href="{{ route('logmasuk') }}" class="btn btn-primary rounded-pill px-4 fw-bold">Log Masuk</a>
+          @else
+            <a href="{{ route('dashboard') }}" class="btn btn-primary rounded-pill px-4 fw-bold">Dashboard</a>
           @endif
         </div>
       </div>
