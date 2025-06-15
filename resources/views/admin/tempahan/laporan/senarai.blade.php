@@ -155,6 +155,8 @@
         var table = document.querySelector('.table-striped');
         var rows = Array.from(table.rows);
         var csv = [];
+        csv.push('"Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}"'); // Add summary
+        csv.push(''); // Add empty row
 
         rows.forEach(function(row, rowIndex) {
             var cols = Array.from(row.cells);
@@ -191,6 +193,10 @@
         doc.setFontSize(16);
         doc.text('Senarai Tempahan', doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
 
+        // Summary (Jumlah Harga)
+        doc.setFontSize(12);
+        doc.text('Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}', 14, 25);
+
         // Get table data
         var table = document.querySelector('.table-striped');
         var rows = Array.from(table.querySelectorAll('tbody tr'));
@@ -208,7 +214,7 @@
         doc.autoTable({
             head: [headerData],
             body: bodyData,
-            startY: 22,
+            startY: 32,
             styles: { fontSize: 10 },
             headStyles: { fillColor: [0, 123, 255] },
             theme: 'striped'
