@@ -21,17 +21,28 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-
-            if (Auth::user()->disahkan == 0) {
+            $user = Auth::user();
+            if ($user->peranan === 'pelanggan') {
                 Auth::logout();
-                return redirect()->route('logmasuk')->with('message', 'Akaun anda belum disahkan. Sila hubungi pentadbir.');
+                return redirect()->route('logmasuk')->with('message', 'Anda tidak mempunyai kebenaran untuk log masuk ke dalam sistem.');
             }
+
+            // Step 2: Check if user is inactive or not verified
+            if ($user->status === 'tidak aktif' || $user->disahkan != 1) {
+                Auth::logout();
+                return redirect()->route('logmasuk')->with('message', 'Akaun anda belum disahkan atau anda tidak aktif sebagai pengguna sistem.');
+            }
+
+            // if (Auth::user()->disahkan == 0) {
+            //     Auth::logout();
+            //     return redirect()->route('logmasuk')->with('message', 'Akaun anda belum disahkan. Sila hubungi pentadbir.');
+            // }
 
             // Check if user is active
-            if (Auth::user()->status !== 'aktif') {
-                Auth::logout();
-                return redirect()->route('logmasuk')->with('message', 'Status anda tidak aktif. Sila hubungi pentadbir.');
-            }
+            // if (Auth::user()->status !== 'aktif') {
+            //     Auth::logout();
+            //     return redirect()->route('logmasuk')->with('message', 'Status anda tidak aktif. Sila hubungi pentadbir.');
+            // }
 
             return redirect()->intended('admin/dashboard');
         }
