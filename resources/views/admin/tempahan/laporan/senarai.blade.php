@@ -155,8 +155,12 @@
         var table = document.querySelector('.table-striped');
         var rows = Array.from(table.rows);
         var csv = [];
-        csv.push('"Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}"'); // Add summary
-        csv.push(''); // Add empty row
+        var today = new Date();
+        var currentDate = today.toLocaleDateString('ms-MY');
+
+        csv.push('"Laporan ini dijana pada tarikh: ' + currentDate + '"');
+        csv.push('"Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}"');
+        csv.push('');
 
         rows.forEach(function(row, rowIndex) {
             var cols = Array.from(row.cells);
@@ -193,9 +197,13 @@
         doc.setFontSize(16);
         doc.text('Senarai Tempahan', doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
 
-        // Summary (Jumlah Harga)
+        // Current Date & Summary
+        const today = new Date();
+        const currentDate = today.toLocaleDateString('ms-MY'); // Format for Malaysia
+
         doc.setFontSize(12);
-        doc.text('Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}', 14, 25);
+        doc.text('Laporan ini dijana pada tarikh: ' + currentDate, 14, 25);
+        doc.text('Jumlah Harga Tempahan Telah Selesai Tahun {{ date("Y") }} adalah RM {{ number_format($totalHarga, 2) }}', 14, 32);
 
         // Get table data
         var table = document.querySelector('.table-striped');
@@ -214,7 +222,7 @@
         doc.autoTable({
             head: [headerData],
             body: bodyData,
-            startY: 32,
+            startY: 40,
             styles: { fontSize: 10 },
             headStyles: { fillColor: [0, 123, 255] },
             theme: 'striped'
@@ -222,42 +230,68 @@
 
         doc.save('senarai_tempahan.pdf');
     });
-</script>
-<!-- export single row -->
-<script>
+
+    // <!-- export single row -->
     function exportRowToPDF(id) {
-        // Find the row by id (using Laravel's $item->id as a data attribute)
-        var row = document.querySelector('tr td button[onclick*="exportRowToPDF(' + id + ')"]').closest('tr');
-        // Get all data from the row (excluding the last cell with buttons)
-        var cells = Array.from(row.querySelectorAll('td')).slice(0, -1);
-        // Get table headers
-        var headers = Array.from(row.closest('table').querySelectorAll('thead th')).slice(0, -1);
-
-        // Prepare data for PDF
-        var rowData = cells.map(cell => cell.innerText);
-        var headerData = headers.map(th => th.innerText);
-
-        // Add extra info if needed (not displayed in table)
-        // Example: you can fetch more info via AJAX if required
-
-        // Generate PDF
         const { jsPDF } = window.jspdf;
-        var doc = new jsPDF();
+        const doc = new jsPDF();
 
-        doc.setFontSize(16);
-        doc.text('Senarai Tempahan ID=' + id, doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
+        // Get row
+        const row = document.querySelector('tr td button[onclick*="exportRowToPDF(' + id + ')"]').closest('tr');
+        const cells = Array.from(row.querySelectorAll('td')).slice(0, -1);
 
-        // Prepare table for PDF
+        // Extract individual values
+        const tarikh = cells[1].innerText;
+        const jenisTempahan = cells[2].innerText;
+        const namaPelanggan = cells[3].innerText;
+        const status = cells[4].innerText;
+        const harga = cells[5].innerText;
+
+        // Generate invoice code
+        const now = new Date();
+        const timestamp = now.toISOString().replace(/[-:TZ.]/g, '').slice(0, 14);
+        const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
+        const invoiceCode = `INV-${timestamp}-${randomStr}`;
+
+        // Company Name (Bold, Bigger, Colored)
+        doc.setTextColor(204, 0, 102); // Dark pink
+        doc.setFontSize(18);
+        doc.setFont(undefined, 'bold');
+        doc.text("Kedai Jahit N'Nour", 14, 18);
+
+        // Invoice Info (Right aligned)
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'normal');
+        doc.text(`Kod Invois: ${invoiceCode}`, 150, 18, { align: "right" });
+        doc.text(`Tarikh: ${now.toLocaleDateString('ms-MY')}`, 150, 24, { align: "right" });
+
+        // Spacer
+        doc.setLineWidth(0.5);
+        doc.line(14, 28, 196, 28);
+
+        // Table with Details
         doc.autoTable({
-            head: [headerData],
-            body: [rowData],
-            startY: 25,
-            styles: { fontSize: 12 },
-            headStyles: { fillColor: [0, 123, 255] },
-            theme: 'striped'
+            startY: 32,
+            head: [['Butiran', 'Maklumat']],
+            body: [
+                ['ID Tempahan', id],
+                ['Tarikh Tempahan', tarikh],
+                ['Jenis Tempahan', jenisTempahan],
+                ['Nama Pelanggan', namaPelanggan],
+                ['Status', status],
+                ['Jumlah Harga (RM)', harga]
+            ],
+            styles: { fontSize: 11 },
+            headStyles: { fillColor: [0, 123, 255], halign: 'center' },
+            columnStyles: {
+                0: { cellWidth: 60 },
+                1: { cellWidth: 120 }
+            }
         });
 
-        doc.save('senarai_tempahan_id_' + id + '.pdf');
+        // Save the PDF
+        doc.save(`invois_tempahan_${id}.pdf`);
     }
 </script>
 
