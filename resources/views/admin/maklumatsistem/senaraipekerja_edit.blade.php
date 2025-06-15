@@ -88,24 +88,51 @@
                     <label for="name">Nama Pekerja</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $worker->name) }}" required>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="peranan">Jawatan</label>
-                    <input type="text" class="form-control" id="peranan" name="peranan" value="{{ old('peranan', $worker->peranan) }}" required>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group mb-3">
+                            <label for="phone">No Telefon</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $worker->phone) }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $worker->email) }}" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="phone">No Telefon</label>
-                    <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $worker->phone) }}" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $worker->email) }}" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="status">Status Pengguna</label>
-                    <select class="form-control" id="status" name="status">
-                        <option value="Aktif" {{ old('status', $worker->status ?? 'Aktif') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                        <option value="Tidak Aktif" {{ old('status', $worker->status ?? '') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                    </select>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group mb-3">
+                            <label for="peranan">Jawatan (Peranan di dalam sistem)</label>
+                            <select class="form-control" id="peranan" name="peranan" required {{ auth()->id() == $worker->id ? 'disabled' : '' }}>
+                                <option value="pekerja" {{ old('peranan', $worker->peranan) == 'pekerja' ? 'selected' : '' }}>Pekerja</option>
+                                <option value="pentadbir" {{ old('peranan', $worker->peranan) == 'pentadbir' ? 'selected' : '' }}>Pentadbir</option>
+                                <!-- <option value="pelanggan" {{ old('peranan', $worker->peranan) == 'pelanggan' ? 'selected' : '' }}>Pelanggan</option> -->
+                            </select>
+                            @if(auth()->id() == $worker->id)
+                                <input type="hidden" name="peranan" value="{{ $worker->peranan }}">
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group mb-3">
+                            <label for="status">Status Pengguna</label>
+                            @if(auth()->id() == $worker->id)
+                                <select class="form-control" id="status" name="status" disabled>
+                                    <option value="Aktif" {{ old('status', $worker->status ?? 'Aktif') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="Tidak Aktif" {{ old('status', $worker->status ?? '') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                                </select>
+                                <input type="hidden" name="status" value="{{ $worker->status }}">
+                            @else
+                                <select class="form-control" id="status" name="status">
+                                    <option value="Aktif" {{ old('status', $worker->status ?? 'Aktif') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="Tidak Aktif" {{ old('status', $worker->status ?? '') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                                </select>
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ route('senarai-pekerja.index') }}" class="btn btn-secondary">Kembali</a>

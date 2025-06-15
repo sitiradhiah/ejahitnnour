@@ -67,10 +67,25 @@
 </div>
 <div class="container">
     <div class="card shadow p-3">
-        <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">Senarai Pekerja</h4>
-                <a href="#" class="btn btn-success">Tambah Pekerja</a>
+        <div class="card-header pb-0">
+            <div class="row align-items-center mb-2">
+                <div class="col-md-9" style="font-size: 0.85rem; color: #555;">
+                    <label class="me-2 fw-bold text-dark text-decoration-underline">NOTA:</label>
+                    <em>
+                        <ul style="font-size: 0.95em; color: #555; padding-left: 18px;" class="mb-0">
+                            <li>Pekerja yang <strong>tidak disahkan dan tidak aktif</strong> tidak boleh log masuk ke sistem</li>
+                            <li>Anda tidak boleh memadam maklumat anda sendiri sebagai pentadbir (admin) </li>
+                            <li>Anda tidak boleh mengubah status atau pengesahan anda sendiri</li>
+                            <li>Anda boleh menukar peranan pentadbir lain kepada pekerja biasa atau pelanggan tetapi perlu memastikan sekurang-kurangnya seorang pentadbir disahkan wujud dalam sistem.</li>
+                            <li>Dengan <strong>membuang pengesahan</strong> pekerja, status mereka juga akan bertukar secara automatik kepada tidak aktif.</li>
+                        </ul>
+                    </em>
+                </div>
+                <div class="col-md-3 text-end align-self-end">
+                    <a href="{{ route('senarai-pekerja.create') }}" class="btn btn-sm btn-success">
+                        <i class="fa fa-plus"></i> Tambah Pekerja
+                    </a>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -103,7 +118,7 @@
                                 <form action="{{ route('toggleDisahkan', $worker->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="btn btn-sm {{ $worker->disahkan ? 'btn-success' : 'btn-danger' }}">
+                                    <button type="submit" class="btn btn-sm {{ $worker->disahkan ? 'btn-add' : 'btn-danger' }}">
                                         {{ $worker->disahkan ? '✓ Disahkan' : '✗ Belum' }}
                                     </button>
                                 </form>
@@ -114,13 +129,15 @@
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
 
-                                <form action="{{ route('senarai-pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
+                                @if(auth()->user()->id !== $worker->id)
+                                    <form action="{{ route('senarai-pekerja.destroy', $worker->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-delete" onclick="return confirm('Anda pasti untuk memadam pekerja ini?')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

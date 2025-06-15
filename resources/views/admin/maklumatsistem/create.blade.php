@@ -10,7 +10,7 @@
             <h4>Tambah Pekerja Baru</h4>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('pekerja.store') }}">
+            <form method="POST" action="{{ route('senarai-pekerja.store') }}">
                 @csrf
                 <div class="form-group">
                     <label for="name">Nama Pekerja</label>
@@ -28,7 +28,10 @@
                     <label for="password_confirmation">Pengesahan Kata Laluan</label>
                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-success">Tambah Pekerja</button>
+                <button type="submit" class="btn btn-sm btn-success">Daftar Pekerja</button>
+                <a href="{{ route('senarai-pekerja.index') }}" class="btn btn-sm btn-secondary ml-2">
+                    <i class="bi bi-arrow-left"></i> Kembali
+                </a>
             </form>
         </div>
     </div>

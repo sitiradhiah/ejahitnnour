@@ -61,6 +61,7 @@ class WorkerController extends Controller
     // Proses kemaskini maklumat pekerja
     public function update(Request $request, $id)
     {
+        // dd($request->all()); // Debugging: Semak data yang diterima
         // Validasi input daripada borang
         $request->validate([
             'name' => 'required|string|max:255',
@@ -68,22 +69,38 @@ class WorkerController extends Controller
             'password' => 'nullable|string|min:8|confirmed', // Kata laluan tidak wajib
             'phone' => 'nullable|string|max:15', // Nombor telefon tidak wajib
             'status' => 'nullable|string|max:255', // Status mesti sama ada 'aktif' atau 'tidak aktif'
-            'peranan' => 'nullable|in:pekerja,admin', // Peranan mesti sama ada 'pekerja' atau 'admin'
-            'disahkan' => 'nullable|boolean',
+            'peranan' => 'nullable|in:pekerja,pentadbir,pelanggan', // Peranan mesti sama ada 'pekerja' atau 'admin'
+            // 'disahkan' => 'nullable|boolean',
         ]);
 
         // Cari pekerja berdasarkan ID
         $worker = User::findOrFail($id);
+
+        // Jika peranan asal adalah 'pentadbir' dan ingin tukar ke selain 'pentadbir'
+        if (
+            $worker->peranan === 'pentadbir' &&
+            $request->peranan !== 'pentadbir'
+        ) {
+            // Kira bilangan pentadbir yang status 'aktif' dan 'disahkan' = 1
+            $adminCount = User::where('peranan', 'pentadbir')
+            ->where('status', 'aktif')
+            ->where('disahkan', 1)
+            ->count();
+
+            // Jika hanya ada satu pentadbir aktif dan disahkan, halang perubahan
+            if ($adminCount <= 1) {
+            return back()->with('error', 'Tidak boleh menukar peranan kerana sekurang-kurangnya satu pentadbir yang aktif dan disahkan diperlukan.');
+            }
+        }
 
         // Kemas kini pekerja
         $worker->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'password' => $request->password ? bcrypt($request->password) : $worker->password, // Kemas kini kata laluan jika ada, jika tidak kekalkan lama
-            'disahkan' => $request->has('disahkan') ? true : false, // Tetapkan disahkan jika checkbox ditanda
-            'status' => $request->status, // Kemas kini status pekerja
-            'peranan' => $request->peranan, // Kemas kini peranan pekerja
+            'password' => $request->password ? bcrypt($request->password) : $worker->password,
+            'status' => $request->status,
+            'peranan' => $request->peranan,
         ]);
 
         // Redirect ke senarai pekerja dengan mesej kejayaan
@@ -101,7 +118,7 @@ class WorkerController extends Controller
         $user->disahkan = !$user->disahkan;
         // Jika disahkan menjadi true, tukar status kepada 'aktif'
         if ($user->disahkan) {
-            $user->status = 'aktif';
+            // $user->status = 'aktif';
         } else {
             $user->status = 'tidak aktif';
         }
