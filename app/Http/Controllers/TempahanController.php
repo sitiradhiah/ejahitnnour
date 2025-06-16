@@ -171,6 +171,7 @@ class TempahanController extends Controller
             // 'saiz' => 'nullable|string',
             'harga_tempahan' => 'nullable|numeric',
             'catatan_tambahan' => 'nullable|string',
+            'reka_bentuk' => 'nullable|string|max:255',
         ]);
 
          $tempahan = Tempahan::create([
@@ -180,6 +181,7 @@ class TempahanController extends Controller
             'jenis_tempahan' => $request->jenis_tempahan,
             'tarikh_tempahan' => $request->tarikh_tempahan,
             'chest_size' => $request->ukuran_dada,
+            'nama_design' => $request->reka_bentuk,
             'waist_size' => $request->ukuran_pinggang,
             'shoulder_width' => $request->lebar_bahu,
             'sleeve_length' => $request->panjang_lengan,
@@ -218,6 +220,7 @@ class TempahanController extends Controller
             'jenis_kain' => 'nullable|string',
             'warna_kain' => 'nullable|string',
             // 'saiz' => 'nullable|string',
+            'reka_bentuk' => 'nullable|string|max:255',
             'harga_tempahan' => 'nullable|numeric',
             'catatan_tambahan' => 'nullable|string',
         ]);
@@ -230,6 +233,7 @@ class TempahanController extends Controller
             'jenis_tempahan' => $request->jenis_tempahan,
             'tarikh_tempahan' => $request->tarikh_tempahan,
             'chest_size' => $request->ukuran_dada,
+            'nama_design' => $request->reka_bentuk,
             'waist_size' => $request->ukuran_pinggang,
             'shoulder_width' => $request->lebar_bahu,
             'sleeve_length' => $request->panjang_lengan,
@@ -256,7 +260,10 @@ class TempahanController extends Controller
     public function edit($id)
     {
         $tempahan = Tempahan::findOrFail($id);
-        return view('admin.tempahan.edit-tempahan', compact('tempahan'));
+        $users = User::all(); //
+        $katelogs = Katelog::all(); // Juga pastikan katelogs dihantar
+        return view('admin.tempahan.edit-tempahan', compact('tempahan', 'users', 'katelogs'));
+
     }
 
     public function destroy($id)
