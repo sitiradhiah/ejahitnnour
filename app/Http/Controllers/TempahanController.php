@@ -174,6 +174,10 @@ class TempahanController extends Controller
             'reka_bentuk' => 'nullable|string|max:255',
         ]);
 
+        // Cari id pelanggan berdasarkan nombor_telefon (phone) dalam users table
+        $user = User::where('phone', $request->nombor_telefon)->first();
+        $idPelanggan = $user ? $user->id : null;
+
          $tempahan = Tempahan::create([
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat' => $request->alamat,
@@ -191,6 +195,7 @@ class TempahanController extends Controller
             'harga_tempahan' => $request->harga_tempahan,
             'additional_notes' => $request->catatan_tambahan,
             'idPekerja' => auth()->id(),
+            'idPelanggan' => $idPelanggan,
         ]);
 
         // Masukkan ke dalam jadual invoicetempahan
@@ -226,6 +231,10 @@ class TempahanController extends Controller
         ]);
 
         $tempahan = Tempahan::findOrFail($id);
+        // Cari id pelanggan berdasarkan nombor_telefon (phone) dalam users table
+        $user = User::where('phone', $request->nombor_telefon)->first();
+        $idPelanggan = $user ? $user->id : null;
+
         $tempahan->update([
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat' => $request->alamat,
@@ -243,6 +252,7 @@ class TempahanController extends Controller
             'harga_tempahan' => $request->harga_tempahan,
             'additional_notes' => $request->catatan_tambahan,
             'idPekerja' => auth()->id(),
+            'idPelanggan' => $idPelanggan,
         ]);
 
         // Kemas kini invoicetempahan di mana idTempahan = $id
