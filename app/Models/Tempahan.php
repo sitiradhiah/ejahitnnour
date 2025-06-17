@@ -29,4 +29,9 @@ class Tempahan extends Model
         'idPelanggan',
         'idPekerja',
     ];
+
+    public function pekerja()
+    {
+        return $this->belongsTo(User::class, 'idPekerja', 'id');
+    }
 }

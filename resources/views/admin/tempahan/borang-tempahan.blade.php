@@ -62,15 +62,15 @@
                              <h5 class="mb-3">Maklumat Pelanggan</h5>
                             <div class="row mb-3">
                                 <div class="col-12 col-md-4">
-                                    <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
+                                    <label for="nama_pelanggan" class="form-label">Nama Pelanggan  <span style="color: red">***</span></label>
                                     <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" required>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <label for="nombor_telefon" class="form-label">Nombor Telefon</label>
-                                    <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon">
+                                    <label for="nombor_telefon" class="form-label">Nombor Telefon <span style="color: red">***</span></label>
+                                    <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" required>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <label for="alamat" class="form-label">Alamat (optional)</label>
+                                    <label for="alamat" class="form-label">Alamat </label>
                                     <textarea class="form-control" id="alamat" name="alamat" rows="1"></textarea>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                              <h5 class="mb-3">Maklumat Tempahan</h5>
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="jenis_tempahan" class="form-label">Kategori</label>
+                                    <label for="jenis_tempahan" class="form-label">Kategori <span style="color: red">***</span></label>
                                     <select class="form-control" id="jenis_tempahan" name="jenis_tempahan" onchange="filterRekaBentuk()" required>
                                         <option value="" selected>--Pilih Jenis Kategori--</option>
                                         @foreach($katelogs->pluck('kategori')->unique() as $kategori)
@@ -89,7 +89,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="reka_bentuk" class="form-label">Jenis Reka Bentuk (optional)</label>
+                                    <label for="reka_bentuk" class="form-label">Jenis Reka Bentuk </label>
                                     <select class="form-control" id="reka_bentuk" name="reka_bentuk" disabled>
                                         <option value="" selected>--Pilih Reka Bentuk--</option>
                                         @foreach($katelogs as $katelog)
@@ -108,7 +108,7 @@
                                     </script>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="tarikh_tempahan" class="form-label">Tarikh Tempahan</label>
+                                    <label for="tarikh_tempahan" class="form-label">Tarikh Tempahan <span style="color: red">***</span></label>
                                     <input type="date" class="form-control" id="tarikh_tempahan" name="tarikh_tempahan" required>
                                 </div>
                                 @section('scripts')

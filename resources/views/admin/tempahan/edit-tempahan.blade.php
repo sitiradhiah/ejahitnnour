@@ -140,19 +140,19 @@
                             <div class="row mb-3">
                                 <div class="col-12 col-md-3">
                                     <label for="ukuran_dada" class="form-label">Ukuran Dada (cm)</label>
-                                    <input type="number" class="form-control" id="ukuran_dada" name="ukuran_dada" value="{{ old('ukuran_dada', $tempahan->ukuran_dada) }}">
+                                    <input type="number" class="form-control" id="ukuran_dada" name="ukuran_dada" value="{{ old('ukuran_dada', $tempahan->chest_size) }}">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="ukuran_pinggang" class="form-label">Ukuran Pinggang (cm)</label>
-                                    <input type="number" class="form-control" id="ukuran_pinggang" name="ukuran_pinggang" value="{{ old('ukuran_pinggang', $tempahan->ukuran_pinggang) }}">
+                                    <input type="number" class="form-control" id="ukuran_pinggang" name="ukuran_pinggang" value="{{ old('ukuran_pinggang', $tempahan->waist_size) }}">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="lebar_bahu" class="form-label">Lebar Bahu (cm)</label>
-                                    <input type="number" class="form-control" id="lebar_bahu" name="lebar_bahu" value="{{ old('lebar_bahu', $tempahan->lebar_bahu) }}">
+                                    <input type="number" class="form-control" id="lebar_bahu" name="lebar_bahu" value="{{ old('lebar_bahu', $tempahan->shoulder_width) }}">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="panjang_lengan" class="form-label">Panjang Lengan (cm)</label>
-                                    <input type="number" class="form-control" id="panjang_lengan" name="panjang_lengan" value="{{ old('panjang_lengan', $tempahan->panjang_lengan) }}">
+                                    <input type="number" class="form-control" id="panjang_lengan" name="panjang_lengan" value="{{ old('panjang_lengan', $tempahan->sleeve_length) }}">
                                 </div>
                             </div>
 

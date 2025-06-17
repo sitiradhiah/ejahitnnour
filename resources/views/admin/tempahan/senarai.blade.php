@@ -95,38 +95,64 @@
                             <th>Jenis Tempahan (Kategori)</th>
                             <th>Nama Reka Bentuk</th>
                             <th>Nama Pelanggan</th>
+                            <th>Nama Pekerja</th>
                             <th style="text-align: center;">Harga (RM)</th>
                             <th>Tukar Status ?</th>
                             <th style="width: 15%; text-align: center;">Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($tempahan as $index => $item)
+                        @if($tempahan->isEmpty())
+                            <tr>
+                                <td colspan="8" style="padding: 15px 0 !important;" class="text-center text-muted">Tiada tempahan dijumpai.</td>
+                            </tr>
+                        @else
+                            @foreach($tempahan as $index => $item)
                         <tr>
                             <td style="text-align: center;">{{ $index + 1 }}</td>
                             <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
                             <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
                             <td style="text-align: center;">{{ $item->nama_design }}</td>
                             <td>{{ $item->nama_pelanggan }}</td>
+                            <td>{{ $item->pekerja->name ?? '-- Pekerja belum ditugaskan --' }}</td>
                             <td style="text-align: center;">{{ number_format($item->harga_tempahan, 2) }}</td>
                             <td style="text-align: center;">
-                                <select class="form-control status-dropdown" data-tempahan-id="{{ $item->id }}">
+                                <select class="form-control status-dropdown" data-tempahan-id="{{ $item->id }}" data-initial-status="{{ $item->status }}">
+                                    <option value="Pra-tempahan"
+                                        {{ $item->status == 'Pra-tempahan' ? 'selected disabled' : 'disabled' }}>
+                                        Pra-Tempahan
+                                    </option>
+                                    <option value="Tempahan Baru" {{ $item->status == 'Tempahan Baru' ? 'selected' : '' }}>Tempahan Baru</option>
                                     <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>Dalam Pelaksanaan</option>
                                     <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>Sudah Selesai</option>
-                                    <option value="Pra-tempahan" {{ $item->status == 'Pra-tempahan' ? 'selected' : '' }}>Pra-Tempahan</option>
                                 </select>
                                 <span id="status-{{ $item->id }}" style="display:none;">{{ $item->status }}</span>
                             </td>
+                                    <!-- data-idpekerja="{{ $item->idPekerja }}" -->
                             <td style="text-align: center;">
-                                <button class="btn btn-info btn-sm btn-view"
-                                        data-id="{{ $item->id }}"
-                                        data-nama_pelanggan="{{ $item->nama_pelanggan }}"
-                                        data-tarikh_tempahan="{{ $item->tarikh_tempahan }}"
-                                        data-jenis_tempahan="{{ $item->jenis_tempahan }}"
-                                        data-status="{{ $item->status }}"
-                                        data-harga_tempahan="{{ number_format($item->harga_tempahan, 2) }}">
+                                <button class="btn btn-sm btn-info btn-view"
+                                    data-id="{{ $item->id }}"
+                                    data-nama_pekerja="{{ $item->pekerja->name ?? 'Pekerja belum ditugaskan' }}"
+                                    data-idpelanggan="{{ $item->idPelanggan }}"
+                                    data-nama_pelanggan="{{ $item->nama_pelanggan }}"
+                                    data-nombor_telefon="{{ $item->nombor_telefon }}"
+                                    data-alamat="{{ $item->alamat }}"
+                                    data-jenis_tempahan="{{ $item->jenis_tempahan }}"
+                                    data-nama_design="{{ $item->nama_design }}"
+                                    data-tarikh_tempahan="{{ $item->tarikh_tempahan }}"
+                                    data-harga_tempahan="{{ number_format($item->harga_tempahan, 2) }}"
+                                    data-additional_notes="{{ $item->additional_notes }}"
+                                    data-chest_size="{{ $item->chest_size }}"
+                                    data-waist_size="{{ $item->waist_size }}"
+                                    data-shoulder_width="{{ $item->shoulder_width }}"
+                                    data-sleeve_length="{{ $item->sleeve_length }}"
+                                    data-size="{{ $item->size }}"
+                                    data-jenis_kain="{{ $item->jenis_kain }}"
+                                    data-warna_kain="{{ $item->warna_kain }}"
+                                >
                                     <i class="fa fa-eye"></i>
                                 </button>
+
                                 <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                     @csrf
@@ -136,6 +162,7 @@
                             </td>
                         </tr>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
                 <ul class="pagination justify-content-center mt-3" id="pagination-tempahan"></ul>
@@ -144,50 +171,88 @@
     </div>
 </div>
 
-<!-- ✅ SINGLE REUSABLE MODAL -->
+<style>
+    .styled-table {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .styled-table th {
+        background-color: #f1f1f1;
+        font-weight: 600;
+        vertical-align: middle;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #dee2e6;
+        width: 30%;
+    }
+
+    .styled-table td {
+        background-color: #fafafa;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #dee2e6;
+    }
+</style>
+
 <div class="modal fade" id="dynamicViewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewModalLabel">Maklumat Tempahan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="viewModalLabel">Maklumat Tempahan Penuh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <div class="modal-body">
-                <h6 class="mb-2 text-center">Maklumat Pelanggan</h6>
-                <table class="table table-striped table-bordered mb-0" style="font-size: 0.95rem;">
-                    <tr>
-                        <th style="width: 40%;">Nama Pelanggan</th>
-                        <td id="modal-nama_pelanggan"></td>
-                    </tr>
+            <div class="modal-body" style="font-size: 0.95rem;">
+
+                {{-- Maklumat Rekod --}}
+                <h6 class="text-center mb-2">Maklumat Rekod</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>ID Tempahan</th><td id="modal-id"></td></tr>
+                    <tr><th>Nama Pekerja</th><td id="modal-nama_pekerja"></td></td></tr>
+                    <!-- <tr><th>ID Pelanggan</th><td id="modal-idPelanggan"></td></tr> -->
                 </table>
 
-                <h6 class="mb-2 text-center">Maklumat Tempahan</h6>
-                <table class="table table-striped table-bordered mb-3" style="font-size: 0.95rem;">
-                    <tr>
-                        <th style="width: 40%;">Tarikh Tempahan</th>
-                        <td id="modal-tarikh_tempahan"></td>
-                    </tr>
-                    <tr>
-                        <th>Jenis Tempahan</th>
-                        <td id="modal-jenis_tempahan"></td>
-                    </tr>
-                    <tr>
-                        <th>Status</th>
-                        <td id="modal-status"></td>
-                    </tr>
-                    <tr>
-                        <th>Harga (RM)</th>
-                        <td id="modal-harga_tempahan"></td>
-                    </tr>
+                {{-- Maklumat Pelanggan --}}
+                <h6 class="text-center mb-2">Maklumat Pelanggan</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Nama Pelanggan</th><td id="modal-nama_pelanggan"></td></tr>
+                    <tr><th>Nombor Telefon</th><td id="modal-nombor_telefon"></td></tr>
+                    <tr><th>Alamat</th><td id="modal-alamat"></td></tr>
                 </table>
+
+                {{-- Maklumat Tempahan --}}
+                <h6 class="text-center mb-2">Maklumat Tempahan</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Jenis Tempahan</th><td id="modal-jenis_tempahan"></td></tr>
+                    <tr><th>Nama Rekaan</th><td id="modal-nama_design"></td></tr>
+                    <tr><th>Tarikh Tempahan</th><td id="modal-tarikh_tempahan"></td></tr>
+                    <tr><th>Harga (RM)</th><td id="modal-harga_tempahan"></td></tr>
+                    <tr><th>Catatan Tambahan</th><td id="modal-additional_notes"></td></tr>
+                </table>
+
+                {{-- Ukuran Badan --}}
+                <h6 class="text-center mb-2">Ukuran Badan</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Ukuran Dada</th><td id="modal-chest_size"></td></tr>
+                    <tr><th>Ukuran Pinggang </th><td id="modal-waist_size"></td></tr>
+                    <tr><th>Ukuran Bahu </th><td id="modal-shoulder_width"></td></tr>
+                    <tr><th>Ukuran Lengan </th><td id="modal-sleeve_length"></td></tr>
+                    <tr><th>Ukuran Umum</th><td id="modal-size"></td></tr>
+                </table>
+
+                {{-- Maklumat Kain --}}
+                <h6 class="text-center mb-2">Maklumat Kain</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Jenis Kain</th><td id="modal-jenis_kain"></td></tr>
+                    <tr><th>Warna Kain</th><td id="modal-warna_kain"></td></tr>
+                </table>
+
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Tutup</button>
-            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+            </div> -->
         </div>
     </div>
 </div>
-
 
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
     <div id="statusToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -204,16 +269,34 @@
 
 @section('scripts')
 <script>
-$(document).ready(function() {
-    $('.btn-view').click(function() {
-        $('#modal-nama_pelanggan').text($(this).data('nama_pelanggan'));
-        $('#modal-tarikh_tempahan').text($(this).data('tarikh_tempahan'));
-        $('#modal-jenis_tempahan').text($(this).data('jenis_tempahan'));
-        $('#modal-status').text($(this).data('status'));
-        $('#modal-harga_tempahan').text($(this).data('harga_tempahan'));
-        $('#dynamicViewModal').modal('show');
-    });
+$('.btn-view').click(function() {
+    $('#modal-id').text($(this).data('id'));
+    // $('#modal-idPekerja').text($(this).data('idpekerja'));
+    $('#modal-nama_pekerja').text($(this).data('nama_pekerja'));
+    $('#modal-idPelanggan').text($(this).data('idpelanggan'));
+    $('#modal-nama_pelanggan').text($(this).data('nama_pelanggan'));
+    $('#modal-nombor_telefon').text($(this).data('nombor_telefon'));
+    $('#modal-alamat').text($(this).data('alamat'));
+
+    $('#modal-jenis_tempahan').text($(this).data('jenis_tempahan'));
+    $('#modal-nama_design').text($(this).data('nama_design'));
+    $('#modal-tarikh_tempahan').text($(this).data('tarikh_tempahan'));
+    $('#modal-harga_tempahan').text($(this).data('harga_tempahan'));
+    $('#modal-additional_notes').text($(this).data('additional_notes'));
+
+    $('#modal-chest_size').text($(this).data('chest_size'));
+    $('#modal-waist_size').text($(this).data('waist_size'));
+    $('#modal-shoulder_width').text($(this).data('shoulder_width'));
+    $('#modal-sleeve_length').text($(this).data('sleeve_length'));
+    $('#modal-size').text($(this).data('size'));
+
+    $('#modal-jenis_kain').text($(this).data('jenis_kain'));
+    $('#modal-warna_kain').text($(this).data('warna_kain'));
+
+    $('#dynamicViewModal').modal('show');
 });
+
+
 </script>
 <script>
     let currentFilterJenis = 'All';
@@ -255,33 +338,64 @@ $(document).ready(function() {
     });
 </script>
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
 <script>
-  $(document).ready(function() {
-      $(document).on('change', '.status-dropdown', function() {
-          var status = $(this).val();
-          var tempahanId = $(this).data('tempahan-id');
+$(document).ready(function() {
 
-          $.ajax({
-              url: '{{ route("tempahan.update.status", ":id") }}'.replace(':id', tempahanId),
-              method: 'PATCH',
-              data: { status: status, _token: '{{ csrf_token() }}' },
-              success: function(response) {
-                    if (response.success) {
-                        $('#alert-container')
-                            .removeClass('d-none')
-                            .text(response.success);
-
-                        setTimeout(function() {
-                            $('#alert-container').addClass('d-none').text('');
-                        }, 100000);
-                    }
-                  $('#status-' + tempahanId).text(response.status);
-              },
-              error: function() {
-                  alert('Ralat semasa mengemaskini status.');
-              }
-          });
+    // Simpan status asal sebelum tukar
+    $(document).on('focusin', '.status-dropdown', function () {
+        $(this).data('previous', this.value);
     });
+
+    // Bila tukar dropdown status
+    $(document).on('change', '.status-dropdown', function () {
+        const currentSelect = $(this);
+        const previous = currentSelect.data('previous');
+        const current = currentSelect.val();
+        const tempahanId = currentSelect.data('tempahan-id');
+
+        // Jika tukar dari "Pra-tempahan", sahkan dahulu
+        if (previous === 'Pra-tempahan') {
+            const confirmChange = confirm("Anda tidak boleh memilih 'Pra-tempahan' semula selepas menukar status. Teruskan?");
+            if (!confirmChange) {
+                currentSelect.val(previous); // revert
+                return; // stop AJAX
+            }
+        }
+
+        // AJAX PATCH request
+        $.ajax({
+            url: '{{ route("tempahan.update.status", ":id") }}'.replace(':id', tempahanId),
+            method: 'PATCH',
+            data: { status: current, _token: '{{ csrf_token() }}' },
+            success: function(response) {
+                if (response.success) {
+                    // Simpan mesej dalam sessionStorage supaya kekal selepas reload
+                    sessionStorage.setItem('statusMessage', response.success);
+                    location.reload(); // reload page
+                }
+            },
+            error: function() {
+                alert('Ralat semasa mengemaskini status.');
+                currentSelect.val(previous);
+            }
+        });
+    });
+
+    // Selepas reload, paparkan mesej jika ada dalam sessionStorage
+    const message = sessionStorage.getItem('statusMessage');
+    if (message) {
+        $('#alert-container')
+            .removeClass('d-none')
+            .text(message);
+
+        setTimeout(function () {
+            $('#alert-container').addClass('d-none').text('');
+        }, 5000);
+
+        sessionStorage.removeItem('statusMessage'); // padam selepas guna
+    }
 });
 </script>
+
 @endsection
