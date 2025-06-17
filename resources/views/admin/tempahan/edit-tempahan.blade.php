@@ -173,6 +173,35 @@
                                 </div>
                             </div>
 
+                            <h5 class="mb-3">Maklumat Pekerja</h5>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label class="form-label">Adakah anda yang akan membuat tugasan ini?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pekerja_bertugas" id="pekerja_ya" value="1" required
+                                            {{ old('pekerja_bertugas', $tempahan->idPekerja == auth()->id() ? '1' : '0') == '1' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="pekerja_ya">Ya (Saya akan buat tugasan)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pekerja_bertugas" id="pekerja_tidak" value="0" required
+                                            {{ old('pekerja_bertugas', $tempahan->idPekerja == auth()->id() ? '1' : '0') == '0' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="pekerja_tidak">Tidak (Pilih pekerja lain)</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Jika tidak, sila pilih pekerja yang akan membuat tugasan ini sekiranya sudah ada.</small><br>
+                                    <select class="form-control" name="pekerja_id" id="pekerja_id">
+                                        <option value="">--Pilih Pekerja--</option>
+                                        @foreach($pekerjas as $pekerja)
+                                            <option value="{{ $pekerja->id }}"
+                                                {{ old('pekerja_id', $tempahan->idPekerja) == $pekerja->id ? 'selected' : '' }}>
+                                                {{ $pekerja->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Nota Tambahan -->
                             <div class="mb-3">
                                 <h5 class="mb-3">Catatan Tambahan</h5>
@@ -199,5 +228,28 @@
         // You can use AJAX to fetch the data if you prefer dynamic population
     });
 </script>
+<script>
+    const radioYa = document.getElementById('pekerja_ya');
+    const radioTidak = document.getElementById('pekerja_tidak');
+    const pekerjaSelect = document.getElementById('pekerja_id');
+
+    function togglePekerjaSelect() {
+        if (radioYa.checked) {
+            pekerjaSelect.disabled = true;
+            pekerjaSelect.value = "{{ auth()->id() }}"; // auto set to current user ID
+        } else {
+            pekerjaSelect.disabled = false;
+        }
+    }
+
+    // Run on load
+    togglePekerjaSelect();
+
+    // Update on change
+    radioYa.addEventListener('change', togglePekerjaSelect);
+    radioTidak.addEventListener('change', togglePekerjaSelect);
+</script>
+
+
 @endsection
 

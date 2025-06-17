@@ -157,7 +157,8 @@ class TempahanController extends Controller
         $tempahan = Tempahan::all();
         $users = User::all();
         $katelogs = Katelog::all();
-        return view('admin.tempahan.borang-tempahan', compact('tempahan', 'users', 'katelogs'));
+        $pekerjas = User::whereIn('peranan', ['pekerja', 'pentadbir'])->get();
+        return view('admin.tempahan.borang-tempahan', compact('tempahan', 'users', 'katelogs', 'pekerjas'));
     }
 
     public function store(Request $request)
@@ -177,6 +178,8 @@ class TempahanController extends Controller
             'harga_tempahan' => 'nullable|numeric',
             'catatan_tambahan' => 'nullable|string',
             'reka_bentuk' => 'nullable|string|max:255',
+            'pekerja_bertugas' => 'required|in:0,1',
+            'pekerja_id' => 'nullable|exists:users,id',
         ]);
 
         // Cari id pelanggan berdasarkan nombor_telefon (phone) dalam users table
@@ -197,9 +200,9 @@ class TempahanController extends Controller
             'jenis_kain' => $request->jenis_kain,
             'warna_kain' => $request->warna_kain,
             'status' => 'Tempahan Baru', // Status boleh diubah kemudian
-            'harga_tempahan' => $request->harga_tempahan,
+            'harga_tempahan' => $request->harga_tempahan ?? 0,
             'additional_notes' => $request->catatan_tambahan,
-            'idPekerja' => auth()->id(),
+            'idPekerja' => $request->pekerja_id ?? null,
             'idPelanggan' => $idPelanggan,
         ]);
 
@@ -209,7 +212,7 @@ class TempahanController extends Controller
             'tarikh' => now(),
             'created_at' => now(),
             'updated_at' => now(),
-            'hargaPerTempahan' => $request->harga_tempahan, // Harga boleh diubah kemudian
+            'hargaPerTempahan' =>  $request->harga_tempahan ?? 0, // Harga boleh diubah kemudian
             'catatan' => 'Pra-tempahan dibuat oleh ' . $request->nama_pelanggan,
             // Tambah field lain jika perlu
         ]);
@@ -219,6 +222,7 @@ class TempahanController extends Controller
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'nama_pelanggan' => 'required|string|max:255',
             'jenis_tempahan' => 'required|string|max:255',
@@ -233,7 +237,15 @@ class TempahanController extends Controller
             'reka_bentuk' => 'nullable|string|max:255',
             'harga_tempahan' => 'nullable|numeric',
             'catatan_tambahan' => 'nullable|string',
+            'pekerja_bertugas' => 'required|in:0,1',
+            'pekerja_id' => 'nullable|exists:users,id',
         ]);
+
+       if ($request->pekerja_bertugas == '1') {
+            $idPekerja = auth()->id();
+        } else {
+            $idPekerja = $request->pekerja_id ?? 0;
+        }
 
         $tempahan = Tempahan::findOrFail($id);
         // Cari id pelanggan berdasarkan nombor_telefon (phone) dalam users table
@@ -254,9 +266,9 @@ class TempahanController extends Controller
             'jenis_kain' => $request->jenis_kain,
             'warna_kain' => $request->warna_kain,
             // 'size' => $request->saiz,
-            'harga_tempahan' => $request->harga_tempahan,
+            'harga_tempahan' => $request->harga_tempahan ?? 0,
             'additional_notes' => $request->catatan_tambahan,
-            'idPekerja' => auth()->id(),
+            'idPekerja' => $idPekerja,
             'idPelanggan' => $idPelanggan,
         ]);
 
@@ -264,7 +276,7 @@ class TempahanController extends Controller
         \DB::table('invoicetempahan')
             ->where('idTempahan', $id)
             ->update([
-            'hargaPerTempahan' => $request->harga_tempahan,
+            'hargaPerTempahan' =>  $request->harga_tempahan ?? 0,
             'catatan' => 'Tempahan dikemaskini oleh ' . $request->nama_pelanggan,
             'updated_at' => now(),
             ]);
@@ -277,7 +289,8 @@ class TempahanController extends Controller
         $tempahan = Tempahan::findOrFail($id);
         $users = User::all(); //
         $katelogs = Katelog::all(); // Juga pastikan katelogs dihantar
-        return view('admin.tempahan.edit-tempahan', compact('tempahan', 'users', 'katelogs'));
+        $pekerjas = User::whereIn('peranan', ['pekerja', 'pentadbir'])->get();
+        return view('admin.tempahan.edit-tempahan', compact('tempahan', 'users', 'katelogs','pekerjas'));
 
     }
 

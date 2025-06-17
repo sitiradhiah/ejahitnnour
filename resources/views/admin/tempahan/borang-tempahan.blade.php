@@ -169,6 +169,30 @@
                                 </div>
                             </div>
 
+                            <h5 class="mb-3">Maklumat Pekerja</h5>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label class="form-label">Adakah anda yang akan membuat tugasan ini?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pekerja_bertugas" id="pekerja_ya" value="1" required>
+                                        <label class="form-check-label" for="pekerja_ya">Ya</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pekerja_bertugas" id="pekerja_tidak" value="0" required>
+                                        <label class="form-check-label" for="pekerja_tidak">Tidak</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Jika tidak, sila pilih pekerja yang akan membuat tugasan ini.</small>
+                                    <select class="form-control mt-2" id="pekerja_id" name="pekerja_id" disabled>
+                                        <option value="" selected>--Pilih Pekerja--</option>
+                                        @foreach($pekerjas as $pekerja)
+                                            <option value="{{ $pekerja->id }}">{{ $pekerja->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Nota Tambahan -->
                             <div class="mb-3">
                                  <h5 class="mb-3">Catatan Tambahan</h5>
@@ -194,5 +218,18 @@ function autoFillUser(select) {
     if(name) document.getElementById('nama_pelanggan').value = name;
     if(phone) document.getElementById('nombor_telefon').value = phone;
 }
+</script>
+<script>
+document.querySelectorAll('input[name="pekerja_bertugas"]').forEach(function(elem) {
+    elem.addEventListener('change', function() {
+        const dropdown = document.getElementById('pekerja_id');
+        if (this.value == '0') {
+            dropdown.disabled = false;
+        } else {
+            dropdown.disabled = true;
+            dropdown.selectedIndex = 0; // reset selection
+        }
+    });
+});
 </script>
 @endsection
