@@ -47,7 +47,11 @@
                         <li>Hanya tempahan yang berstatus <strong>Pra-Tempahan atau Tempahan Baru</strong> sahaja boleh dihapuskan.</li>
                         <li>
                             <strong>Pra-Tempahan</strong> bermaksud borang awal yang diisi oleh pelanggan melalui borang >
-                            <a class="btn btn-sm btn-outline-primary" href="{{ url('/?show=form') }}" target="_blank">
+                            <a class="btn btn-sm btn-outline-primary me-1" href="{{ url('/?show=form') }}" target="_blank">
+                                di sini
+                            </a>.
+                        </li>
+                        <li>Untuk mengemaskini maklumat pelanggan seperti email dan nama, sila pergi ke menu senarai pelanggan > <a class="btn btn-sm btn-outline-primary me-1" href="{{ url('/admin/maklumat-sistem/senarai-pelanggan') }}" target="_blank">
                                 di sini
                             </a>.
                         </li>
@@ -128,7 +132,7 @@
                             <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
                             <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
                             <td style="text-align: center;">{{ $item->nama_design }}</td>
-                            <td>{{ $item->nama_pelanggan }}</td>
+                            <td>{{ $item->nama_pelanggan }} ({{ $item->user->email ?? '-' }})</td>
                             <td>{{ $item->pekerja->name ?? '-- Pekerja belum ditugaskan --' }}</td>
                             <td style="text-align: center;">{{ number_format($item->harga_tempahan, 2) }}</td>
                             <td style="text-align: center;">
@@ -169,6 +173,13 @@
                                 </button>
 
                                 <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                @if ($item->user && $item->user->email)
+                                    <a href="{{ route('tempahan.hantarStatus', $item->id) }}"
+                                    onclick="return confirm('Hantar status semasa tempahan ini ke emel pelanggan {{ $item->user->email ?? 'emel tidak diketahui' }}?')"
+                                    class="btn btn-sm btn-warning">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </a>
+                                @endif
                                 @if(in_array($item->status, ['Pra-tempahan', 'Tempahan Baru']))
                                 <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                     @csrf

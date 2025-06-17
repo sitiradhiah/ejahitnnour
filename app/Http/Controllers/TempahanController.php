@@ -122,7 +122,7 @@ class TempahanController extends Controller
     // ✅ Untuk admin yang log masuk
     public function senarai(Request $request)
     {
-        $query = Tempahan::with('pekerja');
+        $query = Tempahan::with(['pekerja', 'user']);
 
         if ($request->filled('jenis_tempahan')) {
             $query->where('jenis_tempahan', $request->jenis_tempahan);
@@ -292,6 +292,28 @@ class TempahanController extends Controller
         $pekerjas = User::whereIn('peranan', ['pekerja', 'pentadbir'])->get();
         return view('admin.tempahan.edit-tempahan', compact('tempahan', 'users', 'katelogs','pekerjas'));
 
+    }
+
+    public function hantarStatusTempahan($id)
+    {
+        $tempahan = Tempahan::findOrFail($id);
+
+        // Cari user berdasarkan nombor_telefon
+        $user = User::where('phone', $tempahan->nombor_telefon)->first();
+
+        if (!$user || !$user->email) {
+            return back()->with('error', 'Emel pelanggan tidak dijumpai dalam rekod pengguna.');
+        }
+
+        $status = $tempahan->status ?? 'Tidak diketahui';
+
+        // dd($status. ' ' . $user->email);
+        Mail::raw("Assalamualaikum, status tempahan anda kini adalah {$status}\n\n---\nEmel ini dijana secara automatik oleh sistem eJahitNnour. Sila abaikan jika tidak berkaitan. Tidak perlu balas emel ini. Sekian terima kasih", function ($message) use ($user) {
+            $message->to($user->email)
+                    ->subject('Status Tempahan Anda');
+        });
+
+        return back()->with('success', "Status '{$status}' telah dihantar ke emel: {$user->email}");
     }
 
     public function destroy($id)

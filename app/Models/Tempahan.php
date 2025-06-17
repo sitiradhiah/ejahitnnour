@@ -34,4 +34,9 @@ class Tempahan extends Model
     {
         return $this->belongsTo(User::class, 'idPekerja', 'id');
     }
+    // For pelanggan (who made the booking)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'idPelanggan');
+    }
 }

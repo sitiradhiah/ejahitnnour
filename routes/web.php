@@ -138,6 +138,7 @@ Route::prefix('admin')->middleware(['auth', 'checkUserStatus'])->group(function 
         Route::get('/{id}/edit', [TempahanController::class, 'edit'])->name('edit');
         Route::put('/{id}', [TempahanController::class, 'update'])->name('update');
         Route::delete('/{id}', [TempahanController::class, 'destroy'])->name('destroy');
+        Route::get('/tempahan/{id}/hantar-status', [TempahanController::class, 'hantarStatusTempahan'])->name('hantarStatus');
 
         // Store untuk tempahan baru
         Route::post('/', [TempahanController::class, 'store'])->name('store');
