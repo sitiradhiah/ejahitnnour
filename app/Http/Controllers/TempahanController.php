@@ -135,9 +135,13 @@ class TempahanController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('nama_pelanggan', 'like', '%' . $request->search . '%')
-                ->orWhere('nombor_telefon', 'like', '%' . $request->search . '%');
+                ->orWhere('nombor_telefon', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pekerja', function ($subQuery) use ($request) {
+                    $subQuery->where('name', 'like', '%' . $request->search . '%');
+                });
             });
         }
+
 
         $tempahan = $query->latest()->get(); // No paginate()
 
