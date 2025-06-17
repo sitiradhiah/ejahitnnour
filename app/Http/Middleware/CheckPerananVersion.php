@@ -24,7 +24,7 @@ class CheckPerananVersion
 
             if ($sessionVersion !== $cachedVersion) {
                 Auth::logout();
-                return redirect()->route('logmasuk')->with('message', 'Peranan anda telah dikemas kini. Sila log masuk semula.');
+                return redirect()->route('logmasuk')->with('message', 'Sila log masuk semula.');
             }
         }
 
