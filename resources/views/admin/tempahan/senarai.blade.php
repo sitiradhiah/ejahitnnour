@@ -45,6 +45,12 @@
                     <ul style="font-size: 0.95em; color: #555; padding-left: 18px;" class="mb-0">
                         <li>Maklumat tempahan yang berstatus <strong>Dalam Perlaksanaan atau Sudah Selesai</strong> tidak boleh dihapuskan</li>
                         <li>Hanya tempahan yang berstatus <strong>Pra-Tempahan atau Tempahan Baru</strong> sahaja boleh dihapuskan.</li>
+                        <li>
+                            <strong>Pra-Tempahan</strong> bermaksud borang awal yang diisi oleh pelanggan melalui borang >
+                            <a class="btn btn-sm btn-outline-primary" href="{{ url('/?show=form') }}" target="_blank">
+                                di sini
+                            </a>.
+                        </li>
                     </ul>
                 </em>
             </div>

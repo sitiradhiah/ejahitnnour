@@ -211,6 +211,15 @@ var swiper = new Swiper(".mySwiper", {
         document.getElementById("first-section").style.display = "block";
         window.scrollTo(0, 0); // Optional
     }
+    // Auto-show second section if URL has ?show=form or #form
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hash = window.location.hash;
+
+        if (urlParams.get('show') === 'form' || hash === '#form') {
+            showSecondSection();
+        }
+    }
 </script>
 
 <script>
