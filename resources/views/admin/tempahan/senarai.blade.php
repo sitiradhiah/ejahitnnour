@@ -39,6 +39,15 @@
 
     <div class="card shadow p-3">
         <div class="card-header">
+            <div class="mb-2" style="font-size: 0.85rem; color: #555;">
+                <label class="me-2 fw-bold text-dark text-decoration-underline">NOTA:</label>
+                <em>
+                    <ul style="font-size: 0.95em; color: #555; padding-left: 18px;" class="mb-0">
+                        <li>Maklumat tempahan yang berstatus <strong>Dalam Perlaksanaan atau Sudah Selesai</strong> tidak boleh dihapuskan</li>
+                        <li>Hanya tempahan yang berstatus <strong>Pra-Tempahan atau Tempahan Baru</strong> sahaja boleh dihapuskan.</li>
+                    </ul>
+                </em>
+            </div>
             <label class="me-2 fw-bold text-dark text-decoration-underline">Tapisan</label>
             <form method="GET" action="{{ route('tempahan.senarai') }}">
                 <div class="row g-2 align-items-end">
@@ -154,11 +163,17 @@
                                 </button>
 
                                 <a href="{{ route('tempahan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                @if(in_array($item->status, ['Pra-tempahan', 'Tempahan Baru']))
                                 <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        @if(in_array($item->status, ['Dalam Proses', 'Sudah Selesai','pra-tempahan', 'tempahan baru'])) disabled @endif
+                                        onclick="return confirm('Adakah anda pasti ingin padam tempahan ini?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

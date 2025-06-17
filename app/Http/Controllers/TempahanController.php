@@ -297,6 +297,10 @@ class TempahanController extends Controller
     public function destroy($id)
     {
         $tempahan = Tempahan::findOrFail($id);
+
+         // Padam invois yang berkait
+        \DB::table('invoicetempahan')->where('idTempahan', $tempahan->id)->delete();
+
         $tempahan->delete();
 
         return redirect()->route('tempahan.senarai')->with('success', 'Tempahan berjaya dipadam.');
