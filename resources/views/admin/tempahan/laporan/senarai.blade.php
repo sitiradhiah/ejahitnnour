@@ -131,10 +131,33 @@
                                             <i class="fa-solid fa-download"></i> Invois
                                         </button>
                                     @endif
-                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">
-                                        <i class="fa-solid fa-eye"></i>
+                                    <button class="btn btn-sm btn-info btn-view"
+                                        data-id="{{ $item->id }}"
+                                        data-nama_pekerja="{{ $item->pekerja->name ?? 'Pekerja belum ditugaskan' }}"
+                                        data-idpelanggan="{{ $item->idPelanggan }}"
+                                        data-nama_pelanggan="{{ $item->nama_pelanggan }}"
+                                        data-nombor_telefon="{{ $item->nombor_telefon }}"
+                                        data-alamat="{{ $item->alamat }}"
+                                        data-jenis_tempahan="{{ $item->jenis_tempahan }}"
+                                        data-nama_design="{{ $item->nama_design }}"
+                                        data-tarikh_tempahan="{{ $item->tarikh_tempahan }}"
+                                        data-harga_tempahan="{{ number_format($item->harga_tempahan, 2) }}"
+                                        data-additional_notes="{{ $item->additional_notes }}"
+                                        data-chest_size="{{ $item->chest_size }}"
+                                        data-waist_size="{{ $item->waist_size }}"
+                                        data-shoulder_width="{{ $item->shoulder_width }}"
+                                        data-sleeve_length="{{ $item->sleeve_length }}"
+                                        data-size="{{ $item->size }}"
+                                        data-jenis_kain="{{ $item->jenis_kain }}"
+                                        data-warna_kain="{{ $item->warna_kain }}"
+                                        data-catatan_invoice="{{ $item->catatan }}"
+                                    >
+                                        <i class="fa fa-eye"></i>
                                     </button>
-                                    @include('admin.tempahan.laporan.modal-view')
+                                    <!-- <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $item->id }}">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button> -->
+                                    <!-- include('admin.tempahan.laporan.modal-view') -->
                                 </td>
                             </tr>
                             @endforeach
@@ -144,11 +167,101 @@
             </div>
         </div>
     </div>
+
+<div class="modal fade" id="dynamicViewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Maklumat Tempahan Penuh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body" style="font-size: 0.95rem;">
+
+                {{-- Maklumat Rekod --}}
+                <h6 class="text-center mb-2">Maklumat Rekod</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>ID Tempahan</th><td id="modal-id"></td></tr>
+                    <tr><th>Nama Pekerja</th><td id="modal-nama_pekerja"></td></td></tr>
+                    <!-- <tr><th>ID Pelanggan</th><td id="modal-idPelanggan"></td></tr> -->
+                </table>
+
+                {{-- Maklumat Pelanggan --}}
+                <h6 class="text-center mb-2">Maklumat Pelanggan</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Nama Pelanggan</th><td id="modal-nama_pelanggan"></td></tr>
+                    <tr><th>Nombor Telefon</th><td id="modal-nombor_telefon"></td></tr>
+                    <tr><th>Alamat</th><td id="modal-alamat"></td></tr>
+                </table>
+
+                {{-- Maklumat Tempahan --}}
+                <h6 class="text-center mb-2">Maklumat Tempahan</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Jenis Tempahan</th><td id="modal-jenis_tempahan"></td></tr>
+                    <tr><th>Nama Rekaan</th><td id="modal-nama_design"></td></tr>
+                    <tr><th>Tarikh Tempahan</th><td id="modal-tarikh_tempahan"></td></tr>
+                    <tr><th>Harga (RM)</th><td id="modal-harga_tempahan"></td></tr>
+                    <tr><th>Catatan Tambahan</th><td id="modal-additional_notes"></td></tr>
+                </table>
+
+                {{-- Ukuran Badan --}}
+                <h6 class="text-center mb-2">Ukuran Badan</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Ukuran Dada</th><td id="modal-chest_size"></td></tr>
+                    <tr><th>Ukuran Pinggang </th><td id="modal-waist_size"></td></tr>
+                    <tr><th>Ukuran Bahu </th><td id="modal-shoulder_width"></td></tr>
+                    <tr><th>Ukuran Lengan </th><td id="modal-sleeve_length"></td></tr>
+                    <tr><th>Ukuran Umum</th><td id="modal-size"></td></tr>
+                </table>
+
+                {{-- Maklumat Kain --}}
+                <h6 class="text-center mb-2">Maklumat Kain</h6>
+                <table class="table styled-table mb-3">
+                    <tr><th>Jenis Kain</th><td id="modal-jenis_kain"></td></tr>
+                    <tr><th>Warna Kain</th><td id="modal-warna_kain"></td></tr>
+                </table>
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+            </div> -->
+        </div>
+    </div>
+</div>
 @endsection
 @section('scripts')
 <!-- download  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
+@section('scripts')
+<script>
+$('.btn-view').click(function() {
+    $('#modal-id').text($(this).data('id'));
+    // $('#modal-idPekerja').text($(this).data('idpekerja'));
+    $('#modal-nama_pekerja').text($(this).data('nama_pekerja'));
+    $('#modal-idPelanggan').text($(this).data('idpelanggan'));
+    $('#modal-nama_pelanggan').text($(this).data('nama_pelanggan'));
+    $('#modal-nombor_telefon').text($(this).data('nombor_telefon'));
+    $('#modal-alamat').text($(this).data('alamat'));
+
+    $('#modal-jenis_tempahan').text($(this).data('jenis_tempahan'));
+    $('#modal-nama_design').text($(this).data('nama_design'));
+    $('#modal-tarikh_tempahan').text($(this).data('tarikh_tempahan'));
+    $('#modal-harga_tempahan').text($(this).data('harga_tempahan'));
+    $('#modal-additional_notes').text($(this).data('additional_notes'));
+
+    $('#modal-chest_size').text($(this).data('chest_size'));
+    $('#modal-waist_size').text($(this).data('waist_size'));
+    $('#modal-shoulder_width').text($(this).data('shoulder_width'));
+    $('#modal-sleeve_length').text($(this).data('sleeve_length'));
+    $('#modal-size').text($(this).data('size'));
+
+    $('#modal-jenis_kain').text($(this).data('jenis_kain'));
+    $('#modal-warna_kain').text($(this).data('warna_kain'));
+
+    $('#dynamicViewModal').modal('show');
+});
+</script>
+
 <script>
     // EXPORT EXCEL
     document.getElementById('btn-export-excel').addEventListener('click', function () {
@@ -227,63 +340,104 @@
     });
 
     // EXPORT SINGLE ROW TO INVOICE
-    function exportRowToPDF(id) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+ function exportRowToPDF(id) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-        const row = document.querySelector('tr td button[onclick*="exportRowToPDF(' + id + ')"]').closest('tr');
-        const cells = Array.from(row.querySelectorAll('td')).slice(0, -1);
+    const button = document.querySelector('button[data-id="' + id + '"]');
+    const row = button.closest('tr');
 
-        const tarikh = cells[1].innerText;
-        const jenisTempahan = cells[2].innerText;
-        const namaPelanggan = cells[3].innerText;
-        const status = cells[4].innerText;
-        const harga = cells[5].innerText;
+    // Extract data from data-* attributes
+    const tarikh = button.dataset.tarikh_tempahan;
+    const jenisTempahan = button.dataset.jenis_tempahan;
+    const namaPelanggan = button.dataset.nama_pelanggan;
+    const status = row.querySelector('td:nth-child(5)').innerText;
+    const harga = button.dataset.harga_tempahan;
 
-        const now = new Date();
-        const timestamp = now.toISOString().replace(/[-:TZ.]/g, '').slice(0, 14);
-        const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const invoiceCode = `INV-${timestamp}-${randomStr}`;
+    const namaPekerja = button.dataset.nama_pekerja;
+    const alamat = button.dataset.alamat;
+    const telefon = button.dataset.nombor_telefon;
+    const namaDesign = button.dataset.nama_design;
+    const additionalNotes = button.dataset.additional_notes;
+    const chestSize = button.dataset.chest_size;
+    const waistSize = button.dataset.waist_size;
+    const shoulderWidth = button.dataset.shoulder_width;
+    const sleeveLength = button.dataset.sleeve_length;
+    const size = button.dataset.size;
+    const jenisKain = button.dataset.jenis_kain;
+    const warnaKain = button.dataset.warna_kain;
+    const catatanInvoice = button.dataset.catatan_invoice;
 
-        // Header - Company Name
-        doc.setTextColor(204, 0, 102);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text("Kedai Jahit N'Nour", 14, 18);
+    const now = new Date();
+    const timestamp = now.toISOString().replace(/[-:TZ.]/g, '').slice(0, 14);
+    const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const invoiceCode = `INV-${timestamp}-${randomStr}`;
 
-        // Right Header Info
-        doc.setFontSize(11);
-        doc.setTextColor(0, 0, 0);
-        doc.setFont(undefined, 'normal');
-        doc.text(`Kod Invois: ${invoiceCode}`, 150, 18, { align: "right" });
-        doc.text(`Tarikh: ${now.toLocaleDateString('ms-MY')}`, 150, 24, { align: "right" });
+    // Header - Company Name
+    doc.setTextColor(204, 0, 102);
+    doc.setFontSize(18);
+    doc.setFont(undefined, 'bold');
+    doc.text("Kedai Jahit N'Nour", 14, 18);
 
-        // Line separator
-        doc.setLineWidth(0.5);
-        doc.line(14, 28, 196, 28);
+    // Right Header Info
+    doc.setFontSize(11);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Kod Invois: ${invoiceCode}`, 150, 18, { align: "right" });
+    doc.text(`Tarikh: ${now.toLocaleDateString('ms-MY')}`, 150, 24, { align: "right" });
 
-        // Invoice Table
-        doc.autoTable({
-            startY: 32,
-            head: [['Butiran', 'Maklumat']],
-            body: [
-                ['ID Tempahan', id],
-                ['Tarikh Tempahan', tarikh],
-                ['Jenis Tempahan', jenisTempahan],
-                ['Nama Pelanggan', namaPelanggan],
-                ['Status', status],
-                ['Jumlah Harga (RM)', harga]
-            ],
-            styles: { fontSize: 11 },
-            headStyles: { fillColor: [0, 123, 255], halign: 'center' },
-            columnStyles: {
-                0: { cellWidth: 60 },
-                1: { cellWidth: 120 }
-            }
-        });
+    // Line separator
+    doc.setLineWidth(0.5);
+    doc.line(14, 28, 196, 28);
 
-        doc.save(`invois_tempahan_${id}.pdf`);
-    }
+    // Invoice Table
+    doc.autoTable({
+        startY: 32,
+        head: [['Butiran', 'Maklumat']],
+        body: [
+            ['ID Tempahan', id],
+            ['Tarikh Tempahan', tarikh],
+            ['Jenis Tempahan', jenisTempahan],
+            ['Nama Pelanggan', namaPelanggan],
+            ['Nombor Telefon', telefon],
+            ['Alamat', alamat],
+            ['Nama Pekerja', namaPekerja],
+            ['Nama Rekaan', namaDesign],
+            ['Jenis Kain', jenisKain],
+            ['Warna Kain', warnaKain],
+            // ['Saiz Baju', size],
+            ['Ukuran Dada', chestSize],
+            ['Ukuran Pinggang', waistSize],
+            ['Lebar Bahu', shoulderWidth],
+            ['Panjang Lengan', sleeveLength],
+            ['Status Tempahan', status],
+            ['Jumlah Harga (RM)', harga],
+            ['Catatan Invois', catatanInvoice],
+            ['Nota Tambahan', additionalNotes]
+        ],
+        styles: { fontSize: 11 },
+        headStyles: { fillColor: [0, 123, 255], halign: 'center' },
+        columnStyles: {
+            0: { cellWidth: 70 },
+            1: { cellWidth: 110 }
+        }
+    });
+
+    // Watermark
+    doc.setTextColor(200, 200, 200);
+    doc.setFontSize(30);
+    doc.setFont(undefined, 'bolditalic');
+    doc.text("Kedai Jahit N'Nour", 105, 180, { align: "center", angle: 45 });
+
+    // Footer
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text("Dokumen ini dijana secara automatik oleh sistem Tempahan N'Nour", 14, 285);
+
+    doc.save(`invois_tempahan_${id}.pdf`);
+}
+
+
 </script>
 
 

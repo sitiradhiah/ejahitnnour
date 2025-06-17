@@ -19,7 +19,7 @@ class TempahanLaporanController extends Controller
                 'invoicetempahan.tarikh as invoice_tarikh',
                 'invoicetempahan.catatan',
                 'invoicetempahan.hargaPerTempahan'
-            )
+            )->with('pekerja')
             ->where('tempahans.status', '!=', 'pra-tempahan')
             ->orderBy('tempahans.tarikh_tempahan', 'desc')
             ->get();

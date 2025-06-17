@@ -171,29 +171,6 @@
     </div>
 </div>
 
-<style>
-    .styled-table {
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        overflow: hidden;
-    }
-
-    .styled-table th {
-        background-color: #f1f1f1;
-        font-weight: 600;
-        vertical-align: middle;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #dee2e6;
-        width: 30%;
-    }
-
-    .styled-table td {
-        background-color: #fafafa;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #dee2e6;
-    }
-</style>
-
 <div class="modal fade" id="dynamicViewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
