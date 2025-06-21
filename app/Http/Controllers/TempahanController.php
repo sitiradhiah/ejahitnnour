@@ -244,7 +244,7 @@ class TempahanController extends Controller
        if ($request->pekerja_bertugas == '1') {
             $idPekerja = auth()->id();
         } else {
-            $idPekerja = $request->pekerja_id ?? 0;
+            $idPekerja = $request->pekerja_id ?? null;
         }
 
         $tempahan = Tempahan::findOrFail($id);

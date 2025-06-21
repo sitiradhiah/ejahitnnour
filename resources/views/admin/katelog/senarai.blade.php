@@ -65,8 +65,8 @@
                         <th>Nama Reka Bentuk</th>
                         <th>Kategori</th>
                         <th>Warna</th>
-                        <th>Saiz</th>
-                        <th>Harga</th>
+                        <!-- <th>Saiz</th> -->
+                        <!-- <th>Harga</th> -->
                         <th>Penerangan</th>
                         <th>Gambar</th>
                         <th>Tindakan</th>
@@ -79,8 +79,8 @@
                         <td width="10%">{{ $item->nama }}</td>
                         <td width="10%">{{ $item->kategori }}</td>
                         <td width="5%">{{ $item->warna }}</td>
-                        <td width="5%">{{ $item->saiz }}</td>
-                        <td width="10%">RM {{ number_format($item->harga, 2) }}</td>
+                        <!-- <td width="5%">{{ $item->saiz }}</td> -->
+                        <!-- <td width="10%">RM {{ number_format($item->harga, 2) }}</td> -->
                         <td width="40%" style="white-space: normal; word-break: break-word; overflow: hidden; text-overflow: ellipsis;">
                             {{ Str::limit($item->penerangan, 100) }}
                             @if(strlen($item->penerangan) > 100)
