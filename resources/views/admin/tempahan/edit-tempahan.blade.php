@@ -81,59 +81,86 @@
                             <h5 class="mb-3">Maklumat Tempahan</h5>
                             <div class="row mb-3">
                                 <div class="col-md-4">
+                                    <label for="tarikh_tempahan" class="form-label">Tarikh Tempahan</label>
+                                    <input type="date" class="form-control" id="tarikh_tempahan" name="tarikh_tempahan"
+                                        value="{{ old('tarikh_tempahan', $tempahan->tarikh_tempahan ? date('Y-m-d', strtotime($tempahan->tarikh_tempahan)) : '') }}"
+                                        required>
+                                </div>
+
+                                <div class="col-md-4">
                                     <label for="jenis_tempahan" class="form-label">Kategori</label>
-                                    <select class="form-control" id="jenis_tempahan" name="jenis_tempahan" onchange="filterRekaBentuk()" required>
+                                    <select class="form-control" id="jenis_tempahan" name="jenis_tempahan" required>
                                         <option value="">--Pilih Jenis Kategori--</option>
                                         @foreach($katelogs->pluck('kategori')->unique() as $kategori)
-                                            <option value="{{ $kategori }}" {{ $tempahan->jenis_tempahan == $kategori ? 'selected' : '' }}>{{ $kategori }}</option>
+                                            <option value="{{ $kategori }}" {{ $tempahan->jenis_tempahan == $kategori ? 'selected' : '' }}>
+                                                {{ $kategori }}
+                                            </option>
                                         @endforeach
                                         <option value="lain-lain" {{ $tempahan->jenis_tempahan == 'lain-lain' ? 'selected' : '' }}>Lain-lain</option>
                                     </select>
                                 </div>
+
                                 <div class="col-md-4">
                                     <label for="reka_bentuk" class="form-label">Jenis Reka Bentuk (optional)</label>
                                     <select class="form-control" id="reka_bentuk" name="reka_bentuk">
                                         <option value="">--Pilih Reka Bentuk--</option>
                                         @foreach($katelogs as $katelog)
-                                            <option value="{{ $katelog->nama }}" data-jenis="{{ $katelog->kategori }}" {{ $tempahan->reka_bentuk == $katelog->nama ? 'selected' : '' }}>{{ $katelog->nama }}</option>
+                                            <option value="{{ $katelog->nama }}"
+                                                    data-jenis="{{ $katelog->kategori }}"
+                                                    {{ $tempahan->nama_design == $katelog->nama ? 'selected' : '' }}>
+                                                {{ $katelog->nama }}
+                                            </option>
                                         @endforeach
                                         <option value="lain-lain" {{ $tempahan->reka_bentuk == 'lain-lain' ? 'selected' : '' }}>Lain-lain</option>
                                     </select>
-                                    <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        var jenisTempahan = document.getElementById('jenis_tempahan');
-                                        var rekaBentuk = document.getElementById('reka_bentuk');
-                                        if(jenisTempahan.value) rekaBentuk.disabled = false;
-                                        jenisTempahan.addEventListener('change', function() {
-                                            rekaBentuk.disabled = false;
-                                        });
-                                    });
-                                    </script>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="tarikh_tempahan" class="form-label">Tarikh Tempahan</label>
-                                    <input type="date" class="form-control" id="tarikh_tempahan" name="tarikh_tempahan" value="{{ old('tarikh_tempahan', $tempahan->tarikh_tempahan ? date('Y-m-d', strtotime($tempahan->tarikh_tempahan)) : '') }}" required>
-                                </div>
-                                <script>
-                                function filterRekaBentuk() {
-                                    var jenis = document.getElementById('jenis_tempahan').value;
-                                    var rekaBentuk = document.getElementById('reka_bentuk');
-                                    for (var i = 0; i < rekaBentuk.options.length; i++) {
-                                        var opt = rekaBentuk.options[i];
-                                        if (opt.value === "" || opt.getAttribute('data-jenis') === jenis) {
+                            </div>
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const jenisSelect = document.getElementById('jenis_tempahan');
+                                const rekaSelect = document.getElementById('reka_bentuk');
+
+                                // Save initial value from DB
+                                const existingValue = rekaSelect.value;
+
+                                function filterRekaBentuk(resetSelection = false) {
+                                    const selectedKategori = jenisSelect.value;
+                                    let validOptionExists = false;
+
+                                    for (let i = 0; i < rekaSelect.options.length; i++) {
+                                        const opt = rekaSelect.options[i];
+                                        const optKategori = opt.getAttribute('data-jenis');
+                                        const isSpecial = opt.value === "" || opt.value === "lain-lain";
+
+                                        if (optKategori === selectedKategori || isSpecial) {
                                             opt.style.display = '';
+                                            if (opt.value === existingValue) {
+                                                validOptionExists = true;
+                                            }
                                         } else {
                                             opt.style.display = 'none';
                                         }
                                     }
-                                    rekaBentuk.selectedIndex = 0;
+
+                                    // If user changes kategori manually, reset reka_bentuk
+                                    if (resetSelection) {
+                                        rekaSelect.selectedIndex = 0;
+                                    }
+                                    // If initial load but existing selected option is invalid, also reset
+                                    else if (!validOptionExists && rekaSelect.value !== "") {
+                                        rekaSelect.selectedIndex = 0;
+                                    }
                                 }
-                                // Auto-filter on load
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    filterRekaBentuk();
+
+                                // Initial load (do not reset)
+                                filterRekaBentuk(false);
+
+                                // On kategori change (reset)
+                                jenisSelect.addEventListener('change', function () {
+                                    filterRekaBentuk(true);
                                 });
-                                </script>
-                            </div>
+                            });
+                            </script>
 
                             <!-- Ukuran -->
                             <h5 class="mb-3">Ukuran Badan</h5>
