@@ -41,7 +41,12 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/public/get-designs-by-kategori', [PublicDataController::class, 'getDesignsByKategori']);
 
 Route::get('/', function () {
-    return view('index');
+    $pelangganList = \App\Models\User::where('peranan', 'pelanggan')
+    ->select('name', 'phone')
+    ->orderBy('phone')
+    ->get();
+
+    return view('index',compact('pelangganList'));
 })->name('homepage');
 // Form submission (also public)
 Route::post('/pra-tempahan/submit', [TempahanController::class, 'praTempahanSubmit'])->name('pra-tempahan.submit');

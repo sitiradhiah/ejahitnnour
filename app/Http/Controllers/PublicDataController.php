@@ -34,14 +34,15 @@ class PublicDataController extends Controller
 
     public function checkPhone(Request $request)
     {
-        $phone = $request->query('phone');
-        $user = User::where('phone', $phone)->where('peranan', 'pelanggan')->first();
+        $user = \App\Models\User::where('phone', $request->phone)
+        ->where('peranan', 'pelanggan')
+        ->first();
 
         if ($user) {
             return response()->json([
                 'exists' => true,
                 'name' => $user->name,
-                'email' => $user->email,
+                'email' => $user->email
             ]);
         }
 

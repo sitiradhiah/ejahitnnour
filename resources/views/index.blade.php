@@ -100,19 +100,25 @@
             <h5>Sekiranya and pekerja atau pentadbir Kedai Jahit N'Nour, sila log masuk dan buat tempahan melalui borang tempahan di sana</h5><br>
 
             <!-- ✅ Search Dropdown Phone Field -->
-            <div class="mb-4" style="max-width: 500px; margin: 0 auto; text-align: left;">
-                <label for="search_phone" class="form-label">Cari / Taip No. Telefon</label>
-                <select id="search_phone" class="form-control" style="width: 100%">
-                    <option value="">-- Cari atau Taip No. Telefon --</option>
-                    @php
-                        $phones = \App\Models\User::where('peranan', 'pelanggan')->pluck('phone', 'name');
-                    @endphp
-                    @foreach($phones as $name => $phone)
-                        <option value="{{ $phone }}">{{ $phone }} - {{ $name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
+            <div class="container col-md-6">
+                <label for="search_phone" class="form-label">Cari No. Telefon (Untuk Pelanggan Sedia Ada)</label>
+                <div class="input-group">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <select class="form-control" id="search_phone" style="width: 100%">
+                                <option value="">-- Taip atau Pilih No. Telefon --</option>
+                                @foreach($pelangganList as $pelanggan)
+                                    <option value="{{ $pelanggan->phone }}">{{ $pelanggan->phone }} - {{ $pelanggan->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-danger" id="clearFormBtn">Kosongkan</button>
+                        </div>
+                    </div>
+                </div>
+                <label class="text-start">Jika anda pelanggan baru, sila isi borang di bawah untuk membuat pra-tempahan.</label>
+            </div><br>
 
             <!-- Tambah borang maklumat peribadi tempahan dari pelanggan -->
             <form action="{{ route('pra-tempahan.submit') }}" method="POST" class="tempahan-form" style="max-width: 500px; margin: 0 auto; text-align: left;">
@@ -332,45 +338,59 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script>
-$(document).ready(function () {
-    $('#search_phone').select2({
-        placeholder: 'Taip atau pilih no. telefon',
-        allowClear: true
+    $(document).ready(function () {
+        $('#search_phone').select2({
+            placeholder: 'Taip atau pilih no. telefon',
+            allowClear: true
+        });
+
+        const nameInput = document.getElementById('nama_pelanggan');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('nombor_telefon');
+
+        $('#search_phone').on('change', function () {
+            const phone = this.value;
+
+            if (!phone) {
+                // Clear everything if empty
+                nameInput.value = '';
+                emailInput.value = '';
+                phoneInput.value = '';
+                phoneInput.readOnly = false;
+                return;
+            }
+
+            fetch(`/check-phone?phone=${encodeURIComponent(phone)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.exists) {
+                        nameInput.value = data.name ?? '';
+                        emailInput.value = data.email ?? '';
+                        phoneInput.value = phone;
+
+                        phoneInput.readOnly = true;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking phone:', error);
+                });
+        });
+
+        // Clear button functionality
+        document.getElementById('clearFormBtn').addEventListener('click', function () {
+            clearFormFields();
+            $('#search_phone').val('').trigger('change');
+        });
+
+        function clearFormFields() {
+            nameInput.value = '';
+            emailInput.value = '';
+            phoneInput.value = '';
+            phoneInput.readOnly = false;
+        }
     });
-
-    const nameInput = document.getElementById('nama_pelanggan');
-    const emailInput = document.getElementById('email');
-    const phoneInput = document.getElementById('nombor_telefon');
-
-    $('#search_phone').on('change', function () {
-        const phone = this.value.trim();
-        if (!phone) return;
-
-        fetch(`/check-phone?phone=${encodeURIComponent(phone)}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.exists) {
-                    nameInput.value = data.name;
-                    emailInput.value = data.email;
-                    phoneInput.value = phone;
-
-                    nameInput.readOnly = true;
-                    emailInput.readOnly = true;
-                    phoneInput.readOnly = true;
-                } else {
-                    nameInput.value = '';
-                    emailInput.value = '';
-                    phoneInput.value = phone;
-
-                    nameInput.readOnly = false;
-                    emailInput.readOnly = false;
-                    phoneInput.readOnly = false;
-                }
-            });
-    });
-});
-
 </script>
+
 
 
 
