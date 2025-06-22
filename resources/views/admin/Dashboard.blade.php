@@ -119,7 +119,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover table-lg">
+                                <table class="table table-bordered table-hover table-lg shadow">
                                     <thead>
                                         <tr>
                                             <th>Nama</th>
@@ -127,28 +127,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($latestInquiries as $inquiry)
-                                        <tr onclick="window.location.href='{{ route('aduan-cadangan.index') }}';" style="cursor: pointer;">
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="{{ asset('admin/images/faces/5.jpg') }}">
+                                        @forelse($latestInquiries as $inquiry)
+                                            <tr onclick="window.location.href='{{ route('aduan-cadangan.index') }}';" style="cursor: pointer;">
+                                                <td class="col-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar avatar-md">
+                                                            <img src="{{ asset('admin/images/faces/5.jpg') }}">
+                                                        </div>
+                                                        <p class="font-bold ms-3 mb-0">
+                                                            {{ $inquiry->nama_pelanggan }}
+                                                            @if(Carbon\Carbon::parse($inquiry->tarikh)->gt(Carbon\Carbon::now()->subDay()))
+                                                                <span class="badge bg-primary ms-2">Baru</span>
+                                                            @endif
+                                                        </p>
                                                     </div>
-                                                    <p class="font-bold ms-3 mb-0">
-                                                        {{ $inquiry->nama_pelanggan }}
-                                                        @if(Carbon::parse($inquiry->tarikh)->gt(Carbon::now()->subDay()))
-                                                            <span class="badge bg-primary ms-2">Baru</span>
-                                                        @endif
-                                                    </p>
-
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class="mb-0">{{ Str::limit($inquiry->message, 50) }}</p>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-
+                                                </td>
+                                                <td class="col-auto">
+                                                    <p class="mb-0">{{ Str::limit($inquiry->message, 50) }}</p>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="2" class="text-center bg-gray-100">
+                                                    Tiada aduan atau cadangan baru buat masa ini.
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -214,10 +218,11 @@
             <!-- Carta Pai Peratus Jantina -->
             <div class="card shadow">
                 <div class="card-header">
-                    <h4>Carta Pai Peratus Jantina</h4>
+                    <h4>Carta Pai tempahan tahun ini</h4>
                 </div>
                 <div class="card-body">
-                    <div id="chart-visitors-profile"></div>
+                    <!-- <canvas id="tempahanPieChart" width="400" height="400"></canvas> -->
+                    <div id="tempahan"></div>
                 </div>
             </div>
         </div>
@@ -281,10 +286,10 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
     var options = {
         series: [{
-            name: 'Siap',
+            name: 'Sudah Selesai',
             data: @json($monthlyOrdersCompleted)
         }, {
-            name: 'Dalam Proses',
+            name: 'Dalam Perlaksanaan',
             data: @json($monthlyOrdersInProgress)
         }],
         chart: {
@@ -302,4 +307,33 @@ document.addEventListener('DOMContentLoaded', function () {
     var chart = new ApexCharts(document.querySelector("#chart-statistik-tempahan"), options);
     chart.render();
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var options = {
+            chart: {
+                type: 'pie'
+            },
+            labels: ['Sudah Selesai', 'Dalam Pelaksanaan', 'Tempahan Baru', 'Pra-tempahan'],
+            series: [
+                {{ $sudahSelesai }},
+                {{ $dalamPelaksanaan }},
+                {{ $tempahanBaru }},
+                {{ $praTempahan }}
+            ],
+            colors: ['#00e396', '#feb019', '#008ffb', '#ff4560'],
+            title: {
+                text: 'Status Tempahan Tahun {{ date("Y") }}',
+                align: 'center'
+            },
+            legend: {
+                position: 'bottom'
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#tempahan"), options);
+        chart.render();
+    });
+</script>
+
 @endsection

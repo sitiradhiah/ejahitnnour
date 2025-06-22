@@ -10,9 +10,15 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-        public function index()
+    public function index()
     {
         $totalOrders = Tempahan::whereYear('tarikh_tempahan', 2025)->count();
+
+        // Breakdown by status for pie chart
+        $praTempahan = Tempahan::whereYear('tarikh_tempahan', 2025)->where('status', 'Pra-tempahan')->count();
+        $tempahanBaru = Tempahan::whereYear('tarikh_tempahan', 2025)->where('status', 'Tempahan Baru')->count();
+        $dalamPelaksanaan = Tempahan::whereYear('tarikh_tempahan', 2025)->where('status', 'Dalam Pelaksanaan')->count();
+        $sudahSelesai = Tempahan::whereYear('tarikh_tempahan', 2025)->where('status', 'Sudah Selesai')->count();
 
         $completedSales = Tempahan::whereYear('tarikh_tempahan', 2025)
             ->where('status', 'Sudah Selesai')
@@ -54,7 +60,11 @@ class DashboardController extends Controller
             'monthlyOrders',
             'monthlyOrdersCompleted',
             'monthlyOrdersInProgress',
-            'latestInquiries'
+            'latestInquiries',
+            'praTempahan',
+            'tempahanBaru',
+            'dalamPelaksanaan',
+            'sudahSelesai'
         ));
     }
 }

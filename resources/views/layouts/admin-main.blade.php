@@ -225,6 +225,7 @@ use Illuminate\Support\Facades\Auth;
     <!-- Scripts for Bootstrap Modal and other features -->
     <script src="{{ asset('admin/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('admin/vendors/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('admin/js/pages/dashboard.js') }}"></script>
     <script src="{{ asset('admin/js/main.js') }}"></script>
