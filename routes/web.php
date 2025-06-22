@@ -15,8 +15,11 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TempahanLaporanController;
 use App\Http\Controllers\EmailSettingController;
-
+use App\Http\Controllers\PublicDataController;
 use Illuminate\Support\Facades\Mail;
+
+
+
 // Route untuk menghantar email ujian
     // Pastikan anda telah mengkonfigurasi mail di .env
     Route::get('/test-email', function () {
@@ -31,12 +34,20 @@ use Illuminate\Support\Facades\Mail;
         }
     });
 
+
 //route sebelum login
+
+// Public route to get design list
+Route::get('/public/get-designs-by-kategori', [PublicDataController::class, 'getDesignsByKategori']);
+
 Route::get('/', function () {
     return view('index');
-});
+})->name('homepage');
+// Form submission (also public)
 Route::post('/pra-tempahan/submit', [TempahanController::class, 'praTempahanSubmit'])->name('pra-tempahan.submit');
-Route::get('/get-designs-by-kategori', [TempahanController::class, 'getDesignsByKategori']);
+Route::get('/check-email-exists', [PublicDataController::class, 'checkEmailExists']);
+
+// Route::get('/get-designs-by-kategori', [TempahanController::class, 'getDesignsByKategori']);
 
 
 Route::get('/tentangkami', function () {

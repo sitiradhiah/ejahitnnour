@@ -297,4 +297,9 @@
         padding: 15px;
         }
     }
+    #emailWarning, #workerWarning {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.9rem;
+    }
 </style>

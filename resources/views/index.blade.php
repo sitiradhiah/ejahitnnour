@@ -112,6 +112,8 @@
                     <div class="col-md-6 mb-3">
                         <label for="email" class="form-label">Emel <span style="color: yellow">***</span></label>
                         <input type="email" class="form-control" id="email" name="email" required>
+                        <small id="emailWarning" class="text-danger d-none">Emel ini telah digunakan. Sila guna emel lain.</small>
+                        <small id="workerWarning" class="text-warning d-none">Emel ini dimiliki pekerja/pentadbir. Sila log masuk untuk membuat tempahan.</small>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -223,34 +225,90 @@ var swiper = new Swiper(".mySwiper", {
 </script>
 
 <script>
-    // Tambah pada script dinamik kategori-design
-    document.addEventListener('DOMContentLoaded', function() {
-        const kategoriSelect = document.getElementById('jenis_Kategori');
-        const designSelect = document.getElementById('nama_design');
+document.addEventListener('DOMContentLoaded', function() {
+    const kategoriSelect = document.getElementById('jenis_Kategori');
+    const designSelect = document.getElementById('nama_design');
 
-        kategoriSelect.addEventListener('change', function() {
-            const kategori = this.value;
-            designSelect.innerHTML = '<option value="">-- Pilih Design --</option><option value="Lain-lain">Lain-lain</option>'; // Reset
+    // ✅ Only run this logic if user *interacts* with dropdown
+    kategoriSelect.addEventListener('change', function() {
+        const kategori = this.value;
+        designSelect.innerHTML = '<option value="">-- Pilih Design --</option><option value="Lain-lain">Lain-lain</option>'; // Reset
 
-            if (kategori) {
-                designSelect.disabled = false;
-                fetch(`/get-designs-by-kategori?kategori=${encodeURIComponent(kategori)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (Array.isArray(data)) {
-                            data.forEach(function(design) {
-                                const option = document.createElement('option');
-                                option.value = design;
-                                option.textContent = design;
-                                designSelect.appendChild(option);
-                            });
-                        }
-                    });
-            } else {
-                designSelect.disabled = true;
-                designSelect.innerHTML = '<option value="">-- Pilih Kategori Dahulu --</option>';
-            }
-        });
+        if (kategori) {
+            designSelect.disabled = false;
+
+            fetch(`/public/get-designs-by-kategori?kategori=${encodeURIComponent(kategori)}`)
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        data.forEach(function(design) {
+                            const option = document.createElement('option');
+                            option.value = design;
+                            option.textContent = design;
+                            designSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching designs:', error);
+                });
+        } else {
+            designSelect.disabled = true;
+            designSelect.innerHTML = '<option value="">-- Pilih Kategori Dahulu --</option>';
+        }
     });
+
+     const emailInput = document.getElementById('email');
+    const emailWarning = document.getElementById('emailWarning');
+    const workerWarning = document.getElementById('workerWarning');
+    const form = document.querySelector('.tempahan-form');
+
+    let emailValid = true;
+
+    emailInput.addEventListener('input', function () {
+        const email = emailInput.value.trim();
+
+        // Reset warnings if empty
+        if (!email) {
+            emailWarning.classList.add('d-none');
+            workerWarning.classList.add('d-none');
+            emailValid = true;
+            return;
+        }
+
+        fetch(`/check-email-exists?email=${encodeURIComponent(email)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    if (data.isWorker) {
+                        workerWarning.classList.remove('d-none');
+                        emailWarning.classList.add('d-none');
+                        emailValid = false;
+                    } else {
+                        emailWarning.classList.remove('d-none');
+                        workerWarning.classList.add('d-none');
+                        emailValid = false;
+                    }
+                } else {
+                    // Clear all warnings
+                    emailWarning.classList.add('d-none');
+                    workerWarning.classList.add('d-none');
+                    emailValid = true;
+                }
+            });
+    });
+
+    form.addEventListener('submit', function (e) {
+        if (!emailValid) {
+            e.preventDefault();
+            alert("Emel tidak sah. Sila periksa mesej di bawah medan emel.");
+        }
+    });
+});
+
 </script>
+
 @endsection
