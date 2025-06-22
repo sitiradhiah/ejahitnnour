@@ -169,8 +169,8 @@
 
                 </div>
                 <div class="mb-3">
-                    <label for="catatan" class="form-label">Catatan (Jika Ada)</label>
-                    <textarea class="form-control" id="catatan" name="catatan" rows="2"></textarea>
+                    <label for="catatan_tambahan" class="form-label">Catatan (Jika Ada)</label>
+                    <textarea class="form-control" id="catatan_tambahan" name="catatan_tambahan" rows="2"></textarea>
                 </div>
                 <button type="submit" class="btn1" style="background-color: #007bff; color: #fff;">Hantar Pra-Tempahan</button>
                 <button type="button" class="btn1" style="background-color: #17a2b8; color: #fff;" onclick="showFirstSection()">Kembali</button>

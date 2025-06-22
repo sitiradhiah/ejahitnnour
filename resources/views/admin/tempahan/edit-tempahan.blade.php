@@ -205,7 +205,7 @@
                             <!-- Nota Tambahan -->
                             <div class="mb-3">
                                 <h5 class="mb-3">Catatan Tambahan</h5>
-                                <textarea class="form-control" id="catatan_tambahan" name="catatan_tambahan" rows="3">{{ old('catatan_tambahan', $tempahan->catatan_tambahan) }}</textarea>
+                                <textarea class="form-control" id="catatan_tambahan" name="catatan_tambahan" rows="3">{{ old('catatan_tambahan', $tempahan->additional_notes) }}</textarea>
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100">Kemaskini</button>

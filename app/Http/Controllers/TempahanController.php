@@ -25,7 +25,7 @@ class TempahanController extends Controller
             'alamat'            => 'nullable|string|max:255',
             'jenis_Kategori'    => 'required|string|max:255',
             'nama_design'       => 'nullable|string|max:255',
-            'catatan_tambahan'  => 'nullable|string|max:1000',
+            'catatan'  => 'nullable|string|max:1000',
         ]);
 
         // ✅ Check if phone number exists
@@ -66,7 +66,7 @@ class TempahanController extends Controller
             'jenis_tempahan'    => $request->jenis_Kategori,
             'nama_design'       => $request->nama_design,
             'tarikh_tempahan'   => now(),
-            'additional_notes'  => $request->catatan_tambahan,
+            'additional_notes'  => $request->catatan,
             'status'            => 'Pra-tempahan',
             'idPelanggan'       => $user->id,
         ]);
