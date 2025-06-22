@@ -106,18 +106,19 @@
         <div class="card-body">
             <label class="me-2 fw-bold text-dark text-decoration-underline">Senarai Tempahan</label>
             <div class="table-responsive">
+            <x-scrollable-table>
                 <table class="table table-striped table-bordered paginated-table" data-per-page="10" data-pagination-id="pagination-tempahan">
                     <thead>
                         <tr>
-                            <th style="text-align: center;">No</th>
-                            <th style="text-align: center;">Tarikh Tempahan</th>
-                            <th>Jenis Tempahan (Kategori)</th>
-                            <th>Nama Reka Bentuk</th>
-                            <th>Nama Pelanggan</th>
-                            <th>Nama Pekerja</th>
-                            <th style="text-align: center;">Harga (RM)</th>
-                            <th>Tukar Status ?</th>
-                            <th style="width: 15%; text-align: center;">Tindakan</th>
+                            <th width="5%" style="text-align: center;">No</th>
+                            <th width="10%" style="text-align: center;">Tindakan</th>
+                            <th width="10%" >Tukar Status ?</th>
+                            <th width="10%" style="text-align: center;">Tarikh Tempahan</th>
+                            <th width="10%">Jenis Tempahan (Kategori)</th>
+                            <th width="10%">Nama Reka Bentuk</th>
+                            <th width="15%">Nama Pelanggan</th>
+                            <th width="10%">Nama Pekerja</th>
+                            <th width="10%" style="text-align: center;">Harga (RM)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,25 +130,6 @@
                             @foreach($tempahan as $index => $item)
                         <tr>
                             <td style="text-align: center;">{{ $index + 1 }}</td>
-                            <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
-                            <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
-                            <td style="text-align: center;">{{ $item->nama_design }}</td>
-                            <td>{{ $item->nama_pelanggan }} ({{ $item->user->email ?? '-' }})</td>
-                            <td>{{ $item->pekerja->name ?? '-- Pekerja belum ditugaskan --' }}</td>
-                            <td style="text-align: center;">{{ number_format($item->harga_tempahan, 2) }}</td>
-                            <td style="text-align: center;">
-                                <select class="form-control status-dropdown" data-tempahan-id="{{ $item->id }}" data-initial-status="{{ $item->status }}">
-                                    <option value="Pra-tempahan"
-                                        {{ $item->status == 'Pra-tempahan' ? 'selected disabled' : 'disabled' }}>
-                                        Pra-Tempahan
-                                    </option>
-                                    <option value="Tempahan Baru" {{ $item->status == 'Tempahan Baru' ? 'selected' : '' }}>Tempahan Baru</option>
-                                    <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>Dalam Pelaksanaan</option>
-                                    <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>Sudah Selesai</option>
-                                </select>
-                                <span id="status-{{ $item->id }}" style="display:none;">{{ $item->status }}</span>
-                            </td>
-                                    <!-- data-idpekerja="{{ $item->idPekerja }}" -->
                             <td style="text-align: center;">
                                 <button class="btn btn-sm btn-info btn-view"
                                     data-id="{{ $item->id }}"
@@ -192,11 +174,31 @@
                                 </form>
                                 @endif
                             </td>
+                            <td style="text-align: center;">
+                                <select class="form-control status-dropdown" data-tempahan-id="{{ $item->id }}" data-initial-status="{{ $item->status }}">
+                                    <option value="Pra-tempahan"
+                                        {{ $item->status == 'Pra-tempahan' ? 'selected disabled' : 'disabled' }}>
+                                        Pra-Tempahan
+                                    </option>
+                                    <option value="Tempahan Baru" {{ $item->status == 'Tempahan Baru' ? 'selected' : '' }}>Tempahan Baru</option>
+                                    <option value="Dalam Pelaksanaan" {{ $item->status == 'Dalam Pelaksanaan' ? 'selected' : '' }}>Dalam Pelaksanaan</option>
+                                    <option value="Sudah Selesai" {{ $item->status == 'Sudah Selesai' ? 'selected' : '' }}>Sudah Selesai</option>
+                                </select>
+                                <span id="status-{{ $item->id }}" style="display:none;">{{ $item->status }}</span>
+                            </td>
+                            <td style="text-align: center;">{{ $item->tarikh_tempahan }}</td>
+                            <td style="text-align: center;">{{ $item->jenis_tempahan }}</td>
+                            <td style="text-align: center;">{{ $item->nama_design }}</td>
+                            <td class="wrap-cell">{{ $item->nama_pelanggan }} ({{ $item->user->email ?? '-' }})</td>
+                            <td>{{ $item->pekerja->name ?? '-- Pekerja belum ditugaskan --' }}</td>
+                            <td style="text-align: center;">{{ number_format($item->harga_tempahan, 2) }}</td>
+                                    <!-- data-idpekerja="{{ $item->idPekerja }}" -->
                         </tr>
                         @endforeach
                         @endif
                     </tbody>
                 </table>
+            </x-scrollable-table>
                 <ul class="pagination justify-content-center mt-3" id="pagination-tempahan"></ul>
             </div>
         </div>
@@ -245,7 +247,7 @@
                     <tr><th>Ukuran Pinggang </th><td id="modal-waist_size"></td></tr>
                     <tr><th>Ukuran Bahu </th><td id="modal-shoulder_width"></td></tr>
                     <tr><th>Ukuran Lengan </th><td id="modal-sleeve_length"></td></tr>
-                    <tr><th>Ukuran Umum</th><td id="modal-size"></td></tr>
+                    <tr><th>Anggaran ukuran kain yang perlu di sediakan</th><td id="modal-size"></td></tr>
                 </table>
 
                 {{-- Maklumat Kain --}}
@@ -293,11 +295,39 @@ $('.btn-view').click(function() {
     $('#modal-harga_tempahan').text($(this).data('harga_tempahan'));
     $('#modal-additional_notes').text($(this).data('additional_notes'));
 
-    $('#modal-chest_size').text($(this).data('chest_size'));
-    $('#modal-waist_size').text($(this).data('waist_size'));
-    $('#modal-shoulder_width').text($(this).data('shoulder_width'));
-    $('#modal-sleeve_length').text($(this).data('sleeve_length'));
-    $('#modal-size').text($(this).data('size'));
+    // $('#modal-chest_size').text($(this).data('chest_size'));
+    // $('#modal-waist_size').text($(this).data('waist_size'));
+    // $('#modal-shoulder_width').text($(this).data('shoulder_width'));
+    // $('#modal-sleeve_length').text($(this).data('sleeve_length'));
+    // $('#modal-size').text($(this).data('size'));
+
+    // Ambil nilai ukuran dari atribut data
+    const dada = parseFloat($(this).data('chest_size'));
+    const pinggang = parseFloat($(this).data('waist_size'));
+    const bahu = parseFloat($(this).data('shoulder_width'));
+    const lengan = parseFloat($(this).data('sleeve_length'));
+
+    // Paparkan nilai-nilai ke dalam modal
+    $('#modal-chest_size').text(dada);
+    $('#modal-waist_size').text(pinggang);
+    $('#modal-shoulder_width').text(bahu);
+    $('#modal-sleeve_length').text(lengan);
+
+    // Pengiraan kain ikut formula
+    if (!isNaN(dada) && !isNaN(pinggang) && !isNaN(bahu) && !isNaN(lengan)) {
+        let body = (dada + pinggang + bahu) / 100;
+        let sleeve = (lengan * 2) / 100;
+        let seam = 0.3;
+        let total = body + sleeve + seam;
+
+        // Bulatkan ke atas ke 0.25 paling hampir
+        let rounded = Math.ceil(total * 4) / 4;
+
+        // Paparkan dalam modal
+        $('#modal-size').text(rounded.toFixed(2) + ' meter');
+    } else {
+        $('#modal-size').text('Data tidak lengkap');
+    }
 
     $('#modal-jenis_kain').text($(this).data('jenis_kain'));
     $('#modal-warna_kain').text($(this).data('warna_kain'));
