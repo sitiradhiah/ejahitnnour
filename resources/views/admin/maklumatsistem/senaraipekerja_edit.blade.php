@@ -116,20 +116,24 @@
                             @endif
                         </div>
                     </div>
+                    <!-- <pre>Status dari DB: '{{ $worker->status }}'</pre> -->
+                    @php
+                        $rawStatus = trim(strtolower($worker->status ?? ''));
+                        $currentStatus = $rawStatus === 'aktif' ? 'Aktif' : 'Tidak Aktif';
+                        $isSelf = auth()->id() == $worker->id;
+                    @endphp
                     <div class="col-md-6 col-12">
                         <div class="form-group mb-3">
                             <label for="status">Status Pengguna</label>
-                            @if(auth()->id() == $worker->id)
-                                <select class="form-control" id="status" name="status" disabled>
-                                    <option value="Aktif" {{ old('status', $worker->status ?? 'Aktif') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                    <option value="Tidak Aktif" {{ old('status', $worker->status ?? '') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                                </select>
-                                <input type="hidden" name="status" value="{{ $worker->status }}">
-                            @else
-                                <select class="form-control" id="status" name="status">
-                                    <option value="Aktif" {{ old('status', $worker->status ?? 'Aktif') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                    <option value="Tidak Aktif" {{ old('status', $worker->status ?? '') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                                </select>
+                            <!-- <div><small>Status DB mentah: '{{ $worker->status }}'</small></div> -->
+
+                            <select class="form-control" id="status" name="status" {{ $isSelf ? 'disabled' : '' }}>
+                                <option value="Aktif" {{ $currentStatus === 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="Tidak Aktif" {{ $currentStatus === 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                            </select>
+
+                            @if($isSelf)
+                                <input type="hidden" name="status" value="{{ $currentStatus }}">
                             @endif
                         </div>
                     </div>

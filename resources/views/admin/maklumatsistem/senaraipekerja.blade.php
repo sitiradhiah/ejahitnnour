@@ -95,13 +95,13 @@
                         <tr>
                         <!-- <tr class="tindakan-bg"> -->
                             <th>No</th>
+                            <th width="10%">Tindakan</th>
+                            <th width="10%">Pengesahan Admin?</th>
+                            <th width="10%">Status Pengguna</th>
                             <th>Nama Pengguna</th>
                             <th>Jawatan</th>
                             <th>No Telefon</th>
                             <th>Email</th>
-                            <th>Status Pengguna</th>
-                            <th>Pengesahan Admin?</th>
-                            <th>Tindakan</th>
                             <!-- <th class="sticky-col sticky-right tindakan-bg">Tindakan</th> -->
                         </tr>
                     </thead>
@@ -109,29 +109,6 @@
                         @foreach($workers as $worker)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $worker->name }}</td>
-                            <td>
-                                @php
-                                    $role = ucfirst(strtolower($worker->peranan));
-                                @endphp
-                                @if(strtolower($worker->peranan) === 'pentadbir')
-                                    <strong>{{ $role }}</strong>
-                                @else
-                                    {{ $role }}
-                                @endif
-                            </td>
-                            <td>{{ $worker->phone }}</td>
-                            <td>{{ $worker->email }}</td>
-                            <td>{{ $worker->status }}</td>
-                            <td>
-                                <form action="{{ route('toggleDisahkan', $worker->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-sm {{ $worker->disahkan ? 'btn-add' : 'btn-danger' }}">
-                                        {{ $worker->disahkan ? '✓ Disahkan' : '✗ Belum' }}
-                                    </button>
-                                </form>
-                            </td>
                             <td>
                             <!-- <td class="sticky-col sticky-right tindakan-bg"> -->
                                 <a href="{{ route('senarai-pekerja.edit', $worker->id) }}" class="btn btn-sm btn-primary">
@@ -148,6 +125,29 @@
                                     </form>
                                 @endif
                             </td>
+                            <td>
+                                <form action="{{ route('toggleDisahkan', $worker->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-sm {{ $worker->disahkan ? 'btn-add' : 'btn-danger' }} py-0 px-1" style="font-size: 0.85rem;">
+                                        {{ $worker->disahkan ? '✓ Disahkan' : '✗ Belum' }}
+                                    </button>
+                                </form>
+                            </td>
+                            <td>{{ $worker->status }}</td>
+                            <td>{{ $worker->name }}</td>
+                            <td>
+                                @php
+                                    $role = ucfirst(strtolower($worker->peranan));
+                                @endphp
+                                @if(strtolower($worker->peranan) === 'pentadbir')
+                                    <strong>{{ $role }}</strong>
+                                @else
+                                    {{ $role }}
+                                @endif
+                            </td>
+                            <td>{{ $worker->phone }}</td>
+                            <td>{{ $worker->email }}</td>
                         </tr>
                         @endforeach
                     </tbody>
