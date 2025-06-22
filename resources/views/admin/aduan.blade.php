@@ -77,32 +77,18 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Tindakan</th>
+                            <th>Status</th>
                             <th>Nama Pelanggan</th>
                             <th>Tajuk</th>
                             <th>Kategori</th>
                             <th>Tarikh</th>
-                            <th>Status</th>
-                            <th>Tindakan</th>
                         </tr>
                     </thead>
                     <tbody id="aduan-table-body">
                         @forelse($aduans as $aduan)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $aduan->nama_pelanggan }}</td>
-                            <td>{{ $aduan->tajuk }}</td>
-                            <td>{{ $aduan->kategori }}</td>
-                            <td>{{ $aduan->tarikh->format('Y-m-d') }}</td>
-                            <td>
-                                <span id="status-aduan-{{ $aduan->id }}" class="status-badge
-                                    @if($aduan->status == 'Menunggu') status-pending
-                                    @elseif($aduan->status == 'Selesai') status-resolved
-                                    @elseif($aduan->status == 'Dibaca') status-read
-                                    @else status-rejected
-                                    @endif">
-                                    {{ $aduan->status }}
-                                </span>
-                            </td>
                             <td class="d-flex gap-2">
                                 <button type="button" class="btn btn-info btn-sm"
                                     data-bs-toggle="modal"
@@ -119,6 +105,20 @@
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
+                            <td>
+                                <span id="status-aduan-{{ $aduan->id }}" class="status-badge
+                                    @if($aduan->status == 'Menunggu') status-pending
+                                    @elseif($aduan->status == 'Selesai') status-resolved
+                                    @elseif($aduan->status == 'Dibaca') status-read
+                                    @else status-rejected
+                                    @endif">
+                                    {{ $aduan->status }}
+                                </span>
+                            </td>
+                            <td>{{ $aduan->nama_pelanggan }}</td>
+                            <td>{{ $aduan->tajuk }}</td>
+                            <td>{{ $aduan->kategori }}</td>
+                            <td>{{ $aduan->tarikh->format('Y-m-d') }}</td>
                         </tr>
 
                         <!-- Modal Preview -->

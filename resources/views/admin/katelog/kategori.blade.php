@@ -62,15 +62,14 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nama Kategori</th>
                         <th>Tindakan</th>
+                        <th>Nama Kategori</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($categories as $category)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $category->name }}</td>
                         <td>
                             <!-- Edit button triggering modal -->
                             <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoryModal" onclick="editCategory({{ $category->id }})"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -81,6 +80,7 @@
                                 <button type="submit" class="btn-delete"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </td>
+                        <td>{{ $category->name }}</td>
                     </tr>
                     @endforeach
                 </tbody>

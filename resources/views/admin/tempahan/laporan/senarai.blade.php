@@ -104,27 +104,18 @@
                         <thead>
                             <tr>
                                 <th style="text-align: center; padding: 0.2rem;">No</th>
+                                <th style="width: 15%; text-align: center; padding: 0.2rem;">Tindakan</th>
                                 <th style="text-align: center; padding: 0.2rem;">Tarikh Tempahan</th>
                                 <th style="padding: 0.2rem;">Jenis Tempahan</th>
                                 <th style="padding: 0.2rem;">Nama Pelanggan</th>
                                 <th style="padding: 0.2rem;">Status</th>
                                 <th style="text-align: center; padding: 0.2rem;">Harga (RM)</th>
-                                <th style="width: 15%; text-align: center; padding: 0.2rem;">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody id="tempahan-body">
                             @foreach($tempahan as $index => $item)
                             <tr>
                                 <td style="text-align: center; width: 1%; padding: 0.2rem;">{{ $index + 1 }}</td>
-                                <td style="text-align: center; width: 15%; padding: 0.2rem;">{{ $item->tarikh_tempahan }}</td>
-                                <td style="padding: 0.2rem;">{{ $item->jenis_tempahan }}</td>
-                                <td style="padding: 0.2rem;">{{ $item->nama_pelanggan }}</td>
-                                <td style="text-align: center; width: 15%; padding: 0.2rem;">
-                                    <span>{{ $item->status }}</span>
-                                </td>
-                                <td style="text-align: center; width: 10%; padding: 0.2rem;">
-                                    {{ $item->harga_tempahan }}
-                                </td>
                                 <td style="text-align: center; width: 10%;">
                                     @if($item->status === 'Sudah Selesai')
                                         <button class="btn btn-sm btn-primary" onclick="exportRowToPDF({{ $item->id }})">
@@ -158,6 +149,15 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </button> -->
                                     <!-- include('admin.tempahan.laporan.modal-view') -->
+                                </td>
+                                <td style="text-align: center; width: 15%; padding: 0.2rem;">{{ $item->tarikh_tempahan }}</td>
+                                <td style="padding: 0.2rem;">{{ $item->jenis_tempahan }}</td>
+                                <td style="padding: 0.2rem;">{{ $item->nama_pelanggan }}</td>
+                                <td style="text-align: center; width: 15%; padding: 0.2rem;">
+                                    <span>{{ $item->status }}</span>
+                                </td>
+                                <td style="text-align: center; width: 10%; padding: 0.2rem;">
+                                    {{ $item->harga_tempahan }}
                                 </td>
                             </tr>
                             @endforeach
@@ -210,7 +210,7 @@
                     <tr><th>Ukuran Pinggang </th><td id="modal-waist_size"></td></tr>
                     <tr><th>Ukuran Bahu </th><td id="modal-shoulder_width"></td></tr>
                     <tr><th>Ukuran Lengan </th><td id="modal-sleeve_length"></td></tr>
-                    <tr><th>Ukuran Umum</th><td id="modal-size"></td></tr>
+                    <tr><th>Anggaran ukuran kain yang perlu di sediakan</th><td id="modal-size"></td></tr>
                 </table>
 
                 {{-- Maklumat Kain --}}
@@ -249,12 +249,40 @@ $('.btn-view').click(function() {
     $('#modal-harga_tempahan').text($(this).data('harga_tempahan'));
     $('#modal-additional_notes').text($(this).data('additional_notes'));
 
-    $('#modal-chest_size').text($(this).data('chest_size'));
-    $('#modal-waist_size').text($(this).data('waist_size'));
-    $('#modal-shoulder_width').text($(this).data('shoulder_width'));
-    $('#modal-sleeve_length').text($(this).data('sleeve_length'));
-    $('#modal-size').text($(this).data('size'));
+    // $('#modal-chest_size').text($(this).data('chest_size'));
+    // $('#modal-waist_size').text($(this).data('waist_size'));
+    // $('#modal-shoulder_width').text($(this).data('shoulder_width'));
+    // $('#modal-sleeve_length').text($(this).data('sleeve_length'));
+    // $('#modal-size').text($(this).data('size'));
 
+    // Ambil nilai ukuran dari atribut data
+    const dada = parseFloat($(this).data('chest_size'));
+    const pinggang = parseFloat($(this).data('waist_size'));
+    const bahu = parseFloat($(this).data('shoulder_width'));
+    const lengan = parseFloat($(this).data('sleeve_length'));
+
+    // Paparkan nilai-nilai ke dalam modal
+    $('#modal-chest_size').text(dada);
+    $('#modal-waist_size').text(pinggang);
+    $('#modal-shoulder_width').text(bahu);
+    $('#modal-sleeve_length').text(lengan);
+
+    // Pengiraan kain ikut formula
+    if (!isNaN(dada) && !isNaN(pinggang) && !isNaN(bahu) && !isNaN(lengan)) {
+        let body = (dada + pinggang + bahu) / 100;
+        let sleeve = (lengan * 2) / 100;
+        let seam = 0.3;
+        let total = body + sleeve + seam;
+
+        // Bulatkan ke atas ke 0.25 paling hampir
+        let rounded = Math.ceil(total * 4) / 4;
+
+        // Paparkan dalam modal
+        $('#modal-size').text(rounded.toFixed(2) + ' meter');
+    } else {
+        $('#modal-size').text('Data tidak lengkap');
+    }
+    
     $('#modal-jenis_kain').text($(this).data('jenis_kain'));
     $('#modal-warna_kain').text($(this).data('warna_kain'));
 

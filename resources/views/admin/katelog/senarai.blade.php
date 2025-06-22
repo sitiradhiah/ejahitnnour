@@ -62,6 +62,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Tindakan</th>
                         <th>Nama Reka Bentuk</th>
                         <th>Kategori</th>
                         <th>Warna</th>
@@ -69,13 +70,20 @@
                         <!-- <th>Harga</th> -->
                         <th>Penerangan</th>
                         <th>Gambar</th>
-                        <th>Tindakan</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($katelogs as $item)
                     <tr>
                         <td width="5%">{{ $loop->iteration }}</td>
+                        <td width="10%">
+                            <button class="btn btn-sm btn-primary" onclick="editKatalog({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#editProductModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <form action="{{ route('katelog.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </td>
                         <td width="10%">{{ $item->nama }}</td>
                         <td width="10%">{{ $item->kategori }}</td>
                         <td width="5%">{{ $item->warna }}</td>
@@ -88,14 +96,6 @@
                             @endif
                         </td>
                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="50"></td>
-                        <td width="10%">
-                            <button class="btn btn-sm btn-primary" onclick="editKatalog({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#editProductModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <form action="{{ route('katelog.destroy', $item->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
-                            </form>
-                        </td>
                     </tr>
                     @endforeach
                 </tbody>

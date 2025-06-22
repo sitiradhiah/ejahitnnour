@@ -27,6 +27,10 @@ class DashboardController extends Controller
         $ordersInProgress = Tempahan::whereYear('tarikh_tempahan', 2025)
             ->where('status', 'Dalam Pelaksanaan')
             ->count();
+        
+        $ordersInNew = Tempahan::whereYear('tarikh_tempahan', 2025)
+            ->where('status', 'Dalam Pelaksanaan')
+            ->count();
 
         $monthlyOrders = Tempahan::whereMonth('tarikh_tempahan', Carbon::now()->month)
             ->whereYear('tarikh_tempahan', 2025)
@@ -34,6 +38,7 @@ class DashboardController extends Controller
 
         $monthlyOrdersCompleted = [];
         $monthlyOrdersInProgress = [];
+        $monthlyOrdersInNew = [];
 
         for ($month = 1; $month <= 12; $month++) {
             $monthlyOrdersCompleted[] = Tempahan::whereYear('tarikh_tempahan', 2025)
@@ -44,6 +49,11 @@ class DashboardController extends Controller
             $monthlyOrdersInProgress[] = Tempahan::whereYear('tarikh_tempahan', 2025)
                 ->whereMonth('tarikh_tempahan', $month)
                 ->where('status', 'Dalam Pelaksanaan')
+                ->count();
+
+            $monthlyOrdersInNew[] = Tempahan::whereYear('tarikh_tempahan', 2025)
+                ->whereMonth('tarikh_tempahan', $month)
+                ->where('status', 'Tempahan Baru')
                 ->count();
         }
 
@@ -57,9 +67,11 @@ class DashboardController extends Controller
             'totalOrders',
             'completedSales',
             'ordersInProgress',
+            'ordersInNew',
             'monthlyOrders',
             'monthlyOrdersCompleted',
             'monthlyOrdersInProgress',
+            'monthlyOrdersInNew',
             'latestInquiries',
             'praTempahan',
             'tempahanBaru',

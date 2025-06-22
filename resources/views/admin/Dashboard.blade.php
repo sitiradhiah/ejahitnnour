@@ -127,6 +127,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    
                                         @forelse($latestInquiries as $inquiry)
                                             <tr onclick="window.location.href='{{ route('aduan-cadangan.index') }}';" style="cursor: pointer;">
                                                 <td class="col-3">
@@ -136,7 +137,7 @@
                                                         </div>
                                                         <p class="font-bold ms-3 mb-0">
                                                             {{ $inquiry->nama_pelanggan }}
-                                                            @if(Carbon\Carbon::parse($inquiry->tarikh)->gt(Carbon\Carbon::now()->subDay()))
+                                                            @if(\Carbon\Carbon::parse($inquiry->tarikh)->gt(\Carbon\Carbon::now()->subDay()))
                                                                 <span class="badge bg-primary ms-2">Baru</span>
                                                             @endif
                                                         </p>
@@ -187,20 +188,20 @@
             <div class="card shadow">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">Pekerja</h4>
+                        <h4 class="mb-0">Pekerja / Pentadbir</h4>
                         <nav>
                             <ul class="pagination pagination-sm mb-0" id="workers-pagination"></ul>
                         </nav>
                     </div>
                     @php
-                        $workers = \App\Models\User::where('peranan', 'pekerja')->get();
+                         $workers = \App\Models\User::whereIn('peranan', ['pekerja', 'pentadbir'])->get();
                     @endphp
                 </div>
                 <div class="card-content pb-4">
                     <div class="recent-message d-flex px-4 py-3">
                         <ul class="paginated-list" data-pagination-id="workers-pagination" data-per-page="5">
                             @foreach($workers as $worker)
-                                <li>{{ $worker->name }}</li>
+                                <li>{{ $worker->name }} ({{ $worker->peranan }})</li>
                             @endforeach
                         </ul>
 
@@ -218,11 +219,10 @@
             <!-- Carta Pai Peratus Jantina -->
             <div class="card shadow">
                 <div class="card-header">
-                    <h4>Carta Pai tempahan tahun ini</h4>
+                    <h4>Carta Pai tempahan tahun {{ date('Y') }}</h4>
                 </div>
                 <div class="card-body">
-                    <!-- <canvas id="tempahanPieChart" width="400" height="400"></canvas> -->
-                    <div id="tempahan"></div>
+                    <canvas id="tempahanPieChart" width="400" height="320"></canvas>
                 </div>
             </div>
         </div>
@@ -232,6 +232,8 @@
 
 @section('scripts')
 <!-- Global JS Pagination List -->
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     function paginateList(listElement) {
@@ -291,13 +293,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }, {
             name: 'Dalam Perlaksanaan',
             data: @json($monthlyOrdersInProgress)
+        }, {
+            name: 'Tempahan Baru',
+            data: @json($monthlyOrdersInNew)
         }],
         chart: {
             type: 'bar',
             height: 300
         },
         title: {
-            text: 'Jumlah Tempahan Siap dan Dalam Proses',
+            text: 'Jumlah tempahan Siap, Dalam Perlaksanaan dan Baru bulan ini',
         },
         xaxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -307,8 +312,58 @@ document.addEventListener('DOMContentLoaded', function () {
     var chart = new ApexCharts(document.querySelector("#chart-statistik-tempahan"), options);
     chart.render();
 </script>
-
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const labels = ['Sudah Selesai', 'Dalam Pelaksanaan', 'Tempahan Baru', 'Pra-tempahan'];
+        const dataValues = [
+            {{ $sudahSelesai }},
+            {{ $dalamPelaksanaan }},
+            {{ $tempahanBaru }},
+            {{ $praTempahan }}
+        ];
+
+        const backgroundColors = ['#008ffb',  '#00e396', '#feb019','#ff4560'];
+
+        const ctx = document.getElementById('tempahanPieChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: backgroundColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#333',
+                            usePointStyle: true,
+                        }
+                    },
+                    datalabels: {
+                        formatter: (value, context) => {
+                            const total = context.chart._metasets[0].total;
+                            const percent = (value / total * 100).toFixed(1);
+                            return percent + '%';
+                        },
+                        color: '#fff',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    });
+</script>
+
+<!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
         var options = {
             chart: {
@@ -322,10 +377,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 {{ $praTempahan }}
             ],
             colors: ['#00e396', '#feb019', '#008ffb', '#ff4560'],
-            title: {
-                text: 'Status Tempahan Tahun {{ date("Y") }}',
-                align: 'center'
-            },
+            // title: {
+            //     text: 'Status Tempahan Tahun {{ date("Y") }}',
+            //     align: 'center'
+            // },
             legend: {
                 position: 'bottom'
             }
@@ -334,6 +389,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var chart = new ApexCharts(document.querySelector("#tempahan"), options);
         chart.render();
     });
-</script>
+</script> -->
 
 @endsection
