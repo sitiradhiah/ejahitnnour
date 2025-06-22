@@ -12,8 +12,10 @@ class WorkerController extends Controller
     // Menampilkan senarai pekerja
     public function index()
     {
-        // Ambil semua pekerja yang mempunyai peranan 'pekerja'
-        $workers = User::where('peranan', '!=', 'pelanggan')->get();
+        $workers = User::where('peranan', '!=', 'pelanggan')
+            ->orderByRaw("CASE WHEN peranan = 'pentadbir' THEN 0 ELSE 1 END")
+            ->orderBy('name') // optional: susun ikut nama selepas pentadbir
+            ->get();
 
         // Pastikan data pekerja dihantar ke view
         return view('admin.maklumatsistem.senaraipekerja', compact('workers'));

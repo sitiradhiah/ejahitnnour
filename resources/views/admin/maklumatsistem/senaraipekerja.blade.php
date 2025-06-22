@@ -98,8 +98,8 @@
                             <th width="10%">Tindakan</th>
                             <th width="10%">Pengesahan Admin?</th>
                             <th width="10%">Status Pengguna</th>
-                            <th>Nama Pengguna</th>
                             <th>Jawatan</th>
+                            <th>Nama Pengguna</th>
                             <th>No Telefon</th>
                             <th>Email</th>
                             <!-- <th class="sticky-col sticky-right tindakan-bg">Tindakan</th> -->
@@ -135,7 +135,6 @@
                                 </form>
                             </td>
                             <td>{{ $worker->status }}</td>
-                            <td>{{ $worker->name }}</td>
                             <td>
                                 @php
                                     $role = ucfirst(strtolower($worker->peranan));
@@ -146,6 +145,7 @@
                                     {{ $role }}
                                 @endif
                             </td>
+                            <td>{{ $worker->name }}</td>
                             <td>{{ $worker->phone }}</td>
                             <td>{{ $worker->email }}</td>
                         </tr>
