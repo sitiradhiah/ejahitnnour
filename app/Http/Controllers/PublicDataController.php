@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Katelog;
+use App\Models\User;
 
 class PublicDataController extends Controller
 {
@@ -29,5 +30,21 @@ class PublicDataController extends Controller
             'exists' => !!$user,
             'isWorker' => in_array(optional($user)->peranan, ['pekerja', 'pentadbir']),
         ]);
+    }
+
+    public function checkPhone(Request $request)
+    {
+        $phone = $request->query('phone');
+        $user = User::where('phone', $phone)->where('peranan', 'pelanggan')->first();
+
+        if ($user) {
+            return response()->json([
+                'exists' => true,
+                'name' => $user->name,
+                'email' => $user->email,
+            ]);
+        }
+
+        return response()->json(['exists' => false]);
     }
 }

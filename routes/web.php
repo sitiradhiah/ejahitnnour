@@ -46,6 +46,7 @@ Route::get('/', function () {
 // Form submission (also public)
 Route::post('/pra-tempahan/submit', [TempahanController::class, 'praTempahanSubmit'])->name('pra-tempahan.submit');
 Route::get('/check-email-exists', [PublicDataController::class, 'checkEmailExists']);
+Route::get('/check-phone', [PublicDataController::class, 'checkPhone']);
 
 // Route::get('/get-designs-by-kategori', [TempahanController::class, 'getDesignsByKategori']);
 

@@ -97,6 +97,23 @@
     <div class="container py-5 d-flex justify-content-center align-items-center flex-column" style="text-align: center;">
         <div class="detail-box">
             <h1>Borang Pra-Temujanji / Pra-Tempahan</h1>
+            <h5>Sekiranya and pekerja atau pentadbir Kedai Jahit N'Nour, sila log masuk dan buat tempahan melalui borang tempahan di sana</h5><br>
+
+            <!-- ✅ Search Dropdown Phone Field -->
+            <div class="mb-4" style="max-width: 500px; margin: 0 auto; text-align: left;">
+                <label for="search_phone" class="form-label">Cari / Taip No. Telefon</label>
+                <select id="search_phone" class="form-control" style="width: 100%">
+                    <option value="">-- Cari atau Taip No. Telefon --</option>
+                    @php
+                        $phones = \App\Models\User::where('peranan', 'pelanggan')->pluck('phone', 'name');
+                    @endphp
+                    @foreach($phones as $name => $phone)
+                        <option value="{{ $phone }}">{{ $phone }} - {{ $name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+
             <!-- Tambah borang maklumat peribadi tempahan dari pelanggan -->
             <form action="{{ route('pra-tempahan.submit') }}" method="POST" class="tempahan-form" style="max-width: 500px; margin: 0 auto; text-align: left;">
                 @csrf
@@ -160,6 +177,11 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
 var swiper = new Swiper(".mySwiper", {
@@ -308,7 +330,48 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+</script>
+<script>
+$(document).ready(function () {
+    $('#search_phone').select2({
+        placeholder: 'Taip atau pilih no. telefon',
+        allowClear: true
+    });
+
+    const nameInput = document.getElementById('nama_pelanggan');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('nombor_telefon');
+
+    $('#search_phone').on('change', function () {
+        const phone = this.value.trim();
+        if (!phone) return;
+
+        fetch(`/check-phone?phone=${encodeURIComponent(phone)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.exists) {
+                    nameInput.value = data.name;
+                    emailInput.value = data.email;
+                    phoneInput.value = phone;
+
+                    nameInput.readOnly = true;
+                    emailInput.readOnly = true;
+                    phoneInput.readOnly = true;
+                } else {
+                    nameInput.value = '';
+                    emailInput.value = '';
+                    phoneInput.value = phone;
+
+                    nameInput.readOnly = false;
+                    emailInput.readOnly = false;
+                    phoneInput.readOnly = false;
+                }
+            });
+    });
+});
 
 </script>
+
+
 
 @endsection
