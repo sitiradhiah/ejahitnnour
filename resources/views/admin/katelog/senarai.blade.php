@@ -115,8 +115,8 @@
                 document.getElementById('editNama').value = data.nama;
                 document.getElementById('editKategori').value = data.kategori;
                 document.getElementById('editWarna').value = data.warna;
-                document.getElementById('editSaiz').value = data.saiz;
-                document.getElementById('editHarga').value = data.harga;
+                // document.getElementById('editSaiz').value = data.saiz;
+                // document.getElementById('editHarga').value = data.harga;
                 document.getElementById('editPenerangan').value = data.penerangan;
 
                 // Ini fix penting supaya action form betul

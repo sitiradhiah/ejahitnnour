@@ -10,8 +10,11 @@
 </div>
 <div class="container">
     <div class="card shadow p-3">
-        <div class="card-header">
-            <h4>Edit Testimonial</h4>
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Borang Kemaskini Testimoni</h5>
+            <a href="{{ route('testimonial.index') }}" class="btn btn-sm btn-secondary ms-2">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
         </div>
         <div class="card-body">
             <form method="POST" action="{{ route('testimonial.update', $testimonial->id) }}" enctype="multipart/form-data">

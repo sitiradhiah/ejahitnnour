@@ -69,8 +69,8 @@ class KatelogController extends Controller
             'nama' => 'required|string|max:255',
             'kategori' => 'required|string|max:255',
             'warna' => 'nullable|string|max:255',
-            'saiz' => 'nullable|string|max:255',
-            'harga' => 'nullable|numeric',
+            // 'saiz' => 'nullable|string|max:255',
+            // 'harga' => 'nullable|numeric',
             'penerangan' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -87,8 +87,8 @@ class KatelogController extends Controller
             'nama' => $request->nama,
             'kategori' => $request->kategori,
             'warna' => $request->warna,
-            'saiz' => $request->saiz,
-            'harga' => $request->harga,
+            'saiz' => $request->saiz ?? null,
+            'harga' => $request->harga ?? null,
             'penerangan' => $request->penerangan,
             'gambar' => $gambarPath,
         ]);
@@ -105,8 +105,8 @@ class KatelogController extends Controller
             'nama' => 'required|string|max:255',
             'kategori' => 'required|string|max:255',
             'warna' => 'nullable|string|max:255',
-            'saiz' => 'nullable|string|max:255',
-            'harga' => 'nullable|numeric',
+            // 'saiz' => 'nullable|string|max:255',
+            // 'harga' => 'nullable|numeric',
             'penerangan' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -127,8 +127,8 @@ class KatelogController extends Controller
             'nama' => $request->nama,
             'kategori' => $request->kategori,
             'warna' => $request->warna,
-            'saiz' => $request->saiz,
-            'harga' => $request->harga,
+            'saiz' => $request->saiz ?? null,
+            'harga' => $request->harga ?? null,
             'penerangan' => $request->penerangan,
             'gambar' => $gambarPath,
         ]);

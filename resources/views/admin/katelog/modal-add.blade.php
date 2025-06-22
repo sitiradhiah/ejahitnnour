@@ -27,15 +27,15 @@
                 <label>Warna</label>
                 <input type="text" name="warna" class="form-control">
               </div>
-              <div class="col-md-6 mb-3">
+              <!-- <div class="col-md-6 mb-3">
                 <label>Saiz</label>
                 <input type="text" name="saiz" class="form-control" placeholder="Contoh: S - 2XL">
               </div>
               <div class="col-md-6 mb-3">
                 <label>Harga (RM)</label>
                 <input type="number" step="0.01" name="harga" class="form-control">
-              </div>
-              <div class="col-md-12 mb-3">
+              </div> -->
+              <div class="col-md-6 mb-3">
                 <label>Penerangan Produk</label>
                 <textarea name="penerangan" class="form-control" rows="3"></textarea>
               </div>
@@ -52,4 +52,3 @@
       </div>
     </div>
   </div>
-  

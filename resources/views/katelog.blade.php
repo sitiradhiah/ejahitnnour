@@ -426,9 +426,13 @@ body {
                         <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}" onclick="openLightbox('{{ asset("storage/" . $item->gambar) }}')">
                         <div class="product-details">
                             <div class="product-name">{{ $item->nama }}</div>
-                            <div class="product-info">Kategori: {{ $item->kategori ?? '-' }}</div>
-                            <div class="product-info">Warna: {{ $item->warna ?? '-' }}</div>
-                            <div class="product-info">Saiz: {{ $item->saiz ?? 'S - 2XL' }}</div>
+                            <div class="product-info">
+                                <strong>Kategori:</strong> {{ $item->kategori ?? '-' }}</div>
+                            <div class="product-info">
+                                <strong>Warna:</strong>  {{ $item->warna ?? '-' }}</div>
+                            <!-- <div class="product-info"> -->
+                                <!-- <strong>Saiz:</strong>  bergantung pada ukuran</div> -->
+                                <strong>Penerangan:</strong>
                             @php
                                 $desc = $item->penerangan ?? '-';
                                 $shortDesc = Str::limit($desc, 60);

@@ -162,17 +162,22 @@
                                         <i class="fas fa-paper-plane"></i>
                                     </a>
                                 @endif
-                                @if(in_array($item->status, ['Pra-tempahan', 'Tempahan Baru']))
-                                <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        @if(in_array($item->status, ['Dalam Proses', 'Sudah Selesai','pra-tempahan', 'tempahan baru'])) disabled @endif
-                                        onclick="return confirm('Adakah anda pasti ingin padam tempahan ini?')">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
-                                @endif
+                                @php
+    $isAdmin = auth()->user()->peranan === 'pentadbir';
+    $bolehPadam = $isAdmin || in_array($item->status, ['Pra-tempahan', 'Tempahan Baru']);
+@endphp
+
+@if($bolehPadam)
+    <form action="{{ route('tempahan.destroy', $item->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger btn-sm"
+            onclick="return confirm('Adakah anda pasti ingin padam tempahan ini?')">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+    </form>
+@endif
+
                             </td>
                             <td style="text-align: center;">
                                 <select class="form-control status-dropdown" data-tempahan-id="{{ $item->id }}" data-initial-status="{{ $item->status }}">
