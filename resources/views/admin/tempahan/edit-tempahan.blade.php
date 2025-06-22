@@ -30,7 +30,7 @@
                             @method('PUT')
 
                             <!-- Pilih pengguna sedia ada -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label class="form-label">Pengguna</label></br>
                                 <small>
                                     <strong>Nota:</strong> Hanya pengguna yang mempunyai nombor telefon akan dipaparkan di sini.
@@ -59,17 +59,17 @@
                                     @endforeach
                                 </select>
                                 <input type="hidden" name="existing_user" value="{{ $tempahan->user_id }}">
-                            </div>
+                            </div> -->
                             <!-- Maklumat Pelanggan -->
                             <h5 class="mb-3">Maklumat Pelanggan</h5>
                             <div class="row mb-3">
                                 <div class="col-12 col-md-4">
                                     <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
-                                    <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" value="{{ old('nama_pelanggan', $tempahan->nama_pelanggan) }}" required>
+                                    <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" value="{{ old('nama_pelanggan', $tempahan->nama_pelanggan) }}" readonly>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="nombor_telefon" class="form-label">Nombor Telefon</label>
-                                    <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" value="{{ old('nombor_telefon', $tempahan->nombor_telefon) }}">
+                                    <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" value="{{ old('nombor_telefon', $tempahan->nombor_telefon) }}" readonly>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="alamat" class="form-label">Alamat (optional)</label>
