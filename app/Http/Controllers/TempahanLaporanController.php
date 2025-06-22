@@ -28,7 +28,8 @@ class TempahanLaporanController extends Controller
         $totalHarga = DB::table('tempahans')
             ->join('invoicetempahan', 'tempahans.id', '=', 'invoicetempahan.idtempahan')
             ->whereYear('tempahans.tarikh_tempahan', $currentYear)
-            ->where('tempahans.status', '!=', 'pra-tempahan')
+            // ->where('tempahans.status', '!=', 'pra-tempahan')
+            ->where('tempahans.status', 'sudah selesai')
             ->sum('invoicetempahan.hargaPerTempahan');
 
         return view('admin.tempahan.laporan.senarai', compact('tempahan', 'totalHarga'));
