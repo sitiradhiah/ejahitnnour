@@ -168,6 +168,7 @@ class TempahanController extends Controller
             'panjang_lengan' => 'nullable|integer',
             'jenis_kain' => 'nullable|string',
             'warna_kain' => 'nullable|string',
+            'email' => 'nullable|string',
             // 'saiz' => 'nullable|string',
             'harga_tempahan' => 'nullable|numeric',
             'catatan_tambahan' => 'nullable|string',
@@ -177,9 +178,23 @@ class TempahanController extends Controller
         ]);
 
         // Cari id pelanggan berdasarkan nombor_telefon (phone) dalam users table
-        $user = User::where('phone', $request->nombor_telefon)->first();
-        $idPelanggan = $user ? $user->id : null;
+        $user = User::where('email', $request->email)->first();
 
+        if (!$user) {
+            // Create new user if email not found
+            $user = User::create([
+                'name' => $request->nama_pelanggan,
+                'email' => $request->email,
+                'phone' => $request->nombor_telefon,
+                'password' => bcrypt('defaultpassword123'), // Or random, or email as password
+                'peranan' => 'pelanggan', // Default role, adjust if needed
+                'status' => 'tidak aktif', // Default role, adjust if needed
+            ]);
+        }
+
+        $idPelanggan = $user->id;
+        
+        // dd($idPelanggan);
          $tempahan = Tempahan::create([
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat' => $request->alamat,
@@ -196,7 +211,7 @@ class TempahanController extends Controller
             'status' => 'Tempahan Baru', // Status boleh diubah kemudian
             'harga_tempahan' => $request->harga_tempahan ?? 0,
             'additional_notes' => $request->catatan_tambahan,
-            'idPekerja' => $request->pekerja_id ?? null,
+            'idPekerja' => $request->pekerja_bertugas == '1' ? auth()->id() : ($request->pekerja_id ?? null),
             'idPelanggan' => $idPelanggan,
         ]);
 
@@ -280,7 +295,7 @@ class TempahanController extends Controller
 
     public function edit($id)
     {
-        $tempahan = Tempahan::findOrFail($id);
+        $tempahan = Tempahan::with('user')->findOrFail($id); 
         $users = User::all(); //
         $katelogs = Katelog::all(); // Juga pastikan katelogs dihantar
         $pekerjas = User::whereIn('peranan', ['pekerja', 'pentadbir'])->get();

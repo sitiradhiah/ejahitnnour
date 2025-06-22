@@ -29,6 +29,34 @@ class PelangganController extends Controller
 
     }
 
+     // Fungsi untuk memaparkan borang edit pelanggan
+    public function create()
+    {
+        // Hantar ke view untuk menambah pelanggan baru
+        return view('admin.maklumatsistem.senarai-pelanggan_add');
+    }
+    // Fungsi untuk mengemaskini pelanggan
+    public function store(Request $request)
+    {
+         $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone' => 'required|string|max:15',
+        ]);
+
+          // Create new user if email not found
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => bcrypt('defaultpassword123'), // Or random, or email as password
+                'peranan' => 'pelanggan', // Default role, adjust if needed
+                'status' => 'tidak aktif', // Default role, adjust if needed
+            ]);
+
+        return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berjaya ditambah.');
+    }
+
     // Fungsi untuk memaparkan borang edit pelanggan
     public function edit($id)
     {

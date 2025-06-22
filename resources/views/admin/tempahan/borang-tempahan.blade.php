@@ -29,47 +29,76 @@
                             <!-- <div class="alert alert-info mb-2"> -->
                             <!-- </div> -->
                             <div class="mb-3">
-                                <label  class="form-label">Pilih Pengguna Sedia Ada ?</label></br>
-                                 <small>
-                                    <strong>Nota:</strong> Hanya pengguna yang mempunyai nombor telefon akan dipaparkan di sini.
-                                </small>
-                                <select class="form-control mt-1" id="existing_user" name="existing_user"
-                                    onchange="autoFillUser(this)">
-                                    <option value="" disabled selected>Pilih Pengguna</option>
-                                    @php
-                                        $usedPhones = [];
-                                    @endphp
-                                    @foreach($users as $user)
-                                        @if(
-                                            !empty($user->phone) &&
-                                            !in_array($user->phone, $usedPhones) &&
-                                            !in_array($user->peranan, ['pentadbir', 'pekerja'])
-                                        )
-                                            <option
-                                                value="{{ $user->id }}"
-                                                data-name="{{ $user->name }}"
-                                                data-phone="{{ $user->phone }}"
-                                            >
-                                                {{ $user->name }} ({{ $user->phone }})
-                                            </option>
-                                            @php $usedPhones[] = $user->phone; @endphp
-                                        @endif
-                                    @endforeach
-                                </select>
+                                <label class="form-label">Pilih Maklumat Penempah Lama ?</label><br>
+                                <small><strong>Nota:</strong> Anda hanya perlu memilih salah satu maklumat penempah jahitan sama ada mereka pelanggan atau (pekerja / pentadbir).</small>
 
+                                <div class="row mt-2">
+                                    <!-- Column 1: Pelanggan -->
+                                    <div class="col-md-5">
+                                        <label for="existing_user" class="form-label">Pelanggan</label>
+                                        <select class="form-control" id="existing_user" name="existing_user" onchange="autoFillUser(this)">
+                                            <option value="" disabled selected>Pilih Pengguna</option>
+                                            @php $usedPhones = []; @endphp
+                                            @foreach($users as $user)
+                                                @if(
+                                                    !empty($user->phone) &&
+                                                    !in_array($user->phone, $usedPhones) &&
+                                                    !in_array($user->peranan, ['pentadbir', 'pekerja'])
+                                                )
+                                                    <option
+                                                        value="{{ $user->id }}"
+                                                        data-name="{{ $user->name }}"
+                                                        data-phone="{{ $user->phone }}"
+                                                        data-email="{{ $user->email }}"
+                                                    >
+                                                        {{ $user->name }} ({{ $user->phone }})
+                                                    </option>
+                                                    @php $usedPhones[] = $user->phone; @endphp
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Column 2: Pekerja / Pentadbir -->
+                                    <div class="col-md-5">
+                                        <label for="pekerja_id" class="form-label">Pekerja / Pentadbir</label>
+                                        <select class="form-control" id="pekerja_id" name="pekerja_id" onchange="autoFillPekerja(this)">
+                                            <option value="" disabled selected>Pilih Pengguna</option>
+                                            @foreach($pekerjas as $pekerja)
+                                                <option value="{{ $pekerja->id }}"
+                                                 data-name="{{ $pekerja->name }}"
+                                                data-phone="{{ $pekerja->phone }}"
+                                                data-email="{{ $pekerja->email }}">
+                                                    {{ $pekerja->name }} ({{ $pekerja->peranan }}) - ({{ $pekerja->phone }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 d-flex align-items-end">
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="clearSelections()">
+                                            Kosongkan Pilihan
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+
                             <!-- Maklumat Pelanggan -->
                              <h5 class="mb-3">Maklumat Pelanggan</h5>
                             <div class="row mb-3">
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-3">
                                     <label for="nama_pelanggan" class="form-label">Nama Pelanggan  <span style="color: red">***</span></label>
                                     <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" required>
                                 </div>
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-3">
                                     <label for="nombor_telefon" class="form-label">Nombor Telefon <span style="color: red">***</span></label>
                                     <input type="text" class="form-control" id="nombor_telefon" name="nombor_telefon" required>
                                 </div>
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-3">
+                                    <label for="email" class="form-label">Emel <span style="color: red">***</span></label>
+                                    <input type="text" class="form-control" id="email" name="email" required style="text-transform: lowercase;" oninput="this.value = this.value.toLowerCase();">
+                                </div>
+                                <div class="col-12 col-md-3">
                                     <label for="alamat" class="form-label">Alamat </label>
                                     <textarea class="form-control" id="alamat" name="alamat" rows="1"></textarea>
                                 </div>
@@ -253,7 +282,7 @@
                                 </div>
                                 <div class="col-6">
                                     <small class="text-muted">Jika tidak, sila pilih pekerja yang akan membuat tugasan ini.</small>
-                                    <select class="form-control mt-2" id="pekerja_id" name="pekerja_id" disabled>
+                                    <select class="form-control mt-2" id="pekerja_id" name="pekerja_id">
                                         <option value="" selected>--Pilih Pekerja--</option>
                                         @foreach($pekerjas as $pekerja)
                                             <option value="{{ $pekerja->id }}">{{ $pekerja->name }}</option>
@@ -284,8 +313,55 @@ function autoFillUser(select) {
     var selected = select.options[select.selectedIndex];
     var name = selected.getAttribute('data-name') || '';
     var phone = selected.getAttribute('data-phone') || '';
+    var email = selected.getAttribute('data-email') || '';
     if(name) document.getElementById('nama_pelanggan').value = name;
     if(phone) document.getElementById('nombor_telefon').value = phone;
+    if(email) document.getElementById('email').value = email;
+
+     // Make inputs readonly
+    document.getElementById('nama_pelanggan').readOnly = true;
+    document.getElementById('nombor_telefon').readOnly = true;
+    document.getElementById('email').readOnly = true;
+
+    // Clear pekerja selection
+    var pekerjaSelect = document.getElementById('pekerja_id');
+    if (pekerjaSelect) pekerjaSelect.selectedIndex = 0;
+}
+function autoFillPekerja(select) {
+    var selected = select.options[select.selectedIndex];
+    var name = selected.getAttribute('data-name') || '';
+    var phone = selected.getAttribute('data-phone') || '';
+    var email = selected.getAttribute('data-email') || '';
+
+    document.getElementById('nama_pelanggan').value = name;
+    document.getElementById('nombor_telefon').value = phone;
+    document.getElementById('email').value = email;
+
+     // Make inputs readonly
+    document.getElementById('nama_pelanggan').readOnly = true;
+    document.getElementById('nombor_telefon').readOnly = true;
+    document.getElementById('email').readOnly = true;
+
+    // Clear pelanggan selection
+    var pelangganSelect = document.getElementById('existing_user');
+    if (pelangganSelect) pelangganSelect.selectedIndex = 0;
+}
+
+function clearSelections() {
+    // Clear both selects
+    const userSelect = document.getElementById('existing_user');
+    const pekerjaSelect = document.getElementById('pekerja_id');
+    if (userSelect) userSelect.selectedIndex = 0;
+    if (pekerjaSelect) pekerjaSelect.selectedIndex = 0;
+
+    // Clear the auto-filled fields
+    document.getElementById('nama_pelanggan').value = '';
+    document.getElementById('nombor_telefon').value = '';
+    document.getElementById('email').value = '';
+    
+    document.getElementById('nama_pelanggan').readOnly = false;
+    document.getElementById('nombor_telefon').readOnly = false;
+    document.getElementById('email').readOnly = false;
 }
 </script>
 <script>

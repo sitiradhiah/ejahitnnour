@@ -69,7 +69,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">Senarai Pelanggan</h4>
-                <a href="#" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Pelanggan</a>
+                <a href="{{ route('pelanggan.create')}}" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Pelanggan</a>
             </div>
         </div>
         <div class="card-body">
@@ -77,21 +77,17 @@
                 <thead>
                     <tr>
                         <th style="text-align: center;">No</th>
+                        <th style="width: 15%; text-align: center;">Tindakan</th>
                         <th >Nama Pelanggan</th>
                         <th>No Phone</th>
                         <th>Email</th>
-                        <th>Status</th>
-                        <th style="width: 15%; text-align: center;">Tindakan</th>
+                        <!-- <th>Status</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($pelanggan as $index => $item)
                     <tr>
                         <td style="text-align: center;">{{ $index + 1 }}</td>
-                        <td>{{ ucwords($item->name) }}</td>
-                        <td>{{ $item->phone ?? '-' }}</td>
-                        <td>{{ $item->email ?? '-' }}</td>
-                        <td>{{ ucwords($item->status ?? '-') }}</td>
                         <td style="text-align: center;">
                             <a href="{{ route('pelanggan.edit', $item->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                             <form action="{{ route('pelanggan.destroy', $item->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Adakah anda pasti mahu padam pelanggan ini?');">
@@ -100,6 +96,10 @@
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </td>
+                        <td>{{ ucwords($item->name) }}</td>
+                        <td>{{ $item->phone ?? '-' }}</td>
+                        <td>{{ $item->email ?? '-' }}</td>
+                        <!-- <td>{{ ucwords($item->status ?? '-') }}</td> -->
                     </tr>
                     @endforeach
 

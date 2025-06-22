@@ -80,38 +80,27 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <form action="{{ route('pelanggan.update', $pelanggan->id) }}" method="POST">
+            <form action="{{ route('pelanggan.store') }}" method="POST">
                 @csrf
-                @method('PUT')
                 <div class="form-group mb-3">
                     <label for="name">Nama Pelanggan</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $pelanggan->name) }}" required>
+                    <input type="text" class="form-control" id="name" name="name" value="" required>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="form-group mb-3">
                             <label for="phone">No Telefon</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $pelanggan->phone) }}" required>
+                            <input type="text" class="form-control" id="phone" name="phone" value="" required>
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group mb-3">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $pelanggan->email) }}" required>
+                            <input type="email" class="form-control" id="email" name="email" value="" required>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="row">
-                    <div class="col-md-6 col-12">
-                        <div class="form-group mb-3">
-                            <label for="status">Status Pelanggan</label>
-                            <select class="form-control" id="status" name="status">
-                                <option value="aktif" {{ old('status', $pelanggan->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                                <option value="tidak aktif" {{ old('status', $pelanggan->status) == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                            </select>
-                        </div>
-                    </div>
-                </div> -->
+               
                 <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
                 <a href="{{ route('pelanggan.index') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
             </form>

@@ -120,8 +120,8 @@ Route::prefix('admin')->middleware(['auth', 'checkUserStatus'])->group(function 
     // Maklumat Umum - Pelanggan
     Route::controller(PelangganController::class)->prefix('maklumat-sistem')->group(function () {
         Route::get('senarai-pelanggan', 'index')->name('pelanggan.index');
-        // Route::get('pelanggan/tambah', 'create')->name('pelanggan.create');
-        // Route::post('pelanggan/tambah', 'store')->name('pelanggan.store');
+        Route::get('senarai-pelangga/tambah', 'create')->name('pelanggan.create');
+        Route::post('senarai-pelangga/tambah', 'store')->name('pelanggan.store');
         Route::get('senarai-pelangga/{id}/edit', 'edit')->name('pelanggan.edit');
         Route::put('senarai-pelangga/{id}/update', 'update')->name('pelanggan.update');
         Route::delete('senarai-pelanggan/{id}', 'destroy')->name('pelanggan.destroy');
