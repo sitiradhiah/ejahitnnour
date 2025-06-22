@@ -131,26 +131,95 @@
                                 @endsection
                             </div>
 
-                            <!-- Ukuran -->
-                            <h5 class="mb-3">Ukuran Badan</h5>
+                             <!-- Ukuran -->
+                            <!-- Info Button & Modal Trigger -->
+                            <div class="d-flex align-items-center mb-2">
+                                <h5 class="mb-0 me-3">Ukuran Badan</h5>
+                                <button type="button" class="btn btn-sm btn-info me-2" data-bs-toggle="modal" data-bs-target="#infoModal">
+                                    click untuk info <i class="bi bi-info-circle"></i>
+                                </button>
+                            </div>
+
+                            <!-- Info Modal -->
+                            <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="infoModalLabel">Cara Pengiraan Anggaran Kain</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Pengiraan ini berdasarkan ukuran badan (dada, pinggang, bahu, lengan) dan direka untuk baju berlengan panjang menggunakan kain lebar 60 inci.</p>
+                                        <p><strong>Formula:</strong></p>
+                                        <code>(Ukuran Dada + 10) × 2 ÷ 100 + 0.5 (lengan) + 0.3 (seam) = jumlah meter kain</code>
+                                        <p>Jumlah ini adalah anggaran minimum untuk disediakan oleh tukang jahit.</p>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row mb-3">
                                 <div class="col-12 col-md-3">
                                     <label for="ukuran_dada" class="form-label">Ukuran Dada (cm)</label>
-                                    <input type="number" class="form-control" id="ukuran_dada" name="ukuran_dada">
+                                    <input type="number" class="form-control" id="ukuran_dada" name="ukuran_dada" value="">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="ukuran_pinggang" class="form-label">Ukuran Pinggang (cm)</label>
-                                    <input type="number" class="form-control" id="ukuran_pinggang" name="ukuran_pinggang">
+                                    <input type="number" class="form-control" id="ukuran_pinggang" name="ukuran_pinggang" value="">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="lebar_bahu" class="form-label">Lebar Bahu (cm)</label>
-                                    <input type="number" class="form-control" id="lebar_bahu" name="lebar_bahu">
+                                    <input type="number" class="form-control" id="lebar_bahu" name="lebar_bahu" value="">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="panjang_lengan" class="form-label">Panjang Lengan (cm)</label>
-                                    <input type="number" class="form-control" id="panjang_lengan" name="panjang_lengan">
+                                    <input type="number" class="form-control" id="panjang_lengan" name="panjang_lengan" value="">
                                 </div>
                             </div>
+                            <div id="fabric_estimate" class="alert alert-warning d-none">
+                                <strong>Anggaran Kain Diperlukan:</strong> <span id="kainMeter"></span> meter
+                            </div>
+
+                           <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const dadaInput = document.getElementById('ukuran_dada');
+                                const pinggangInput = document.getElementById('ukuran_pinggang');
+                                const bahuInput = document.getElementById('lebar_bahu');
+                                const lenganInput = document.getElementById('panjang_lengan');
+                                const kainText = document.getElementById('kainMeter');
+                                const fabricEstimateDiv = document.getElementById('fabric_estimate');
+
+                                function calculateFabric() {
+                                    const dada = parseFloat(dadaInput.value);
+                                    const pinggang = parseFloat(pinggangInput.value);
+                                    const bahu = parseFloat(bahuInput.value);
+                                    const lengan = parseFloat(lenganInput.value);
+
+                                    // Check if all fields have valid numbers
+                                    if (!isNaN(dada) && !isNaN(pinggang) && !isNaN(bahu) && !isNaN(lengan)) {
+                                        const body = (dada + pinggang + bahu) / 100;
+                                        const sleeve = (lengan * 2) / 100;
+                                        const seam = 0.3;
+                                        const total = body + sleeve + seam;
+
+                                        const rounded = Math.ceil(total * 4) / 4; // Round up to nearest 0.25
+                                        kainText.textContent = rounded.toFixed(2);
+                                        fabricEstimateDiv.classList.remove('d-none');
+                                    } else {
+                                        kainText.textContent = "";
+                                        fabricEstimateDiv.classList.add('d-none');
+                                    }
+                                }
+
+                                // Attach listener to all 4 fields
+                                [dadaInput, pinggangInput, bahuInput, lenganInput].forEach(input => {
+                                    input.addEventListener('input', calculateFabric);
+                                });
+
+                                // Run on page load if values are already filled
+                                calculateFabric();
+                            });
+                            </script>
 
                             <!-- Kain -->
                             <h5 class="mb-3">Maklumat Kain</h5>
