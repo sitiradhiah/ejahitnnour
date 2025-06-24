@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="email" class="form-label">Emel</label>
-                                    <input type="text" class="form-control" id="email" name="email" value="{{ old('email', $tempahan->user->email) }}" readonly>
+                                    <input type="text" class="form-control" id="email" name="email" value="{{ old('email', optional($tempahan->user)->email) }}" readonly>
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="alamat" class="form-label">Alamat (optional)</label>
