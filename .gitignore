@@ -23,3 +23,10 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
+
+# Private SSH keys must never be committed
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.key
